@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soft.gift.mapper.GiftSpecDAO">
+	<resultMap type="SpecNum" id="specNumMap">
+		<result property="spec_name" column="name" javaType="java.lang.String"/>
+		<result property="spec_num" column="num" javaType="java.lang.Integer"/>
+	</resultMap>
+	<select id="getGiftSpec" parameterType="java.util.Map" resultMap="com.soft.gift.mapper.SpecDAO.specMap">
+		SELECT b.* FROM `t_gift_spec` a LEFT JOIN `t_spec` b ON a.`spec_id` = b.`id` WHERE a.`gift_id` = #{gift_id} AND b.`type` = #{type} ORDER BY b.`name`
+	</select>
+	<select id="getSpecNum" parameterType="java.util.Map" resultMap="specNumMap">
+		SELECT b.`name`,COUNT(*) AS num FROM `t_gift_spec` a LEFT JOIN `t_spec` b ON a.`spec_id` = b.`id` WHERE a.`gift_id` = #{gift_id} AND b.`type` = 0 GROUP BY b.`name`
+	</select>
+</mapper>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>登录</title>
+    <script type="text/javascript" src="js/jquery-2.1.0.js" ></script>
+    <script type="text/javascript" src="../staticjs/jquery.cookie.js" ></script>
+    <link rel="stylesheet" type="text/css" th:href="@{js/semantic/semantic.min.css}"/>
+    <script type="text/javascript" src="../staticjs/semantic/semantic.min.js"></script>
+
+    <style type="text/css">
+        body{
+            margin: 0px;
+            padding: 0px;
+            font-family: helvetica,arial,"微软雅黑","华文黑体";
+            font-size: 14px;
+        }
+        .container{
+            position: relative;
+        }
+        .content{
+            width: 960px;
+            height: 100%;
+            margin: 0px auto;
+            position: relative;
+        }
+        .backimg{
+            z-index: -1;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+        }
+        .logodiv{
+            padding-top: 150px;
+            float: left;
+            overflow-x: hidden;
+        }
+        .logindiv{
+            width: 360px;
+            height: 380px;
+            border: solid 2px #FF6D75;
+            float: right;
+            margin-top: 100px;
+            border-radius: 5px;
+        }
+        .login_head{
+            height: 60px;
+            background-color: #FF6D75;
+        }
+        .login_center{
+            background-color: #FFFFFF;
+            width: 100%;
+            height: 316px;
+        }
+        /*输入框*/
+        .formdiv{
+            padding: 30px;
+        }
+        .inputdiv{
+            width: 300px;
+            height: 40px;
+            border: solid 1px #FF6D75;
+            border-radius: 3px;
+            margin-bottom: 30px;
+            line-height: 38px;
+            padding: 0px 5px;
+            position:relative;
+        }
+        .myinput{
+            width: 100%;
+            border: none;
+            background-color: #FFFFFF;
+            outline:medium;
+            height: 38px;
+        }
+        .myinput.error{
+            padding-right: 150px;
+        }
+        .errorlabel{
+            position: absolute;
+            right: 5px;
+            top: 0px;
+            line-height: 40px;
+            color: #ff2a44;
+        }
+        .mybutton{
+            width: 300px;
+            height: 40px;
+            color: #FFF2F2;
+            background-color: #FF6D75;
+            cursor: pointer;
+            line-height: 40px;
+            text-align: center;
+            margin: 0px auto;
+            font-size: 16px;
+            border-radius: 3px;
+            margin-top: 30px;
+        }
+        .mybutton:visited{
+            color: #FFF2F2;
+            background-color: #FF6D75;
+        }
+        .mybutton:hover{
+            color: #FFFFFF;
+            background-color: #f74560;
+        }
+        .mybutton:active{
+            color: #FFFFFF;
+            background-color: #f74560;
+        }
+
+        .auto_login_div{
+            float: left;
+        }
+        .forget_pass_div{
+            float: right;
+        }
+        .headtag{
+            display: inline-block;
+            vertical-align: top;
+            line-height: 60px;
+            height: 60px;
+            color: #FFF2F2;
+            width: 178px;
+            text-align:center;
+            font-size: 16px;
+        }
+        .tag_selected{
+            color: #FFFFFF;
+            background-color:#f74560;
+        }
+        .headtag:hover{
+            color: #FFFFFF;
+            background-color:#f74560;
+        }
+        .footdiv{
+            text-align: center;
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            width: 100%;
+            padding: 10px;
+        }
+        .footinfo{
+            color: #928282;
+            margin: 0px auto;
+        }
+        .footinfo a{
+            color: #928282;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="content">
+        <div class="logodiv">
+            <img src="img/logo.png"/>
+        </div>
+        <div class="logindiv">
+            <div class="login_head">
+                <div class="headtag tag_selected" id="logintag">
+                    登录
+                </div><div class="headtag" id="registertag">
+                注册
+            </div>
+            </div>
+            <div class="login_center">
+                <div class="formdiv" id="loginspan">
+                    <div class="inputdiv">
+                        <input class="myinput" type="text" id="account" placeholder="账号/手机号/邮箱"/>
+                        <label style="display:none;" class="errorlabel">账号不能为空</label>
+                    </div>
+                    <div class="inputdiv">
+                        <input class="myinput mypassword" type="password" id="password" placeholder="密码" />
+                        <label style="display:none;" class="errorlabel">密码不能为空</label>
+                    </div>
+                    <div class="ui checkbox" class="auto_login_div">
+                        <input type="checkbox" name="example" id="rememberme">
+                        <label>记住我</label>
+                    </div>
+                    <div class="forget_pass_div"><a href="#">忘记密码</a></div>
+                    <div class="mybutton" id="logininbtn">
+                        登录
+                    </div>
+                </div>
+                <div class="formdiv" id="registerspan" style="display: none;">
+                    <div class="inputdiv">
+                        <input class="myinput" type="text" id="nickname" placeholder="请填写昵称" />
+                        <label style="display:none;" class="errorlabel">请填写昵称</label>
+                    </div>
+                    <div class="inputdiv">
+                        <input class="myinput" type="text" id="account_reg" placeholder="手机号"/>
+                        <label style="display:none;" class="errorlabel">请填写账号</label>
+                    </div>
+                    <div class="inputdiv">
+                        <input class="myinput mypassword" type="password" id="password_reg" placeholder="密码" />
+                        <label style="display:none;" class="errorlabel">请填写密码</label>
+                    </div>
+                    <div class="mybutton" id="registerbtn">
+                        注册
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footdiv">
+            <div class="footinfo">
+                © 2014 - 2016 Liwushuo.com 北京礼品说科技有限公司 电信与信息服务业务经营许可证150653号 京ICP备15031023号-1<br />
+                <p><a href="#">首页</a>|<a href="#">关于我们</a>|电话：010-57510218</p>
+            </div>
+        </div>
+    </div><!-- content-->
+    <img class="backimg" src="img/02.jpg" />
+</div>
+</body>
+
+<script type="text/javascript">
+    $(function(){
+        $('.container').css({'width':$(window).width(),'height':$(window).height()});
+        $('#logintag').click(function(){
+            $("#registertag").removeClass('tag_selected');
+            $('#logintag').addClass('tag_selected');
+            $('#registerspan').css('display','none');
+            $('#loginspan').css('display','block');
+        });
+        $('#registertag').click(function(){
+            $("#logintag").removeClass('tag_selected');
+            $("#registertag").addClass('tag_selected');
+            $('#loginspan').css('display','none');
+            $('#registerspan').css('display','block');
+        })
+
+        /*判空*/
+        $('#logininbtn').click(function(){
+            clearError();
+            var acc = $.trim($("#account").val());
+            var pass= $.trim($("#password").val());
+            if(acc == "" || acc == null){
+                setError($("#account"),"请输入账号");
+                return;
+            }else if(pass==""||pass == null){
+                setError($("#password"),"请输入密码")
+                return;
+            }else{
+                $.ajax({
+                    url:"/gift/userlogin.do",
+                    type:"POST",
+                    data:{
+                        account:acc,
+                        password:pass
+                    },
+                    dataType:"text",
+                    success:function(data){
+                        console.log("data",data);
+                        if(data == "登陆成功"){
+                            if(acc=="admin"){
+                                window.location.href="/gift/index_admin.do";
+                            }else{
+                                window.location.href="/gift/index.do";
+                            }
+                        }else if(data == "用户不存在"){
+                            setError($("#account"),data);
+                        }else{
+                            setError($("#password"),data);
+                        }
+                    }
+                })
+            }
+        })
+
+        $('#registerbtn').click(function(){
+            clearError();
+            var account = $.trim($("#account_reg").val());
+            console.log("account",account);
+            var password = $.trim($("#password_reg").val());
+            var nickname = $.trim($("#nickname").val());
+            if(nickname == ""||nickname==null){
+                setError($("#nickname"),"昵称不能为空");
+                return;
+            }else if(account == "" || account == null){
+                setError($("#account_reg"),"账号不能为空");
+                return;
+            }else if(password == "" || password == null){
+                setError($("#password_reg"),"密码不能为空");
+                return;
+            }else{
+                $.ajax({
+                    url:"/gift/register.do",
+                    type:"POST",
+                    data:{
+                        account:account,
+                        password:password,
+                        nickname:nickname
+                    },
+                    dataType:"text",
+                    success:function(data){
+                        if(data == "用户已存在"){
+                            setError($("#account_reg"),"该手机号已经注册&nbsp;&nbsp;<a href='gift/login.do'/>");
+                        }else if(data == "注册成功"){
+                            alert("注册成功！请直接登录");
+                            window.location.href="/gift/login.do";
+                        }else{
+                            alert("注册失败！");
+                        }
+                    }
+                })
+            }
+
+        })
+
+        function setError(selector,msg){
+            selector.addClass('error');
+            selector.placeholder="";
+            selector.siblings('label').html(msg);
+            selector.siblings('label').css('display','inline');
+        }
+
+        function clearError(){
+            $('.myinput').removeClass('error');
+            $('.errorlabel').css('display','none');
+        }
+
+        function rememberMe(){
+            if($("#remeberme")[0].checked){
+                $.cookie('rememberme', true, { expires: 365 });
+                $.cookie("account",$("#account").val(),{ expires: 365 });
+                $.cookie("password",$("#password").val(),{ expires: 365 });
+            }else{
+                $.cookie('rememberme', false, { expires: 365 });
+                $.cookie("account","");
+                $.cookie("password","");
+            }
+        }
+
+        function getRemember(){
+            var rememberme=$.cookie("rememberme");
+            if(rememberme!=null && rememberme=="true"){
+                $("#remeberme").checked=true;
+                $("#account").val($.cookie("account"));
+                $("#password").val($.cookie("password"));
+            }else{
+                $("#remeberme").checked=false;
+                $("#account").val("");
+                $("#password").val("");
+            }
+
+        }
+        getRemember();
+
+    })
+
+
+
+</script>
+</html>

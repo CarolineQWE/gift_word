@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soft.gift.mapper.SpecDAO">
+	<resultMap type="Spec" id="specMap">
+		<id property="id" column="id" javaType="java.lang.Integer"></id>
+		<result property="name" column="name" javaType="java.lang.String"></result>
+		<result property="value" column="value" javaType="java.lang.String"></result>
+		<result property="type" column="type" javaType="java.lang.Integer"></result>
+	</resultMap>
+	
+	<select id="getSpecNames" resultType="java.lang.String">
+		SELECT `name` FROM `t_spec` WHERE `type` = #{i} GROUP BY `name`
+	</select>
+</mapper>

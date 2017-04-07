@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soft.gift.mapper.OrderInfoDAO">
+	<resultMap type="com.soft.gift.model.LargeOrderInfo" id="largeOrderInfoMap">
+		<result property="orderinfo_id" column="orderinfo_id" javaType="java.lang.String"/>
+		<result property="orderinfo_num" column="orderinfo_num" javaType="java.lang.Integer"/>
+		<result property="orderinfo_price" column="orderinfo_price" javaType="java.lang.Double"/>
+		<result property="gift_id" column="gift_id" javaType="java.lang.Integer"/>
+		<result property="gift_name" column="gift_name" javaType="java.lang.String"/>
+		<result property="gift_price" column="gift_price" javaType="java.lang.Double"/>	
+		<result property="small_img" column="small_img" javaType="java.lang.String"/>
+	</resultMap>
+	<select id="getLargeOrderInfo" resultMap="largeOrderInfoMap">
+		SELECT a.`id` AS orderinfo_id,a.`num` AS orderinfo_num, a.`price` AS orderinfo_price,
+		b.`id` AS gift_id ,b.`name` AS gift_name ,b.`price` AS gift_price,
+		b.`small_img` FROM `t_order_info` a LEFT JOIN `t_gift` b ON a.`gift_id` = b.`id` 
+		WHERE a.`order_id` = #{order_id}
+	</select>
+	
+</mapper>

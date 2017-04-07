@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soft.gift.mapper.CommentDAO">
+	<resultMap type="ScoreNum" id="scoreNumMap">
+		<result property="name" column="name" javaType="java.lang.String"/>
+		<result property="num" column="num" javaType="java.lang.Integer"/>
+	</resultMap>
+	<select id="getAverSorceByGiftID" resultType="java.lang.Double">
+		SELECT ROUND(AVG(`score`),1) FROM `t_comment` WHERE `commented_id` = #{gift_id} AND `commented_type` = 0
+	</select>
+	<select id="getCommentNumClassifyBySorce" resultMap="scoreNumMap">
+		SELECT score,COUNT(*) AS num FROM `t_comment` WHERE `commented_id` = #{gift_id} AND `commented_type` = 0 GROUP BY `score` 
+	</select>
+</mapper>

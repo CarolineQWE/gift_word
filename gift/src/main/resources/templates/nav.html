@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+    <script type="text/javascript" src="../../static/js/jquery-2.1.0.js" ></script>
+    <script type="text/javascript" src="../../static/js/jquery.cookie.js" ></script>
+    <style type="text/css">
+        .navout {
+            width: 1210px;
+            margin: 0px auto;
+            position: relative;
+        }
+
+        .nav {
+            width: 1210px;
+            margin: 0px auto;
+            height: 60px;
+            top: 0px;
+            z-index: 1000;
+            position: fixed;
+            background-color: #FFFFFF;
+            border-bottom: solid 2px #D9D9D9;
+        }
+
+        .logoimg {
+            width: 250px;
+            height: 30px;
+        }
+
+        .logodiv {
+            height: 60px;
+            padding: 15px 0px;
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .headimg {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+        }
+
+        .headspan {
+            display: inline-block;
+            vertical-align: top;
+            padding: 10px 0px;
+        }
+
+        .username {
+            display: inline-block;
+            vertical-align: top;
+            height: 60px;
+            line-height: 60px;
+        }
+
+        .spans {
+            display: inline-block;
+            vertical-align: top;
+            height: 60px;
+            padding-left: 30px;
+        }
+
+        .inputdiv {
+            display: inline-block;
+            vertical-align: top;
+            height: 60px;
+            padding: 15px 0px;
+            float: right;
+        }
+
+        #userinfo {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .iflogindiv {
+            width: 150px;
+            display: inline-block;
+            float: right;
+            height: 60px;
+            margin-left: 30px;
+            cursor: pointer;
+        }
+
+        .underline_span {
+            display: inline-block;
+            height: 60px;
+            line-height: 60px;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 0px 5px;
+            margin: 0px 5px;
+        }
+
+        .underline_span:hover {
+            border-bottom: solid 2px #E78170;
+            color: #000000;
+        }
+
+        .underline_selected {
+            color: #000000;
+            border-bottom: solid 2px #E78170;
+        }
+
+        .inline_block {
+            display: inline-block;
+            vertical-align: top;
+            width: 300px;
+            height: 360px;
+            margin-bottom: 30px;
+        }
+
+        .myinput {
+            border: none;
+            background-color: #FFFFFF;
+            outline: medium;
+            width: 100%;
+        }
+
+        .padding_right {
+            padding-right: 23px;
+        }
+
+        .inputspan {
+            width: 250px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 20px;
+            border: solid 1px #b7b7b7;
+            position: relative;
+            padding: 5px 10px;
+        }
+
+        .inputbtn {
+            position: absolute;
+            right: 6px;
+            top: 0px;
+        }
+
+        .inputbtn i {
+            color: #B7B7B7;
+        }
+
+        .inputbtn:hover i {
+            color: #000000;
+        }
+
+        .inputbtn:active i {
+            color: #000000;
+        }
+
+        .inputfocus {
+            border: solid 1px #E78170;
+        }
+
+        .mydropdown {
+            position: relative;
+            text-align: center;
+            margin-left: 60px;
+        }
+
+        .mydropdown:hover ul {
+            display: block;
+        }
+
+        .mydropdown ul {
+            position: absolute;
+            right: 0px;
+            height: 0px;
+            padding: 0px;
+            margin: 0px;
+            display: none;
+        }
+
+        .mydropdown ul li {
+            width: 150px;
+            height: 40px;
+            line-height: 40px;
+            background-color: #FFFFFF;
+            text-align: center;
+            border-top: dashed 1px #D8D8D8;
+            color: #FFF0F0;
+        }
+
+        .mydropdown ul li:hover {
+            background-color: #f7f7f7;
+        }
+
+        .mydropdown ul li a:hover {
+            color: #FF6D75;
+            display: block;
+            width: 150px;
+            height: 40px;
+            backgound-color: #f7f7f7;
+        }
+
+        #firstli {
+            border-top: none;
+        }
+        .thtext{
+            width: 300px;
+            height:400px;
+        }
+    </style>
+</head>
+<body>
+<div class="navout" th:fragment="nav">
+    <div class="thtext" th:text="'hello'+${100}"></div>
+    <div th:text="'hello'+${100}">1231231</div>
+    <div class="nav">
+        <div class="logodiv">
+            <img src="../../static/img/logo.png" class="logoimg"/>
+            <div class="spans">
+                <a href="index.do"><span class="underline_span underline_selected" id="shopspan">
+					礼物商城
+				</span></a>
+                <a href="#"><span class="underline_span" id="strategyspan">
+					礼物攻略
+				</span></a>
+                <a href="#"><span class="underline_span" id="writespan">
+					写攻略
+				</span></a>
+            </div>
+            <div th:if="${userInfo} == null">
+                <div id="logindiv" class="iflogindiv">
+                    <div class="myred mybtn">登录</div>
+                    <div class="mywhite mybtn">注册</div>
+                </div>
+                <div>
+                    <div th:if="${userInfo} != null">
+                        <div id="userinfo" class="iflogindiv mydropdown underline_span">
+                            <div class="headspan"><img src="../../static/img/8.png" class="headimg"/></div>
+                            <div class="username" th:text="${userInfo.nickname }"></div>
+                            <ul>
+                                <li id="firstli"><a href="#">个人中心</a></li>
+                                <li><a href="getShoppingCart.do">我的购物车</a></li>
+                                <li><a href="myOrder.do">我的订单</a></li>
+                                <li><a href="#">我的收藏</a></li>
+                                <li><a href="#">我的攻略</a></li>
+                                <li><a href="#">我的评论</a></li>
+                                <li><a href="#">我的喜欢</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="inputdiv">
+                        <div class="inputspan">
+                            <input class="myinput padding_right" type="text" placeholder="搜索感兴趣的东西">
+                            <span class="inputbtn"><i class="search icon"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</body>
+<script>
+    $(function () {
+        $(".inputbtn").click(function () {
+            var text = $('.myinput').val();
+
+            if (text == "" || text == null) {
+                alert(text);
+                return;
+            } else {
+                window.location.href = "searchGiftByKeyWord.do?keyword=" + text;
+            }
+        })
+        $('.myinput').focus(function () {
+            $(this).parent().addClass('inputfocus');
+            $(this).siblings('.inputbtn').children('i').css('color', '#847471');
+        })
+        $('.myinput').blur(function () {
+            $(this).parent().removeClass('inputfocus');
+            $(this).siblings('.inputbtn').children('i').css('color', '#D9D9D9');
+        })
+
+        //http://baijii-common.b0.upaiyun.com/loaders/tiny.gif
+        $('.underline_span').click(function () {
+            $('.underline_span').each(function () {
+                $(this).removeClass('underline_selected');
+            })
+            $(this).addClass('underline_selected');
+        })
+    })
+</script>
+</html>

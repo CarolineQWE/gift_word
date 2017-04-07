@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soft.gift.mapper.ScSpecDAO">
+	<select id="getSpecByShID" resultMap="com.soft.gift.mapper.SpecDAO.specMap">
+		SELECT b.* FROM `t_sc_spec` a LEFT JOIN `t_spec` b ON a.`spec_id` = b.`id` 
+		WHERE a.`sc_id` = #{sh_id}
+	</select>
+</mapper>

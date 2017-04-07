@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soft.gift.mapper.GiftDAO">
+	<resultMap type="Gift" id="giftMap">
+		<id property="id" column="id" javaType="java.lang.Integer"></id>
+		<result property="collection" column="collection" javaType="java.lang.Integer"></result>
+		<result property="comment" column="comment" javaType="java.lang.Integer"></result>
+		<result property="name" column="name" javaType="java.lang.String"></result>
+		<result property="on_shelf_time" column="on_shelf_time" javaType="java.sql.Timestamp"></result>
+		<result property="price" column="price" javaType="java.lang.Double"></result>
+		<result property="sale_num" column="sale_num" javaType="java.lang.Integer"></result>
+		<result property="stock" column="stock" javaType="java.lang.Integer"></result>
+		<result property="category" column="category" javaType="java.lang.Integer"/>
+	</resultMap>
+	
+	<select id="getAllGiftNew" resultMap="giftMap">
+		SELECT * FROM `t_gift` ORDER BY `id` DESC
+	</select>
+	
+	<select id="getAllGiftHot" resultMap="giftMap">
+		SELECT * FROM `t_gift` ORDER BY `sale_num` DESC, `comment` DESC, `collection` DESC 
+	</select>
+	
+	<select id="selectByKeyWords" resultMap="giftMap">
+		SELECT * FROM `t_gift` WHERE `name`  LIKE #{'%'+keyword+'%'}
+	</select>
+</mapper>
