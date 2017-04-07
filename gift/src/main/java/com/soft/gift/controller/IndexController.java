@@ -23,9 +23,9 @@ public class IndexController {
 	@RequestMapping(value="/index")
 	public String index(HttpServletRequest request, ModelMap map){
 		Map<Category, List<Category>> menuMap = giftService.getMallMenu();
-		List<Gift> latestGift = new ArrayList<>();
+		List<Gift> latestGift = new ArrayList<Gift>();
 		latestGift = giftService.getLastedGift();
-		List<Gift> hotGift = new ArrayList<>();
+		List<Gift> hotGift = new ArrayList<Gift>();
 		hotGift = giftService.getHotGift();
 		map.put("menuMap",menuMap);
 		map.put("latestGift",latestGift);
