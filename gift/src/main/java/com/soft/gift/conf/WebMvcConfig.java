@@ -24,9 +24,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
      * @author lance
      * @param registry
      */
-   /* public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new UserSecurityInterceptor()).addPathPatterns("*//**");
-    }*/
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new UserSecurityInterceptor()).addPathPatterns("/**");
+    }
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
