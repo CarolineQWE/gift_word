@@ -13,8 +13,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  * Created by fyq on 2017/4/7.
  */
 @Configuration
-@EnableAutoConfiguration
-@ComponentScan("com.soft.gift")
 @EntityScan("com.soft.gift.model")
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
     public static void main(String[] args) {
@@ -26,9 +24,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
      * @author lance
      * @param registry
      */
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new UserSecurityInterceptor()).addPathPatterns("/**");
-    }
+   /* public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new UserSecurityInterceptor()).addPathPatterns("*//**");
+    }*/
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
