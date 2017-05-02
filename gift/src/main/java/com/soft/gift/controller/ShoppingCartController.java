@@ -25,7 +25,7 @@ public class ShoppingCartController {
 	private GiftService giftService;
 	
 	@ResponseBody
-	@RequestMapping(value="addShoppingCart.do")
+	@RequestMapping(value="/addShoppingCart")
 	public String addShoppingCart(HttpServletRequest request,HttpServletResponse response,
 			Integer gift_id,Integer num,String spec) throws IOException{
 		List<Integer> spec_ids_int = new ArrayList<>();
@@ -55,7 +55,7 @@ public class ShoppingCartController {
 		return "成功";
 	}
 	
-	@RequestMapping(value="getShoppingCart.do")
+	@RequestMapping(value="/getShoppingCart")
 	public ModelAndView getShoppingCart(HttpServletRequest request){
 		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
 		ModelAndView mv =null;
@@ -68,12 +68,12 @@ public class ShoppingCartController {
 		return mv;
 	}
 	
-	@RequestMapping(value="deletesh.do")
+	@RequestMapping(value="/deletesh")
 	public void addShoppingCart(HttpServletRequest request,String sh_id){
 		giftService.deleteSh(sh_id);
 	}
 	
-	@RequestMapping(value="modifysh.do")
+	@RequestMapping(value="/modifysh")
 	public void modifySh(HttpServletRequest request,String sh_id,Integer new_num){
 		giftService.modifySh(sh_id,new_num);
 	}

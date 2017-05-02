@@ -1,13 +1,482 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
-    <title>主页</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>主页-礼物说</title>
+    <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.cookie.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css"/>
+    <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/nav.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/index.css"/>
 </head>
 <body>
-请问请问 template
-<a href="/login">登陆</a>
+<div th:include="nav :: mynav"></div>
+<div class="container">
+    <div class="content">
+        <div id="topdiv">
+            <div id="menudiv">
+                <div class="ui vertical menu">
+                    <div class="item" style="text-align:center;background-color: #F84E4E;color: #ffffff;border:solid 1px #F84E4E;">礼物分类</div>
+                    <div th:each = "menu:${menuMap}">
+                        <div class="ui left simple dropdown item">
+                            <i class="angle right icon"></i>
+                            <div style="text-align:center" th:text="${menu.key.name}"></div>
+                            <div class="menu">
+                                <th:each var="menu2" items="${menu.value }">
+                                    <div class="item"><a href="/searchGiftByCateID?cate_id=${menu2.id }">&nbsp;&nbsp;&nbsp;&nbsp;${menu2.name}&nbsp;&nbsp;&nbsp;&nbsp;</a></div>
+                                </th:each>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="newlunbo">
+                <div id="slider">
+                    <a href="#"><img src="../static/img/e.jpg" /></a>
+                    <a href="#"><img src="../static/img/f.jpg" /></a>
+                    <a href="#"><img src="../static/img/t.png" /></a>
+                    <a href="#"><img src="../static/img/r.png" /></a>
+                    <a href="#"><img src="../static/img/y.png" /></a>
+                    <a href="#"><img src="../static/img/back02.jpg" /></a>
+                </div>
+            </div>
+        </div>
+        <div class="indextitle">
+            <p>发现·礼物</p>
+        </div>
+        <div class="sale_zhuanchang">
+            <ul>
+                <li><a href="#"><img src="../static/img/zhuanchang/index_03.jpg"/></a></li>
+                <li><a href="#"><img src="../static/img/zhuanchang/index_05.jpg"/></a></li>
+                <li><a href="#"><img src="../static/img/zhuanchang/index_07.jpg"/></a></li>
+                <li><a href="#"><img src="../static/img/zhuanchang/index_09.jpg"/></a></li>
+            </ul>
+        </div>
+        <div class="left_nav_bar">
+            <a href="#first_floor">
+                <span class="nav_floor_name show_nav first_show_nav">F1</span>
+                <span class="nav_floor_name hide_nav">精品鞋服</span>
+            </a>
+            <a href="#second_floor">
+                <span class="nav_floor_name show_nav">F2</span>
+                <span class="nav_floor_name hide_nav">珠宝配饰</span>
+            </a>
+            <a href="#third_floor">
+                <span class="nav_floor_name show_nav">F3</span>
+                <span class="nav_floor_name hide_nav"></span>
+            </a>
+            <a href="#fouth_floor">
+                <span class="nav_floor_name show_nav">F4</span>
+                <span class="nav_floor_name hide_nav"></span>
+            </a>
+            <a href="#fifth_floor">
+                <span class="nav_floor_name show_nav">F5</span>
+                <span class="nav_floor_name hide_nav"></span>
+            </a>
+            <a href="#sixth_floor">
+                <span class="nav_floor_name show_nav">F6</span>
+                <span class="nav_floor_name hide_nav"></span>
+            </a>
+
+            <a href="#seventh_floor">
+                <span class="nav_floor_name show_nav">F7</span>
+                <span class="nav_floor_name hide_nav"></span>
+            </a>
+            <a href="#eigth_floor">
+                <span class="nav_floor_name show_nav">F8</span>
+                <span class="nav_floor_name hide_nav"></span>
+            </a>
+            <a href="#ninth_floor">
+                <span class="nav_floor_name show_nav">F9</span>
+                <span class="nav_floor_name hide_nav"></span>
+            </a>
+            <a href="#tenth_floor">
+                <span class="nav_floor_name show_nav">F10</span>
+                <span class="nav_floor_name hide_nav"></span>
+            </a>
+        </div>
+        <div id="maincontent">
+            <div class="floor_title">
+                <div class="floor_img">F1</div>
+                <div id="first_floor" class="floor_name ">珠宝配饰</div>
+            </div>
+            <div class="floor_content">
+                <div class="left_side">
+                    <img src="../static/img/1.jpg" />
+                </div>
+                <div class="center_div">
+                    <ul>
+                        <li>
+                            <div class="gift_words">
+                                <div class="gift_name">泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提</div>
+                                <div class="gift_info">泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提</div>
+                                <div class="gift_price">泰国红提</div>
+                            </div>
+                            <div class="gift_img">
+                                <img src="../static/img/1.jpg" />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="gift_words">
+                                <div class="gift_name">泰国红提</div>
+                                <div class="gift_info">泰国红提</div>
+                                <div class="gift_price">泰国红提</div>
+                            </div>
+                            <div class="gift_img">
+                                <img src="../static/img/1.jpg" />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="gift_words">
+                                <div class="gift_name">泰国红提</div>
+                                <div class="gift_info">泰国红提</div>
+                                <div class="gift_price">泰国红提</div>
+                            </div>
+                            <div class="gift_img">
+                                <img src="../static/img/1.jpg" />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="gift_words">
+                                <div class="gift_name">泰国红提</div>
+                                <div class="gift_info">泰国红提</div>
+                                <div class="gift_price">泰国红提</div>
+                            </div>
+                            <div class="gift_img">
+                                <img src="../static/img/1.jpg" />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="gift_words">
+                                <div class="gift_name">泰国红提</div>
+                                <div class="gift_info">泰国红提</div>
+                                <div class="gift_price">泰国红提</div>
+                            </div>
+                            <div class="gift_img">
+                                <img src="../static/img/1.jpg" />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="gift_words">
+                                <div class="gift_name">泰国红提</div>
+                                <div class="gift_info">泰国红提</div>
+                                <div class="gift_price">泰国红提</div>
+                            </div>
+                            <div class="gift_img">
+                                <img src="../static/img/1.jpg" />
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="right_side">
+                    <img src="../static/img/1.jpg" />
+                </div>
+            </div>
+            <div class="floor_title">
+                <div class="floor_img second_floor_img">F2</div>
+                <div id="second_floor" class="floor_name ">第二层</div>
+            </div>
+            <div class="floor_content">
+                <div class="left_side">
+                    <img src="../static/img/1.jpg" />
+                </div>
+                <div class="center_div">
+                    <ul>
+                        <li>
+                            <div class="gift_words">
+                                <div class="gift_name">泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提</div>
+                                <div class="gift_info">泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提</div>
+                                <div class="gift_price">泰国红提</div>
+                            </div>
+                            <div class="gift_img">
+                                <img src="../static/img/1.jpg" />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="gift_words">
+                                <div class="gift_name">泰国红提</div>
+                                <div class="gift_info">泰国红提</div>
+                                <div class="gift_price">泰国红提</div>
+                            </div>
+                            <div class="gift_img">
+                                <img src="../static/img/1.jpg" />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="gift_words">
+                                <div class="gift_name">泰国红提</div>
+                                <div class="gift_info">泰国红提</div>
+                                <div class="gift_price">泰国红提</div>
+                            </div>
+                            <div class="gift_img">
+                                <img src="../static/img/1.jpg" />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="gift_words">
+                                <div class="gift_name">泰国红提</div>
+                                <div class="gift_info">泰国红提</div>
+                                <div class="gift_price">泰国红提</div>
+                            </div>
+                            <div class="gift_img">
+                                <img src="../static/img/1.jpg" />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="gift_words">
+                                <div class="gift_name">泰国红提</div>
+                                <div class="gift_info">泰国红提</div>
+                                <div class="gift_price">泰国红提</div>
+                            </div>
+                            <div class="gift_img">
+                                <img src="../static/img/1.jpg" />
+                            </div>
+                        </li>
+                        <li>
+                            <div class="gift_words">
+                                <div class="gift_name">泰国红提</div>
+                                <div class="gift_info">泰国红提</div>
+                                <div class="gift_price">泰国红提</div>
+                            </div>
+                            <div class="gift_img">
+                                <img src="../static/img/1.jpg" />
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="right_side">
+                    <img src="../static/img/1.jpg" />
+                </div>
+            </div>
+            <div class="floor_title">
+                <div class="floor_img third_floor_img">F3</div>
+                <div id="third_floor" class="floor_name ">第三层</div>
+            </div>
+            <div class="floor_content">
+                <div class="left_side">
+                    <img src="../static/img/1.jpg" />
+                </div>
+                <div class="center_div">
+                </div>
+                <div class="right_side">
+                    <img src="../static/img/1.jpg" />
+                </div>
+            </div>
+            <div class="floor_title">
+                <div class="floor_img fouth_floor_img">F4</div>
+                <div id="fouth_floor" class="floor_name ">第三层</div>
+            </div>
+            <div class="floor_content">
+                <div class="left_side">
+                    <img src="../static/img/1.jpg" />
+                </div>
+                <div class="center_div">
+                </div>
+                <div class="right_side">
+                    <img src="../static/img/1.jpg" />
+                </div>
+            </div>
+            <div class="floor_title">
+                <div class="floor_img fifth_floor_img">F5</div>
+                <div id="fifth_floor" class="floor_name ">第三层</div>
+            </div>
+            <div class="floor_content">
+                <div class="left_side">
+                    <img src="../static/img/1.jpg" />
+                </div>
+                <div class="center_div">
+                </div>
+                <div class="right_side">
+                    <img src="../static/img/1.jpg" />
+                </div>
+            </div>
+            <div class="floor_title">
+                <div class="floor_img sixth_floor_img">F6</div>
+                <div id="sixth_floor" class="floor_name ">第三层</div>
+            </div>
+            <div class="floor_content">
+                <div class="left_side">
+                    <img src="../static/img/1.jpg" />
+                </div>
+                <div class="center_div">
+                </div>
+                <div class="right_side">
+                    <img src="../static/img/1.jpg" />
+                </div>
+            </div>
+            <div class="floor_title">
+                <div class="floor_img seventh_floor_img">F7</div>
+                <div id="seventh_floor" class="floor_name ">第三层</div>
+            </div>
+            <div class="floor_content">
+                <div class="left_side">
+                    <img src="../static/img/1.jpg" />
+                </div>
+                <div class="center_div">
+                </div>
+                <div class="right_side">
+                    <img src="../static/img/1.jpg" />
+                </div>
+            </div>
+            <div class="floor_title">
+                <div class="floor_img eigth_floor_img">F8</div>
+                <div id="eigth_floor" class="floor_name">第三层</div>
+            </div>
+            <div class="floor_content">
+                <div class="left_side">
+                    <img src="../static/img/1.jpg" />
+                </div>
+                <div class="center_div">
+                </div>
+                <div class="right_side">
+                    <img src="../static/img/1.jpg" />
+                </div>
+            </div>
+            <div class="floor_title">
+                <div class="floor_img ninth_floor_img">F9</div>
+                <div id="ninth_floor" class="floor_name">第三层</div>
+            </div>
+            <div class="floor_content">
+                <div class="left_side">
+                    <img src="../static/img/1.jpg" />
+                </div>
+                <div class="center_div">
+                </div>
+                <div class="right_side">
+                    <img src="../static/img/1.jpg" />
+                </div>
+            </div>
+            <div class="floor_title">
+                <div class="floor_img tenth_floor_img">F10</div>
+                <div id="tenth_floor" class="floor_name">第三层</div>
+            </div>
+            <div class="floor_content">
+                <div class="left_side">
+                    <img src="../static/img/1.jpg" />
+                </div>
+                <div class="center_div">
+                </div>
+                <div class="right_side">
+                    <img src="../static/img/1.jpg" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footdiv redback">
+        <p>© 2014 - 2016 Liwushuo.com 北京礼品说科技有限公司 电信与信息服务业务经营许可证150653号 京ICP备15031023号-1</p>
+        <p><a href="#">首页</a>&nbsp;|&nbsp;<a href="#">关于我们</a>&nbsp;|&nbsp;电话：010-57510218</p>
+    </div>
+</div>
 </body>
-<script>
+<script type="text/javascript" src="../static/js/vmc.slider.full.min.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(function() {
+        $('#slider').vmcSlider({
+            width: 920,
+            height: 450,
+            gridCol: 10,
+            gridRow: 5,
+            gridVertical: 20,
+            gridHorizontal: 10,
+            autoPlay: true,
+            ascending: true,
+            effects: [
+                'fade', 'fadeLeft', 'fadeRight', 'fadeTop', 'fadeBottom', 'fadeTopLeft', 'fadeBottomRight',
+                'blindsLeft', 'blindsRight', 'blindsTop', 'blindsBottom', 'blindsTopLeft', 'blindsBottomRight',
+                'curtainLeft', 'curtainRight', 'interlaceLeft', 'interlaceRight', 'mosaic', 'bomb', 'fumes'
+            ],
+            ie6Tidy: false,
+            random: false,
+            duration: 2000,
+            speed: 900
+        });
+        $('.myinput').focus(function() {
+            $('.inputspan').addClass('inputfocus');
+            $('.inputbtn i').css('color', '#847471');
+        })
+        $('.myinput').blur(function() {
+            $('.inputspan').removeClass('inputfocus');
+            $('.inputbtn i').css('color', '#D9D9D9');
+        })
+
+        //http://baijii-common.b0.upaiyun.com/loaders/tiny.gif
+        $('.underline_span').click(function(){
+            $('.underline_span').each(function(){
+                $(this).removeClass('underline_selected');
+            })
+            $(this).addClass('underline_selected');
+        })
+
+        $('.gift_div').hover(function(){
+            $(this).animate({top:'-3px'},"slow");
+            $(this).addClass('div_hover');
+        },function(){
+            $(this).animate({top:'3px'},"fast");
+            $(this).removeClass('div_hover');
+        });
+
+        $('.left_nav_bar a').hover(function(){
+            $(this).children('.show_nav').css('display','none');
+            $(this).children('.hide_nav').css('display','block');
+        },function(){
+            $(this).children('.hide_nav').css('display','none');
+            $(this).children('.show_nav').css('display','block');
+        });
+
+        /*页面滚动监听*/
+        var $window = $(window);
+        var $div_anchor = $('#newlunbo');
+        var $div_zc = $('.sale_zhuanchang');
+        var $nav_bar = $('.hide_nav_bar');
+        var $fixed_nav_bar = $('.fixed_nav_bar');
+        var $left_nav_bar = $('.left_nav_bar');
+        var items = $('.floor_name');
+        $window.scroll(function() {
+            //scrollTop()方法返回或设置匹配元素的滚动条的垂直位置
+            var window_top = $window.scrollTop();//窗口相对于文档的偏移量
+            //javascript用offsetTop();jquery用offset().top;
+            var div_top = $div_anchor.offset().top;//元素相对于文档的偏移量，向下为正，向右为正
+            var zc_top = $div_zc.offset().top;
+            if(window_top > div_top) {
+                $nav_bar.css('display', 'none');
+                $fixed_nav_bar.css('display', 'block');
+            } else {
+                $nav_bar.css('display', 'block');
+                $fixed_nav_bar.css('display', 'none');
+            }
+            if(window_top > zc_top) {
+                $left_nav_bar.css('display', 'block');
+            } else {
+                $left_nav_bar.css('display', 'none');
+            }
+            var curId = "";
+            items.each(function(){
+                var item = $(this);
+                var itemsTop = item.offset().top;
+                if(window_top > itemsTop - 100){
+                    curId = "#"+item.attr("id");
+                }else{
+                    return false;
+                }
+            });
+
+            $('.hide_nav').css('display','none');
+            $('.show_nav').css('display','block');
+            var curLink = $left_nav_bar.find("[href="+curId+"]");
+            curLink.children('.show_nav').css('display','none');
+            curLink.children('.hide_nav').css('display','block');
+        });
+
+
+
+    })
+    /*]]>*/
 </script>
 </html>

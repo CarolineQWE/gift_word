@@ -15,23 +15,35 @@ public class UserServiceImpl implements UserService{
 	private UserDAO userDAO;
 	@Autowired
 	private UserInfoDAO userInfoDAO;
-	
-	
+
+    @Override
+    public boolean checkAccount(String account) {
+        User user = new User();
+        user.setAccount(account);
+        User user2 = null;
+        user2 = userDAO.selectOne(user);
+        System.out.println("user2:>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+user2);
+        if(user2 == null){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
 	@Override
 	public String ifLogin(String account, String password) {
 		System.out.println(account);
 		System.out.println(password);
 		User user = new User();
 		user.setAccount(account);
-		User user2 = null;
-		user2 = userDAO.selectOne(user);
+		User user2 = userDAO.selectOne(user);
 		System.out.println("user2:>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+user2);
 		if(user2 == null){
 			return "用户不存在";
 		}else if(password.equals(user2.getPassword())){
 			System.out.println(user2);
 			System.out.println(user2.getPassword());
-			return "登陆成功";
+			return "登录成功";
 		}else {
 			return "密码错误";
 		}

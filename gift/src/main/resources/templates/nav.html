@@ -1,285 +1,248 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title></title>
-    <script type="text/javascript" src="../../static/js/jquery-2.1.0.js" ></script>
-    <script type="text/javascript" src="../../static/js/jquery.cookie.js" ></script>
-    <style type="text/css">
-        .navout {
-            width: 1210px;
-            margin: 0px auto;
-            position: relative;
-        }
-
-        .nav {
-            width: 1210px;
-            margin: 0px auto;
-            height: 60px;
-            top: 0px;
-            z-index: 1000;
-            position: fixed;
-            background-color: #FFFFFF;
-            border-bottom: solid 2px #D9D9D9;
-        }
-
-        .logoimg {
-            width: 250px;
-            height: 30px;
-        }
-
-        .logodiv {
-            height: 60px;
-            padding: 15px 0px;
-            display: inline-block;
-            vertical-align: top;
-        }
-
-        .headimg {
-            width: 40px;
-            height: 40px;
-            border-radius: 20px;
-        }
-
-        .headspan {
-            display: inline-block;
-            vertical-align: top;
-            padding: 10px 0px;
-        }
-
-        .username {
-            display: inline-block;
-            vertical-align: top;
-            height: 60px;
-            line-height: 60px;
-        }
-
-        .spans {
-            display: inline-block;
-            vertical-align: top;
-            height: 60px;
-            padding-left: 30px;
-        }
-
-        .inputdiv {
-            display: inline-block;
-            vertical-align: top;
-            height: 60px;
-            padding: 15px 0px;
-            float: right;
-        }
-
-        #userinfo {
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        .iflogindiv {
-            width: 150px;
-            display: inline-block;
-            float: right;
-            height: 60px;
-            margin-left: 30px;
-            cursor: pointer;
-        }
-
-        .underline_span {
-            display: inline-block;
-            height: 60px;
-            line-height: 60px;
-            cursor: pointer;
-            font-size: 16px;
-            padding: 0px 5px;
-            margin: 0px 5px;
-        }
-
-        .underline_span:hover {
-            border-bottom: solid 2px #E78170;
-            color: #000000;
-        }
-
-        .underline_selected {
-            color: #000000;
-            border-bottom: solid 2px #E78170;
-        }
-
-        .inline_block {
-            display: inline-block;
-            vertical-align: top;
-            width: 300px;
-            height: 360px;
-            margin-bottom: 30px;
-        }
-
-        .myinput {
-            border: none;
-            background-color: #FFFFFF;
-            outline: medium;
-            width: 100%;
-        }
-
-        .padding_right {
-            padding-right: 23px;
-        }
-
-        .inputspan {
-            width: 250px;
-            height: 30px;
-            line-height: 30px;
-            border-radius: 20px;
-            border: solid 1px #b7b7b7;
-            position: relative;
-            padding: 5px 10px;
-        }
-
-        .inputbtn {
-            position: absolute;
-            right: 6px;
-            top: 0px;
-        }
-
-        .inputbtn i {
-            color: #B7B7B7;
-        }
-
-        .inputbtn:hover i {
-            color: #000000;
-        }
-
-        .inputbtn:active i {
-            color: #000000;
-        }
-
-        .inputfocus {
-            border: solid 1px #E78170;
-        }
-
-        .mydropdown {
-            position: relative;
-            text-align: center;
-            margin-left: 60px;
-        }
-
-        .mydropdown:hover ul {
-            display: block;
-        }
-
-        .mydropdown ul {
-            position: absolute;
-            right: 0px;
-            height: 0px;
-            padding: 0px;
-            margin: 0px;
-            display: none;
-        }
-
-        .mydropdown ul li {
-            width: 150px;
-            height: 40px;
-            line-height: 40px;
-            background-color: #FFFFFF;
-            text-align: center;
-            border-top: dashed 1px #D8D8D8;
-            color: #FFF0F0;
-        }
-
-        .mydropdown ul li:hover {
-            background-color: #f7f7f7;
-        }
-
-        .mydropdown ul li a:hover {
-            color: #FF6D75;
-            display: block;
-            width: 150px;
-            height: 40px;
-            backgound-color: #f7f7f7;
-        }
-
-        #firstli {
-            border-top: none;
-        }
-        .thtext{
-            width: 300px;
-            height:400px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="../static/css/nav.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css"/>
+    <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
 </head>
 <body>
-<div class="navout" th:fragment="nav">
-    <div class="thtext" th:text="'hello'+${100}"></div>
-    <div th:text="'hello'+${100}">1231231</div>
-    <div class="nav">
-        <div class="logodiv">
-            <img src="../../static/img/logo.png" class="logoimg"/>
-            <div class="spans">
-                <a href="index.do"><span class="underline_span underline_selected" id="shopspan">
-					礼物商城
-				</span></a>
-                <a href="#"><span class="underline_span" id="strategyspan">
-					礼物攻略
-				</span></a>
-                <a href="#"><span class="underline_span" id="writespan">
-					写攻略
-				</span></a>
+<div th:fragment="mynav">
+    <div class="tools_outer">
+        <div class="tools_div">
+            <div class="welcome_div">
+                欢迎光临礼物说！
             </div>
-            <div th:if="${userInfo} == null">
-                <div id="logindiv" class="iflogindiv">
-                    <div class="myred mybtn">登录</div>
-                    <div class="mywhite mybtn">注册</div>
-                </div>
-                <div>
-                    <div th:if="${userInfo} != null">
-                        <div id="userinfo" class="iflogindiv mydropdown underline_span">
-                            <div class="headspan"><img src="../../static/img/8.png" class="headimg"/></div>
-                            <div class="username" th:text="${userInfo.nickname }"></div>
+            <div class="tools_right_div">
+                <ul>
+                    <li><a href="/login">【登录】</a></li>
+                    <li><a href="/register">【注册】</a></li>
+                    <li class="selector_li">
+                        <div class="tool" id="test"><span class="tool_span">我的礼物说</span></div>
+                        <div class="con">
                             <ul>
-                                <li id="firstli"><a href="#">个人中心</a></li>
-                                <li><a href="getShoppingCart.do">我的购物车</a></li>
-                                <li><a href="myOrder.do">我的订单</a></li>
-                                <li><a href="#">我的收藏</a></li>
-                                <li><a href="#">我的攻略</a></li>
-                                <li><a href="#">我的评论</a></li>
-                                <li><a href="#">我的喜欢</a></li>
+                                <li><a href="/myOrder">我的订单</a></li>
+                                <li><a href="/myOrder">我的订单</a></li>
+                                <li><a href="/myOrder">我的订单</a></li>
+                                <li><a href="/myOrder">我的订单</a></li>
+                                <li><a href="/myOrder">我的订单</a></li>
+                                <li><a href="/myOrder">我的订单</a></li>
                             </ul>
                         </div>
-                    </div>
-                    <div class="inputdiv">
-                        <div class="inputspan">
-                            <input class="myinput padding_right" type="text" placeholder="搜索感兴趣的东西">
-                            <span class="inputbtn"><i class="search icon"></i></span>
+                    </li>
+                    <li class="selector_li">
+                        <div class="tool"><span class="tool_span">消息盒子</span></div>
+                        <div class="con">
+                            <ul>
+                                <li><a href="/myOrder">私信</a></li>
+                                <li><a href="/myOrder">物流消息</a></li>
+                                <li><a href="/myOrder">设计师反馈</a></li>
+                                <li><a href="/myOrder">评论</a></li>
+                                <li><a href="/myOrder">我的赞</a></li>
+                                <li><a href="/myOrder">收藏</a></li>
+                            </ul>
                         </div>
-                    </div>
-                </div>
+                    </li>
+                    <li class="selector_li">
+                        <div class="tool"><span class="tool_span">客服中心</span></div>
+                        <div class="con">
+                            <ul>
+                                <li><a href="/myOrder">联系客服</a></li>
+                                <li><a href="/myOrder">宿舍</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
             </div>
+        </div>
+    </div>
+    <div class="nav_header">
+        <div class="nav_header_left">
+            <div class="nav_logo_div">
+                <a href="javascript:void(0);"><img src="../static/img/logo.png"/></a>
+            </div>
+            <div class="nav_input_div">
+                <div class="nav_float_left nav_search_img"><img src="../static/img/icon_search.png"/></div>
+                <div class="nav_float_left"><input class="nav_my_input" type="text" name="search" id="search" value="" placeholder="搜索礼物、攻略"/></div>
+                <div class="nav_float_left nav_search_btn"><label id="search_btn">搜索</label></div>
+            </div>
+        </div>
+        <div class="nav_header_right">
+            <div class="icon_div">
+                <i class="icon iconfont icon-iconfontgouwuche"></i>
+                我的购物车
+            </div>
+            <div class="icon_div">
+                <i class="icon iconfont icon-wodedingdan"></i>
+                我的订单
+            </div>
+            <div class="icon_div">
+                <i class="icon iconfont icon-gerenzhongxin"></i>
+                个人中心
+            </div>
+        </div>
+    </div>
+    <div class="clear_float"></div>
+    <div class="nav_bar">
+        <ul>
+            <li class="nav_active_li"><a href="/index">礼物商城</a></li>
+            <li><a href="/index">礼物定制</a></li>
+            <li class="strategy_li">
+                <a href="/strategy/all">礼物攻略</a>
+                <div class="strategy_menu">
+                    <div class="menu_title"><i class="icon iconfont icon-gerenzhongxin"></i>赠送对象</div>
+                    <ul class="strategy_ul">
+                        <li><a href="#">自己</a></li>
+                        <li><a href="#">男票</a></li>
+                        <li><a href="#">女票</a></li>
+                        <li><a href="#">闺蜜</a></li>
+                        <li><a href="#">基友</a></li>
+                        <li><a href="#">爸爸妈妈</a></li>
+                        <li><a href="#">小盆友</a></li>
+                        <li><a href="#">同事</a></li>
+                        <li><a href="#">领导</a></li>
+                    </ul>
+                    <div class="menu_title"><i class="icon iconfont icon-location"></i>赠送场合</div>
+                    <ul class="strategy_ul">
+                        <li><a href="#">新年</a></li>
+                        <li><a href="#">生日</a></li>
+                        <li><a href="#">纪念日</a></li>
+                        <li><a href="#">结婚</a></li>
+                        <li><a href="#">感谢</a></li>
+                        <li><a href="#">情人节</a></li>
+                        <li><a href="#">乔迁</a></li>
+                        <li><a href="#">圣诞节</a></li>
+                    </ul>
+                    <div class="menu_title"><i class="icon iconfont icon-xiaomeijigexing"></i>Ta的个性</div>
+                    <ul class="strategy_ul">
+                        <li><a href="#">美物</a></li>
+                        <li><a href="#">手工</a></li>
+                        <li><a href="#">吃货</a></li>
+                        <li><a href="#">萌萌哒</a></li>
+                        <li><a href="#">动漫迷</a></li>
+                        <li><a href="#">小清新</a></li>
+                        <li><a href="#">科技范</a></li>
+
+                    </ul>
+                </div>
+            </li>
+            <li><a href="strategy/addStrategy">写攻略</a></li>
+        </ul>
+    </div>
+    <div class="nav_bar fixed_nav_bar">
+        <ul>
+            <li class="nav_active_li"><a href="/index">礼物商城</a></li>
+            <li><a href="/index">礼物定制</a></li>
+            <li class="strategy_li">
+                <a href="/strategy/all">礼物攻略</a>
+                <div class="strategy_menu">
+                    <div class="menu_title"><i class="icon iconfont icon-gerenzhongxin"></i>赠送对象</div>
+                    <ul class="strategy_ul">
+                        <li><a href="#">自己</a></li>
+                        <li><a href="#">男票</a></li>
+                        <li><a href="#">女票</a></li>
+                        <li><a href="#">闺蜜</a></li>
+                        <li><a href="#">基友</a></li>
+                        <li><a href="#">爸爸妈妈</a></li>
+                        <li><a href="#">小盆友</a></li>
+                        <li><a href="#">同事</a></li>
+                        <li><a href="#">领导</a></li>
+                    </ul>
+                    <div class="menu_title"><i class="icon iconfont icon-location"></i>赠送场合</div>
+                    <ul class="strategy_ul">
+                        <li><a href="#">新年</a></li>
+                        <li><a href="#">生日</a></li>
+                        <li><a href="#">纪念日</a></li>
+                        <li><a href="#">结婚</a></li>
+                        <li><a href="#">感谢</a></li>
+                        <li><a href="#">情人节</a></li>
+                        <li><a href="#">乔迁</a></li>
+                        <li><a href="#">圣诞节</a></li>
+                    </ul>
+                    <div class="menu_title"><i class="icon iconfont icon-xiaomeijigexing"></i>Ta的个性</div>
+                    <ul class="strategy_ul">
+                        <li><a href="#">美物</a></li>
+                        <li><a href="#">手工</a></li>
+                        <li><a href="#">吃货</a></li>
+                        <li><a href="#">萌萌哒</a></li>
+                        <li><a href="#">动漫迷</a></li>
+                        <li><a href="#">小清新</a></li>
+                        <li><a href="#">科技范</a></li>
+
+                    </ul>
+                </div>
+            </li>
+            <li><a href="strategy/addStrategy">写攻略</a></li>
+        </ul>
+        <div class="white_input_div">
+            <div class="white_input_outer"><input type="text" placeholder="搜索礼物/攻略"/></div>
+            <div class="white_img_outer"><img class="search_img_white" src="../static/img/icon_search.png"/></div>
+        </div>
+    </div>
+</div>
 </body>
-<script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
     $(function () {
-        $(".inputbtn").click(function () {
-            var text = $('.myinput').val();
+        /*$(".inputbtn").click(function () {
+         var text = $('.myinput').val();
 
-            if (text == "" || text == null) {
-                alert(text);
-                return;
+         if (text == "" || text == null) {
+         alert(text);
+         return;
+         } else {
+         window.location.href = "/searchGiftByKeyWord?keyword=" + text;
+         }
+         })
+         $('.myinput').focus(function () {
+         $(this).parent().addClass('inputfocus');
+         $(this).siblings('.inputbtn').children('i').css('color', '#847471');
+         })
+         $('.myinput').blur(function () {
+         $(this).parent().removeClass('inputfocus');
+         $(this).siblings('.inputbtn').children('i').css('color', '#D9D9D9');
+         })*/
+
+        $('.strategy_li').hover(function(){
+            $(this).find('.strategy_menu').css('display','block');
+        },function(){
+            $(this).find('.strategy_menu').css('display','none');
+        });
+        $(".selector_li").hover(function(){
+            $(this).children('.con').css('display','block');
+            $(this).addClass('li_border');
+        },function(){
+            $(this).children('.con').css('display','none');
+            $(this).removeClass('li_border');
+        })
+
+        var $window = $(window);
+        var $div_anchor = $('.container');
+        var $nav_bar = $('.nav_bar');
+        var $fixed_nav_bar = $('.fixed_nav_bar');
+        $window.scroll(function() {
+            //scrollTop()方法返回或设置匹配元素的滚动条的垂直位置
+            var window_top = $window.scrollTop();
+            //javascript用offsetTop();jquery用offset().top;
+            var div_top = $div_anchor.offset().top;
+            if(window_top > div_top) {
+                $nav_bar.css('display', 'none');
+                $fixed_nav_bar.css('display', 'block');
             } else {
-                window.location.href = "searchGiftByKeyWord.do?keyword=" + text;
+                $nav_bar.css('display', 'block');
+                $fixed_nav_bar.css('display', 'none');
             }
-        })
-        $('.myinput').focus(function () {
-            $(this).parent().addClass('inputfocus');
-            $(this).siblings('.inputbtn').children('i').css('color', '#847471');
-        })
-        $('.myinput').blur(function () {
-            $(this).parent().removeClass('inputfocus');
-            $(this).siblings('.inputbtn').children('i').css('color', '#D9D9D9');
-        })
+        });
 
-        //http://baijii-common.b0.upaiyun.com/loaders/tiny.gif
-        $('.underline_span').click(function () {
-            $('.underline_span').each(function () {
-                $(this).removeClass('underline_selected');
-            })
-            $(this).addClass('underline_selected');
+        $('#login').click(function () {
+            window.href.location="/login";
+        })
+        $('#register').click(function () {
+            window.href.location="/register";
         })
     })
+    /*]]>*/
 </script>
 </html>

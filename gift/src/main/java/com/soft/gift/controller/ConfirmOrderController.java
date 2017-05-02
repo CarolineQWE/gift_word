@@ -18,7 +18,7 @@ public class ConfirmOrderController{
 	@Autowired
 	private GiftService giftService;
 	
-	@RequestMapping(value="confirm_order.do")
+	@RequestMapping(value="/confirm_order")
 	public ModelAndView confirmOrder(HttpServletRequest request, Integer gift_id, Integer num, String spec){
 		String [] spec_ids = spec.split(",");
 		List<Spec> specs = new ArrayList<>();
@@ -41,7 +41,7 @@ public class ConfirmOrderController{
 		return mv;
 	}
 	
-	@RequestMapping(value="confirm_order_sh.do")
+	@RequestMapping(value="/confirm_order_sh")
 	public ModelAndView confirmOrderSh(HttpServletRequest request, String shArr){
 		System.out.println("shArr:"+shArr);
 		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");

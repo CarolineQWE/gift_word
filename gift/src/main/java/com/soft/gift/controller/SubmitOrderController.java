@@ -19,7 +19,7 @@ public class SubmitOrderController {
 	private GiftService giftService;
 	
 	@ResponseBody
-	@RequestMapping(value="submit_order.do")
+	@RequestMapping(value="/submit_order")
 	public String submitOrder(HttpServletRequest request,HttpServletResponse response,Integer address_id,String sharr,Integer status) throws IOException {
 		System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<sharr:"+sharr);
 		System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<address_id:"+address_id);
@@ -31,7 +31,7 @@ public class SubmitOrderController {
 		return "";
 	}
 	
-	@RequestMapping(value="submit_order_single.do")
+	@RequestMapping(value="/submit_order_single")
 	public ModelAndView submitOrderSingle(HttpServletRequest request, Integer address_id, String spec_ids, Integer num, Integer gift_id, Integer status) throws IOException{
 		System.out.println(status);
 		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");

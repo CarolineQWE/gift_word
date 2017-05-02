@@ -11,27 +11,33 @@ public class Strategy {
 	private String title;
 	private String content;
 	private String top_img;
-	private Integer like;
+	private Integer likea;
 	private Integer comment;
 	private Timestamp publish_time;
-	private Integer relationship;
-	private Integer style;
-	private Integer occasion;
+	private String relationship;
+	private String style;
+	private String occasion;
 	private String account;
-	
+	private Integer collect;
+	private Integer dislike;
+	private Integer if_publish;
+
 	public Strategy(String title, String content, String top_img, Integer like, Integer comment, Timestamp publish_time,
-			Integer relationship, Integer style, Integer occasion, String account) {
+					String relationship, String style, String occasion, String account,Integer collect,Integer dislike,Integer if_publish) {
 		super();
 		this.title = title;
 		this.content = content;
 		this.top_img = top_img;
-		this.like = like;
+		this.likea = like;
 		this.comment = comment;
 		this.publish_time = publish_time;
 		this.relationship = relationship;
 		this.style = style;
 		this.occasion = occasion;
 		this.account = account;
+        this.collect = collect;
+        this.dislike = dislike;
+		this.if_publish = if_publish;
 	}
 	
 	public Strategy() {
@@ -71,10 +77,10 @@ public class Strategy {
 	
 	@Column(name="like")
 	public Integer getLike() {
-		return like;
+		return likea;
 	}
 	public void setLike(Integer like) {
-		this.like = like;
+		this.likea = like;
 	}
 	
 	@Column(name="comment")
@@ -94,26 +100,26 @@ public class Strategy {
 	}
 	
 	@Column(name="relationship")
-	public Integer getRelationship() {
+	public String getRelationship() {
 		return relationship;
 	}
-	public void setRelationship(Integer relationship) {
+	public void setRelationship(String relationship) {
 		this.relationship = relationship;
 	}
 	
 	@Column(name="style")
-	public Integer getStyle() {
+	public String getStyle() {
 		return style;
 	}
-	public void setStyle(Integer style) {
+	public void setStyle(String style) {
 		this.style = style;
 	}
 	
 	@Column(name="occasion")
-	public Integer getOccasion() {
+	public String getOccasion() {
 		return occasion;
 	}
-	public void setOccasion(Integer occasion) {
+	public void setOccasion(String occasion) {
 		this.occasion = occasion;
 	}
 	
@@ -124,6 +130,32 @@ public class Strategy {
 	public void setAccount(String account) {
 		this.account = account;
 	}
-	
-	
+
+    @Column(name="collect")
+    public Integer getCollect() {
+        return collect;
+    }
+
+    public void setCollect(Integer collect) {
+        this.collect = collect;
+    }
+
+    @Column(name="dislike")
+    public Integer getDislike() {
+        return dislike;
+    }
+
+    public void setDislike(Integer dislike) {
+        this.dislike = dislike;
+    }
+
+	@Column(name="if_publish")
+	public Integer getIf_publish() {
+		return if_publish;
+	}
+
+	public void setIf_publish(Integer if_publish) {
+		this.if_publish = if_publish;
+	}
 }
+

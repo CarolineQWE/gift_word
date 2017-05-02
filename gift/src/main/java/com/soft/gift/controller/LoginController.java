@@ -20,29 +20,8 @@ public class LoginController {
 	
 	@RequestMapping(value="/login")
 	public String login(){
-		return "templates/login";
+		return "login";
 	}
 	
 
-	@RequestMapping(value="userlogin.do")
-	public void loginCheck(HttpServletRequest request,HttpServletResponse response,String account,String password) throws IOException{
-		String status = userService.ifLogin(account, password);
-		if ("登陆成功".equals(status)){
-			User user = userService.getUser(account);
-			UserInfo userInfo = userService.getUserInfo(account);
-			request.getSession().setAttribute("userInfo", userInfo);
-			request.getSession().setAttribute("user", user);
-		}
-		PrintWriter writer = response.getWriter();
-		writer.print(status);
-		writer.close();
-	}
-	
-	@RequestMapping(value="register.do")
-	public void register(HttpServletRequest request,HttpServletResponse response,String account,String password,String nickname) throws IOException{
-		String status = userService.register(account, password, nickname);
-		PrintWriter writer = response.getWriter();
-		writer.print(status);
-		writer.close();
-	}
 }

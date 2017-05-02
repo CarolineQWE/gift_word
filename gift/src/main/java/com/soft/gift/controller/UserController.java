@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class UserController {
-	@RequestMapping(value = "manageAddress.do")
+	@RequestMapping(value = "/manageAddress")
 	public void manageAddress(){
 		
 	}

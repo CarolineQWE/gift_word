@@ -15,7 +15,7 @@ public class SearchResultController {
 	@Autowired
 	private GiftService giftService;
 	
-	@RequestMapping(value="searchGiftByCateID.do")
+	@RequestMapping(value="/searchGiftByCateID")
 	public ModelAndView searchGiftByCateID(HttpServletRequest request, Integer cate_id){
 		List<Gift> gifts = giftService.searchGiftByCateID(cate_id);
 		ModelAndView mv = new ModelAndView("search_result");
@@ -23,7 +23,7 @@ public class SearchResultController {
 		return mv;
 	}
 	
-	@RequestMapping(value="searchGiftByKeyWord.do")
+	@RequestMapping(value="/searchGiftByKeyWord")
 	public ModelAndView searchGiftByKeyWord(HttpServletRequest request, String keyword){
 		List<Gift> gifts = giftService.searchGiftByKeyword(keyword);
 		ModelAndView mv = new ModelAndView("search_result");

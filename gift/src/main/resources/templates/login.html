@@ -5,13 +5,13 @@
     <title>登录</title>
     <script type="text/javascript" src="../static/js/jquery-2.1.0.js" ></script>
     <script type="text/javascript" src="../static/js/jquery.cookie.js" ></script>
-    <link rel="stylesheet" type="text/css" th:href="@{js/semantic/semantic.min.css}"/>
+    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css"/>
     <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
 
     <style type="text/css">
         body{
-            margin: 0px;
-            padding: 0px;
+            margin: 0;
+            padding: 0;
             font-family: helvetica,arial,"微软雅黑","华文黑体";
             font-size: 14px;
         }
@@ -111,9 +111,6 @@
             background-color: #f74560;
         }
 
-        .auto_login_div{
-            float: left;
-        }
         .forget_pass_div{
             float: right;
         }
@@ -176,8 +173,8 @@
                         <input class="myinput mypassword" type="password" id="password" placeholder="密码" />
                         <label style="display:none;" class="errorlabel">密码不能为空</label>
                     </div>
-                    <div class="ui checkbox" class="auto_login_div">
-                        <input type="checkbox" name="example" id="rememberme">
+                    <div class="ui checkbox auto_login_div">
+                        <input type="checkbox" name="example" id="rememberme"/>
                         <label>记住我</label>
                     </div>
                     <div class="forget_pass_div"><a href="#">忘记密码</a></div>
@@ -244,7 +241,7 @@
                 return;
             }else{
                 $.ajax({
-                    url:"/gift/userlogin.do",
+                    url:"/loginCheck",
                     type:"POST",
                     data:{
                         account:acc,
@@ -253,16 +250,19 @@
                     dataType:"text",
                     success:function(data){
                         console.log("data",data);
-                        if(data == "登陆成功"){
-                            if(acc=="admin"){
-                                window.location.href="/gift/index_admin.do";
-                            }else{
-                                window.location.href="/gift/index.do";
-                            }
-                        }else if(data == "用户不存在"){
+                        if(data == "用户不存在"){
                             setError($("#account"),data);
-                        }else{
+                        }else if(data == "密码错误"){
                             setError($("#password"),data);
+                        }else if(data == "登录异常"){
+                            setError($("#password"),data);
+                        }else if (data == "0"){
+                            window.location.href="/index";
+                            console.log("daozhele",0);
+                        }else if (data == "1"||data == "2"){
+                            window.location.href="/index_admin";
+                        }else if (data == "3"){
+                            window.location.href="/index_designer";
                         }
                     }
                 })
@@ -296,10 +296,10 @@
                     dataType:"text",
                     success:function(data){
                         if(data == "用户已存在"){
-                            setError($("#account_reg"),"该手机号已经注册&nbsp;&nbsp;<a href='gift/login.do'/>");
+                           /* setError($("#account_reg"),"该手机号已经注册&nbsp;&nbsp;"+"<a href='/login'>直接登录</a>");*/
                         }else if(data == "注册成功"){
                             alert("注册成功！请直接登录");
-                            window.location.href="/gift/login.do";
+                            window.location.href="/login";
                         }else{
                             alert("注册失败！");
                         }
@@ -335,7 +335,7 @@
 
         function getRemember(){
             var rememberme=$.cookie("rememberme");
-            if(rememberme!=null && rememberme=="true"){
+            if(rememberme=="true"){
                 $("#remeberme").checked=true;
                 $("#account").val($.cookie("account"));
                 $("#password").val($.cookie("password"));
