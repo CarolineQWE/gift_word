@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <title>我的订单</title>
+    <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.cookie.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css">
+    <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+    <style type="text/css">
+        #headtable{
+            margin: 30px 0px;
+        }
+        .mydeletebtn{
+            width: 36px;
+            height: 36px;
+            border-radius: 18px;
+            text-align: center;
+            line-height: 36px;
+            padding: 6px 5px;
+            margin-left: 10px;
+        }
+        #tablediv{
+            padding-bottom:150px;
+        }
+        img{
+            width:100px;
+            height:100px;
+
+        }
+        .ainnerdiv{
+            display:inline-block;
+            vertical-align:middle;
+        }
+        .namediv{
+            width:170px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="nav_out">
+        <div th:include="nav :: mynav"></div>
+    </div>
+    <div class="content">
+        <div class="ui top attached tabular menu" id="mymenu">
+            <input type="hidden" id="status" value="${status }"/>
+            <a class="item " href="getOrdersByStatus.do?status=${0 }">待付款</a>
+            <a class="item " href="getOrdersByStatus.do?status=${1 }">待发货</a>
+            <a class="item " href="getOrdersByStatus.do?status=${2 }">待收货</a>
+            <a class="item " href="getOrdersByStatus.do?status=${3 }">待评价</a>
+            <a class="item " href="getOrdersByStatus.do?status=${4 }">已评价</a>
+            <a class="item" href="myOrder.do">全部订单</a>
+        </div>
+        <div id="tablediv">
+            <table class="ui red fixed celled large table" id="headtable">
+                <thead>
+                <tr>
+                    <th class="four wide">礼物</th>
+                    <th class="two wide">属性</th>
+                    <th class="two wide">单价</th>
+                    <th class="two wide">数量</th>
+                    <th class="two wide">实付款</th>
+                    <th class="two wide">状态</th>
+                    <th class="two wide">操作</th>
+                </tr>
+                </thead>
+            </table>
+
+            <table class="ui fixed celled table" th:each="order:${orderMap }">
+                <thead>
+                <tr>
+                    <th colspan="6" th:text="${order.key.order_time }+'&nbsp;&nbsp;订单号：'+${order.key.id }"></th>
+                    <th><div id="${order.key.id }" class="mybtn myred mydeletebtn"><i class="trash large outline icon"></i></div></th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="smallmap:${order.value }" th:with="status=${order.key.status }"
+                        th:switch="status">
+                        <td class="four wide">
+                            <a href="giftInfo.do?gift_id=${smallmap.key.gift_id }">
+                                <div class="ainnerdiv"><img src="${smallmap.key.small_img }" align="middle"/></div>
+                                <div class="ainnerdiv namediv" th:text="${smallmap.key.gift_name }"></div>
+                            </a>
+                        </td>
+                        <td class="two wide" th:each="spec:${smallmap.value }" th:text="${spec.name }+'：'${spec.value }+'<br/>'">
+                        </td>
+                        <td class="two wide" th:text="${smallmap.key.gift_price }"></td>
+                        <td class="two wide" th:text="${smallmap.key.orderinfo_num }"></td>
+                        <td class="two wide" th:text="${smallmap.key.orderinfo_price }"></td>
+                        <td th:case="0" class="two wide" >待付款</td>
+                        <td th:case="0" class="two wide" >
+                            <a href="modify_order.do?order_id=${order.key.id }&newStatus=${1}">立即支付</a>
+                        </td>
+                        <td th:case="1" class="two wide">待发货</td>
+                        <td th:case="1" class="two wide" th:rowspan="${order.key.info_num } ">
+                            <a href="delivery.do?order_id=${order.key.id }" th:if="${identity eq 0 }">立即发货</a>&nbsp;
+                        </td>
+                        <td th:case="2" class="two wide" >待收货</td>
+                        <td th:case="2" class="two wide" >
+                            <a href="modify_order.do?order_id=${order.key.id }&newStatus=${3}">确认收货</a>
+                        </td>
+                        <td th:case="3" class="two wide" >待评价</td>
+                        <td th:case="3" class="two wide" >
+                            <a href="comment_gift.do?order_id=${order.key.id }">前往评价</a>
+                        </td>
+                        <td th:case="4" class="two wide" >已评价</td>
+                        <td th:case="4" class="two wide" ></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="footout">
+        <div class="footdiv redback">
+            <div class="footinfo">
+                © 2014 - 2016 Liwushuo.com 北京礼品说科技有限公司 电信与信息服务业务经营许可证150653号 京ICP备15031023号-1<br />
+                <p><a href="#">首页</a>&nbsp;|&nbsp;<a href="#">关于我们</a>&nbsp;|&nbsp;电话：010-57510218</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(function(){
+        var status = parseInt($("#status").val());
+        $("#mymenu a").eq(status).addClass('active');
+        $(".mydeletebtn").click(function(){
+            var order_id = $(this).attr('id');
+            console.log("order_id",order_id);
+            $.ajax({
+                url:"deleteOrder.do",
+                type:"get",
+                data:{
+                    order_id:order_id
+                },
+                success:function(){
+                }
+            })
+            window.location.href=window.location.href;
+        })
+        $('.container a').click(function(){
+            $("#mymenu a").each(function(){
+                $(this).removeClass('active');
+                console.log("this",$(this))
+            })
+            $(this).addClass('active');
+            console.log("this",$(this))
+        })
+    })
+    /*]]>*/
+</script>
+</html>

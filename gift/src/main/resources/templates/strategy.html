@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>礼物攻略</title>
+    <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/strategy.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css" />
+    <style>
+        body{
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+        }
+    </style>
+</head>
+<body>
+<div th:include="nav :: mynav"></div>
+<div class="container">
+    <div class="content">
+        <div class="stra_top_menu">
+            <div class="stra_yihang">
+                <div class="menu_title top_title"><i class="icon iconfont icon-gerenzhongxin"></i>赠送对象：</div>
+                <ul class="stra_top_ul">
+                    <li>
+                        <a href="#">自己</a>
+                    </li>
+                    <li>
+                        <a href="#">男票</a>
+                    </li>
+                    <li>
+                        <a href="#">女票</a>
+                    </li>
+                    <li>
+                        <a href="#">闺蜜</a>
+                    </li>
+                    <li>
+                        <a href="#">基友</a>
+                    </li>
+                    <li>
+                        <a href="#">爸爸妈妈</a>
+                    </li>
+                    <li>
+                        <a href="#">小盆友</a>
+                    </li>
+                    <li>
+                        <a href="#">同事</a>
+                    </li>
+                    <li>
+                        <a href="#">领导</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="stra_yihang">
+                <div class="menu_title top_title"><i class="icon iconfont icon-location"></i>赠送场合：</div>
+                <ul class=" stra_top_ul">
+                    <li>
+                        <a href="#">新年</a>
+                    </li>
+                    <li>
+                        <a href="#">生日</a>
+                    </li>
+                    <li>
+                        <a href="#">纪念日</a>
+                    </li>
+                    <li>
+                        <a href="#">结婚</a>
+                    </li>
+                    <li>
+                        <a href="#">感谢</a>
+                    </li>
+                    <li>
+                        <a href="#">情人节</a>
+                    </li>
+                    <li>
+                        <a href="#">乔迁</a>
+                    </li>
+                    <li>
+                        <a href="#">圣诞节</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="stra_yihang">
+                <div class="menu_title top_title"><i class="icon iconfont icon-xiaomeijigexing"></i>Ta的个性：</div>
+                <ul class=" stra_top_ul">
+                    <li>
+                        <a href="#">美物</a>
+                    </li>
+                    <li>
+                        <a href="#">手工</a>
+                    </li>
+                    <li>
+                        <a href="#">吃货</a>
+                    </li>
+                    <li>
+                        <a href="#">萌萌哒</a>
+                    </li>
+                    <li>
+                        <a href="#">动漫迷</a>
+                    </li>
+                    <li>
+                        <a href="#">小清新</a>
+                    </li>
+                    <li>
+                        <a href="#">科技范</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <div id="maincontent">
+            <div class="unit_title">
+                最新攻略
+            </div>
+            <ul class="strategyul">
+                <li th:each="strategy:${latestStras }">
+                    <a th:href="@{'/strategyInfo?strategy_id='+${strategy.id }}">
+                        <div class="strategy_div">
+                            <div class="top_img_div"><img th:src="@{${strategy.top_img}}" /></div>
+                            <div class="tag_new_div"></div>
+                            <div class="strategy_title" th:text="${strategy.title}"></div>
+                            <div class="strategy_content" th:text="${strategy.content}"></div>
+                            ${strategy.content}
+                            <div class="strategy_popularity">
+                                <i class="icon iconfont icon-dianzan"></i><span th:text="${strategy.like }"></span> 赞
+                                <i class="icon iconfont icon-pinglun3"></i><span th:text="${strategy.comment }"></span>评价
+                                <i class="icon iconfont icon-shoucang1"></i><span th:text="${strategy.collect }"></span>收藏
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <div class="clear_float"></div>
+            <ul class="strategyul">
+                <div class="unit_title">
+                    最热攻略
+                </div>
+                <li th:each="strategy:${hotestStras }">
+                    <a th:href="@{'/strategyInfo?strategy_id='+${strategy.id }}">
+                        <div class="strategy_div">
+                            <img th:src="@{${strategy.top_img}}" />
+                            <div class="strategy_title" th:text="${strategy.title}"></div>
+                            <div class="strategy_content" th:text="${strategy.content}"></div>
+                            <div class="strategy_popularity">
+                                <i class="icon iconfont icon-dianzan"></i><span th:text="${strategy.like }"></span> 赞
+                                <i class="icon iconfont icon-pinglun3"></i><span th:text="${strategy.comment }"></span>评价
+                                <i class="icon iconfont icon-shoucang1"></i><span th:text="${strategy.collect }"></span>收藏
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <div class="clear_float"></div>
+        </div>
+    </div>
+    <div class="footdiv redback">
+        <p>© 2014 - 2016 Liwushuo.com 北京礼品说科技有限公司 电信与信息服务业务经营许可证150653号 京ICP备15031023号-1</p>
+        <p><a href="#">首页</a>&nbsp;|&nbsp;<a href="#">关于我们</a>&nbsp;|&nbsp;电话：010-57510218</p>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $('.strategy_div').hover(function() {
+        $(this).animate({
+            top: '-3px'
+        }, "slow");
+        $(this).addClass('div_hover');
+    }, function() {
+        $(this).animate({
+            top: '3px'
+        }, "fast");
+        $(this).removeClass('div_hover');
+    });
+    /*$('.stra_top_ul li a').hover(function(){
+     $(this).css('color','#000000');
+     },function(){
+     $(this).css('color','#555555');
+     });*/
+    $('.stra_top_ul li a').click(function(){
+        $(this).parents('.stra_top_ul').find('a').each(function(){
+            console.log($(this));
+            $(this).css('color','#555555');
+        });
+        console.log("wai",$(this));
+        $(this).css('color','#E32F2F');
+    });
+    /*]]>*/
+</script>
+</html>

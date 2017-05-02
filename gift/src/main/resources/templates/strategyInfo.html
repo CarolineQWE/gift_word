@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>攻略详情</title>
+    <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+    <link rel="stylesheet" href="../static/css/main.css" />
+    <link rel="stylesheet" href="../static/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css" />
+    <style>
+        .main_content{
+            width: 770px;
+            margin: 0px auto;
+        }
+        .top_img_div img{
+            width: 770px;
+            height: 300px;
+        }
+        .left_head_img img{
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+        }
+        .left_head_img{
+            width: 60px;
+            height: 60px;
+            float: left;
+        }
+        .right_div{
+            float: left;
+            height: 60px;
+            margin-left: 20px;
+        }
+        .author_info_div{
+            height: 60px;
+            margin-bottom: 20px;
+        }
+        .author_name{
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .stra_title{
+            color: #333;
+            font-size: 34px;
+            line-height:1.5;
+        }
+        .author_span{
+            color: #F84E4E;
+            border:solid 1px #F84E4E;
+            font-size: 14px;
+            border-radius: 3px;
+            padding: 0px 3px;
+            margin-right:5px;
+        }
+        .addCare{
+            background-color: #42c02e;
+            border-radius: 5px;
+            margin-left: 5px;
+            padding-bottom: 3px;
+        }
+        .addCare a{
+            font-size: 14px;
+            color: #ffffff;
+            padding: 0px 5px;
+            text-decoration: none;
+        }
+        .addCare a:visited{
+            color: #ffffff;
+        }
+        .addCare a:hover{
+            color: #ffffff;
+        }
+        .addCare a:active{
+            color: #ffffff;
+        }
+        .stra_content{
+            font-size: 16px;
+            color: #333;
+            line-height:1.5;
+        }
+        .strategy_popularity{
+            color: #e32f2f;
+            margin:30px 0px;
+        }
+        .comment_title{
+            font-size: 20px;
+            color: #333;
+            padding: 5px 0px;
+            border-bottom: solid 1px #D9D9D9;
+            margin-bottom: 20px;
+        }
+        .comments_div{
+            padding: 20px 0px;
+        }
+        .comment_input{
+            width:740px;
+            padding: 10px 15px;
+            height: 80px;
+            border: 1px solid #dcdcdc;
+            border-radius: 4px;
+            background-color: hsla(0,0%,71%,.1);
+            resize: none;
+            display: inline-block;
+            vertical-align: top;
+            outline-style: none;
+            font-size: 14px;
+        }
+        .submit{
+            margin-top:20px;
+            text-align: right;
+        }
+        .my_btn{
+            border-radius: 10px;
+            padding: 10px 15px;
+            font-size: 16px;
+            color: #ffffff;
+            display: inline-block;
+            width: 60px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .submit_btn{
+            background-color: #42c02e;
+            margin-left: 20px;
+        }
+        .submit_btn:active{
+            background-color: #41cc22;
+        }
+        .cancel_btn{
+            border: solid 1px #d0c7c7;
+            color: #555;
+        }
+        .cancel_btn:active{
+            background-color: #D9D9D9;
+            border: solid 1px #D9D9D9;
+        }
+        .jingcai{
+            font-size: 16px;
+        }
+        .comments_div ul li{
+            margin: 10px 0px;
+            padding-top: 10px 0px;
+            border-top: solid 1px #e8e8e8;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="nav_out">
+        <div th:include="nav :: mynav"></div>
+    </div>
+    <div class="main_content">
+        <div class="top_img_div">
+            <img src="../static/img/3.jpg"/>
+        </div>
+        <h1 class="stra_title">这是标题这是标题这是标题这是标题这是标题这是标题</h1>
+        <div class="author_info_div">
+            <div class="left_head_img">
+                <img src="../static/img/s.jpg"/>
+            </div>
+            <div class="right_div">
+                <div class="author_name">
+                    <span class="author_span">作者</span>
+                    <span class="author">临颍</span>
+                    <span class="addCare"><a href="addCare">+关注</a></span>
+                </div>
+                <div class="publish_time">2015-11-11 12:12</div>
+            </div>
+        </div>
+        <div class="stra_content">
+            我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容
+            我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容
+        </div>
+        <div class="strategy_popularity">
+            <i class="icon iconfont icon-dianzan"></i><span th:text="${strategy.like }"></span> 赞
+            <i class="icon iconfont icon-bad"></i><span th:text="${strategy.like }"></span> 不喜欢
+            <i class="icon iconfont icon-pinglun3"></i><span th:text="${strategy.comment }"></span>评价
+            <i class="icon iconfont icon-shoucang1"></i><span th:text="${strategy.collect }"></span>收藏
+        </div>
+        <div class="comment_title">评论</div>
+        <form class="comment_form">
+            <textarea class="comment_input" rows="5" placeholder="写下你的评论"></textarea>
+            <div class="submit">
+                <div class="cancel_btn my_btn">取消</div>
+                <div class="submit_btn my_btn">评论</div>
+            </div>
+        </form>
+        <div class="comments_div">
+            <div class="jingcai">精彩评论</div>
+            <ul>
+                <li>
+                    <div class="left_head_img"><img src="../static/img/1.jpg"/></div>
+                    <div class="right_div">
+                        <div class="author_name">用户名</div>
+                        <div class="comment_content">评论内容评论内容评论内容评论内容</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    /*]]>*/
+</script>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>我的购物车</title>
+    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css" />
+    <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
+    <link rel="stylesheet" href="../static/css/main.css" />
+    <link rel="stylesheet" href="../static/css/nav.css" />
+    <style>
+        div,
+        p,
+        i,
+        label,
+        input {
+            /*font-size:1 rem;*/
+            font-family: "微软雅黑";
+        }
+
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+        #contentdiv {
+            margin-left: 6px;
+            padding: 15px 0px;
+
+        }
+        #footdiv{
+            vertical-align: middle;
+            background-color: #FAFAFA;
+            padding-bottom:150px;
+            width:1210px;
+            margin:0px auto;
+        }
+        #footleft {
+            display: inline-block;
+            width: 90%;
+            vertical-align: bottom;
+            line-height: 35px;
+        }
+
+        #jiesuan {
+            display: inline-block;
+            float: right;
+        }
+
+        #redpsmall {
+            color: #007FFF;
+            display: inline-block;
+        }
+
+        #redp {
+            color: #FF6D75;
+            font-size: 2.5rem;
+            display: inline-block;
+            vertical-align: middle;
+            padding-right:30px;
+        }
+
+        #totalnum {
+            display: inline-block;
+            padding: 0px 20px;
+        }
+
+        #totalmoney {
+            display: inline-block;
+            float: right;
+            vertical:bottom;
+        }
+        .gift_num{
+            width: 40px;
+            height: 34px;
+        }
+        img{
+            vertical-align: middle;
+            margin-right:10px;
+        }
+        #kongtd{
+            text-align:center;
+        }
+        .largeborder{
+            padding:0px 10px;
+            border:solid 1px #d9d9d9;
+        }
+        #giftnum_div{
+            width:50px;
+            overflow-y:hidden;
+        }
+    </style>
+</head>
+
+<body>
+<div class="nav_out">
+    <div th:include="nav :: mynav"></div>
+</div>
+<div class="container">
+    <div class="largeborder">
+        <div class="content">
+            <div class="unit_title">我的购物车</div>
+            <div id="tablediv">
+                <table id="sttable" class="ui table">
+                    <thead>
+                    <tr>
+                        <th>
+                            <div class="ui checkbox">
+                                <input type="checkbox" id="allChk">
+                                <label></label>
+                            </div>
+                        </th>
+                        <th>商品信息</th>
+                        <th>属性</th>
+                        <th>单价（元）</th>
+                        <th>数量</th>
+                        <th>金额</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="${sh.key.sc_id }" th:each="sh:${shMap }">
+                            <td>
+                                <div class="ui checkbox">
+                                    <input type="checkbox" class="buycheck">
+                                    <label></label>
+                                </div>
+                            </td>
+                            <td>
+                                <a href="giftInfo.do?gift_id=${sh.key.gift_id }">
+                                    <img src="${sh.key.small_img }" width="100px" height="100px" />
+                                    <span th:text="${sh.key.name }"></span></a>
+                            </td>
+                            <td th:text="${spec.name }+'：'+${spec.value }+'<br/>'" th:each="${sh.value }"></td>
+                            <td class="price" id="price${sh.key.sc_id}" th:text="${sh.key.price }"></td>
+                            <td>
+                                <div class="ui tiny icon buttons">
+                                    <button class="ui tiny write button plusbtn"><i class="tiny plus icon"></i></button>
+                                    <input type="hidden" th:value="${sh.key.stock }"/>
+                                    <div class="ui form" id="giftnum_div">
+                                        <input type="text" class="gift_num" th:id="gift_num${sh.key.sc_id }" value="${sh.key.num }"/>
+                                    </div>
+                                    <button class="ui tiny write button minusbtn"><i class="tiny minus icon"></i></button>
+                                </div>
+                            </td>
+                            <td class="money" id="money${sh.key.sc_id}" th:text="${sh.key.sc_price }"></td>
+                            <td><a class="deletea" href="javascript:void(0)">删除</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="footdiv">
+            <div id="footleft">
+                <div id="totalnum">已选择
+                    <p id="redpsmall">0</p>件商品 </div>
+                <div id="totalmoney">合计（不含运费）：
+                    <p id="redp">￥0.00</p>
+                </div>
+            </div>
+            <div id="jiesuan">
+                <div id="jiesuanbtn" class="largebtn myred mybtn">结&nbsp;&nbsp;算</div>
+            </div>
+        </div>
+    </div>
+    <div class="footout">
+        <div class="footdiv redback">
+            <div class="footinfo">
+                © 2014 - 2016 Liwushuo.com 北京礼品说科技有限公司 电信与信息服务业务经营许可证150653号 京ICP备15031023号-1<br />
+                <p><a href="#">首页</a>&nbsp;|&nbsp;<a href="#">关于我们</a>&nbsp;|&nbsp;电话：010-57510218</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(function() {
+        var stock;
+        $('.buycheck').unbind('click').click(function(){
+            totalMoney();
+        });
+        function totalMoney(){
+            var totalmoney = 0.0;
+            var totalnum = 0;
+            $('.buycheck:checked').each(function(){
+                var id = $(this).parents('tr').attr('id');
+                totalmoney += parseFloat($('#money'+id+'').text());
+                totalnum += parseInt($('#gift_num'+id+'').val());
+            });
+            $('#redp').text("￥"+totalmoney.toFixed(2));
+            $('#redpsmall').text(totalnum);
+        }
+
+        $("#allChk").click(function() {
+            $(".buycheck").prop("checked",this.checked);
+            totalMoney();
+        });
+        $('#jiesuanbtn').unbind('click').click(function(){
+            var len = $('.buycheck:checked').length;
+            if(len < 1){
+                alert("请至少选择一件商品");
+                return;
+            }else{
+                var shArr = new Array();
+                $('.buycheck:checked').each(function(){
+                    shArr.push($(this).parents('tr').attr('id'));
+                });
+                window.location.href="confirm_order_sh.do?shArr="+shArr;
+            }
+        });
+        $(".deletea").unbind('click').click(function(){
+            var flag = confirm("确定删除该商品？");
+            if(!flag){
+                return;
+            }else{
+                var sh_id = $(this).parents("tr").attr('id');
+                $.ajax({
+                    url : "deletesh.do",
+                    type:"GET",
+                    data:{
+                        sh_id: sh_id
+                    },
+                    dataType:"text",
+                    success:function(data){
+                        window.location.reload();
+                    }
+                })
+                window.location.reload();
+            }
+        });
+
+        $(".plusbtn").unbind('click').click(function(){
+            var stock=parseInt($(this).siblings('input[type=hidden]').val());
+            var id = $(this).parents('tr').attr('id');
+            var gift_num = parseInt($('#gift_num'+id+'').val());
+            if(stock > gift_num){
+                $('#gift_num'+id+'').val(parseInt(gift_num+1));
+                changest(id,gift_num+1);
+                $('#money'+id+'').text((parseFloat($('#price'+id+'').text())*(gift_num+1)).toFixed(2));
+                $('#redpsmall').text(gift_num+1);
+                totalMoney();
+            }else{
+                alert("库存不足");
+            }
+            //var gift_id= $(this).parents('tr').attr('id');
+
+            /* $.ajax({
+             url:"getStock.do",
+             type:"POST",
+             data:{
+             gift_id:gift_id,
+             },
+             dataType:"text",
+             success:function(data){
+             var stock = parseInt(data);
+             var gift_num = parseInt($('#gift_num'+id+'').val());
+             if(stock > gift_num){
+             $('#gift_num'+id+'').val(gift_num+1);
+             changest(id,gift_num+1);
+             $('#money'+id+'').text((parseFloat($('#price'+id+'').text())*(gift_num+1)).toFixed(2));
+             $('#redpsmall').text(gift_num+1);
+             totalMoney();
+             }else{
+             alert("库存不足");
+             }
+             }
+             }) */
+        });
+
+        $(".minusbtn").unbind('click').click(function(){
+            var id= $(this).parents('tr').attr('id');
+            var gift_num = parseInt($('#gift_num'+id+'').val());
+            if(gift_num>1){
+                $('#gift_num'+id+'').val(gift_num-1);
+                changest(id,gift_num-1);
+                $('#money'+id+'').text((parseFloat($('#price'+id+'').text())*(gift_num-1)).toFixed(2));
+                $('#redpsmall').html(gift_num-1);
+                totalMoney();
+            }
+        });
+
+        function changest(id,new_num){
+            $.ajax({
+                url :"modifysh.do?&id="+id+"&new_num="+new_num,
+                type:"GET",
+                dataType:"text",
+                success:function(data){
+                    if(data=="NO"){
+                        alert("修改失败");
+                    }
+                }
+            })
+        }
+
+
+    });
+    /*]]>*/
+</script>
+</html>

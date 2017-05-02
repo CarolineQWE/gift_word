@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.soft.gift.mapper.StrategyDAO">
+    <resultMap type="Strategy" id="strategyMap">
+        <id property="id" column="id" javaType="java.lang.Integer"></id>
+        <result property="collect" column="collect" javaType="java.lang.Integer"></result>
+        <result property="comment" column="comment" javaType="java.lang.Integer"></result>
+        <result property="title" column="title" javaType="java.lang.String"></result>
+        <result property="publish_time" column="publish_time" javaType="java.sql.Timestamp"></result>
+        <result property="content" column="content" javaType="java.lang.String"></result>
+        <result property="likea" column="likea" javaType="java.lang.Integer"></result>
+        <result property="dislike" column="dislike" javaType="java.lang.Integer"></result>
+        <result property="relationship" column="relationship" javaType="java.lang.String"/>
+        <result property="style" column="style" javaType="java.lang.String"/>
+        <result property="occasion" column="occasion" javaType="java.lang.String"/>
+        <result property="account" column="account" javaType="java.lang.String"/>
+        <result property="top_img" column="top_img" javaType="java.lang.String"/>
+        <result property="if_publish" column="if_publish" javaType="java.lang.Integer"/>
+    </resultMap>
+
+    <select id="getAllStrategyOrderByTime" resultMap="strategyMap">
+        SELECT * FROM `t_strategy` ORDER BY `publish_time` DESC
+    </select>
+
+    <select id="getAllStrategyOrderByHot" resultMap="strategyMap">
+        SELECT * FROM `t_strategy` ORDER BY `likea` DESC,`comment` DESC,`collect` DESC
+    </select>
+</mapper>

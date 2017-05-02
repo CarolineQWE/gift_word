@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>创建攻略</title>
+    <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css"/>
+    <link rel="stylesheet" href="../static/css/main.css"/>
+    <link rel="stylesheet" href="../static/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css"/>
+    <script type="text/javascript" charset="utf-8" src="../static/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../static/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="../static/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../static/js/jquery.form.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../static/js/formsubmit.js"></script>
+    <style>
+        body{
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+        }
+        .main_content{
+            width: 880px;
+            margin: 0 auto;
+            padding-top: 30px;
+            position: relative;
+            padding-bottom: 100px;
+        }
+        .top_img_div{
+            position: relative;
+        }
+        .top_img_input{
+            width: 880px;
+            height: 200px;
+            outline:none;
+            border: none;
+        }
+        .pre_fileupload{
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            width: 880px;
+            height: 200px;
+            background-color: #f3f4f5;
+            cursor: pointer;
+        }
+        .center_div{
+            position: absolute;
+            left: 400px;
+            top: 70px;
+            text-align: center;
+        }
+        .center_icon_div i{
+            font-size: 50px;
+            color: #A09F9F;
+        }
+        .center_titu_div{
+            font-size: 18px;
+            color: #838282;
+        }
+        .stra_title{
+            margin: 30px 0px;
+            padding-bottom: 20px;
+            border-bottom: solid 1px #D9D9D9;
+        }
+        .stra_title_input{
+            border:none;
+            outline:none;
+            width:100%;
+            height: 36px;
+            font-size: 36px;
+            color: #333;
+        }
+        .submit_outer_div{
+            position: fixed;
+            bottom:0px;
+            left:0px;
+            z-index: 11111111111100;
+            width:100%;
+            background-color: #ffffff;
+            border-top: solid 1px #D9D9D9;
+        }
+        .submit_div{
+            width:880px;
+            margin: 20px auto;
+            text-align: right;
+        }
+        .large_btn{
+            border-radius: 5px;
+            font-size: 16px;
+            padding: 10px 25px;
+            margin-left: 20px;
+        }
+        .small_title {
+            font-size: 16px;
+            border-left: solid 3px #E78170;
+            padding-left: 5px;
+            margin: 15px 0px;
+        }
+        .selects{
+            margin-bottom: 30px;
+        }
+        .field{
+            width: 280px;
+            display: inline-block;
+            margin-right: 15px;
+        }
+        .field:last-child{
+            margin-right: 0;
+        }
+        .menu{
+            z-index: 1111;
+        }
+        .field{
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+<div th:include="nav :: mynav"></div>
+<div class="container">
+    <div class="main_content">
+        <div class="top_img_div">
+            <form id="file_form" enctype="multipart/form-data" method="post" action="/strategy/uploadImg">
+                <input id="file_input" type="file" name="file" class="top_img_input"/>
+                <div class="pre_fileupload">
+                    <div class="center_div">
+                        <div class="center_icon_div"><i class="icon iconfont icon-tupian1"></i></div>
+                        <div class="center_titu_div">上传题图</div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <form id="all_form" method="post">
+            <div class="stra_title">
+                <input type="text" class="stra_title_input" name="title" placeholder="请输入标题"/>
+            </div>
+            <div class="three fields selects">
+                <div class="field">
+                    <div class="small_title">赠礼对象</div>
+                    <div class="ui fluid selection dropdown">
+                        <input type="hidden" name="relationship" id="relationship_input"/>
+                        <div class="default text">赠礼对象</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item">自己</div>
+                            <div class="item">男票</div>
+                            <div class="item">女票</div>
+                            <div class="item">闺蜜</div>
+                            <div class="item">基友</div>
+                            <div class="item">爸爸妈妈</div>
+                            <div class="item">小盆友</div>
+                            <div class="item">同事</div>
+                            <div class="item">领导</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="small_title">赠礼场合</div>
+                    <div class="ui fluid selection dropdown">
+                        <input type="hidden" name="occasion" id="occasion_input"/>
+                        <div class="default text">赠礼场合</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                           <div class="item">新年</div>
+                           <div class="item">生日</div>
+                           <div class="item">纪念日</div>
+                           <div class="item">结婚</div>
+                           <div class="item">感谢</div>
+                           <div class="item">情人节</div>
+                           <div class="item">乔迁</div>
+                           <div class="item">圣诞节</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="small_title">Ta的个性</div>
+                    <div class="ui fluid selection dropdown">
+                        <input type="hidden" name="style" id="style_input"/>
+                        <div class="default text">Ta的个性</div>
+                        <i class="dropdown icon"></i>
+                        <div id="secondcate" class="menu">
+                          <div class="item">美物</div>
+                          <div class="item">手工</div>
+                          <div class="item">吃货</div>
+                          <div class="item">萌萌哒</div>
+                          <div class="item">动漫迷</div>
+                          <div class="item">小清新</div>
+                          <div class="item">科技范</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="unit_title">
+                攻略内容
+            </div>
+            <div class="stra_content">
+                <script id="editor" type="text/plain" style="width: 880px; height: 400px;">
+                </script>
+            </div>
+            <div class="submit_outer_div">
+                <div class="submit_div">
+                    <div class="mybtn large_btn myred" id="publish_btn">发布</div>
+                    <div class="mybtn mywhite large_btn">取消</div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var ue = UE.getEditor('editor');
+    $('.ui.dropdown').dropdown();
+    function getContent() {
+        var arr = [];
+        arr.push("使用editor.getContent()方法可以获得编辑器的内容");
+        arr.push("内容为：");
+        arr.push(UE.getEditor('editor').getContent());
+        alert(arr.join("\n"));
+    }
+    $('.pre_fileupload').click(function () {
+        $('.top_img_input').click();
+
+    });
+    var src = "";
+    $('.top_img_input').change(function () {
+        console.log("val",$(this).val());
+        $("#file_form").ajaxSubmit({
+            success: function(data,status,xhr,$form) {
+                src = data.url;
+                console.log(src);
+                if(!(src == null || src == undefined)){
+                    $('.pre_fileupload').css('background-image','url('+src+')');
+                    $('.pre_fileupload').css('background-repeat','no-repeat');
+                    $('.center_div').css('display','none');
+                }
+            },
+            error: function(xhr, status, error, $form){
+                console.log("error",xhr, status, error, $form);
+            }
+        })
+    });
+    $('#publish_btn').click(function () {
+        var url = "/strategy/submitStra";
+        var relationship = $("#relationship_input").val();
+        var occasion = $("#occasion_input").val();
+        var style = $("#style_input").val();
+        var title = $('.stra_title_input').val();
+        var content = ue.getContent();
+        var _src =  src;
+        console.log(src);
+        var obj = {
+            name:"relationship",
+            value:relationship
+        };
+        var obj1 = {
+            name:"occasion",
+            value:occasion
+        };
+        var obj2 = {
+            name:"style",
+            value:style
+        };
+        var obj3 = {
+            name:"title",
+            value:title
+        };
+        var obj4 = {
+            name:"content",
+            value:content
+        };
+        var obj5 = {
+            name:"src",
+            value:_src
+        };
+        var obj6 = {
+            name:"ifPublish",
+            value:0
+        };
+       formSubmit(url,obj,obj1,obj2,obj3,obj4,obj5,obj6);
+    });
+
+
+    /*]]>*/
+</script>
+</html>

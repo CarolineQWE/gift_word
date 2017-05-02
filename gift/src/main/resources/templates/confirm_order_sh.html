@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>确认订单</title>
+    <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css">
+    <link rel="stylesheet" href="../static/css/main.css" />
+    <script type="text/javascript" src="../static/js/formSubmit.js"></script>
+    <style>
+        div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,p,blockquote,th,td {
+            margin:0;
+            padding:0;
+        }
+
+        ul li {
+            list-style: none;
+        }
+        /*以上公共样式*/
+
+        .addressouter {
+            width: 237px;
+            height: 106px;
+            padding: 10px;
+            background-image: url(../static/img/mail.jpg);
+        }
+
+        .address_selected {
+            background-image: url(../static/img/mail_1.jpg);
+        }
+
+        .shipping_address ul {
+            width: 1240px;
+            margin: 30px 0px;
+        }
+
+        .shipping_address ul li {
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 30px;
+        }
+        .confirmdiv{
+            float: right;
+            width: 420px;
+            height: 250px;
+            border: solid 2px #FF6D75;
+            margin: 30px 0px;
+        }
+        .right_aligh_div{
+            width: 100%;
+            text-align: right;
+            padding: 20px;
+            font-size: 16px;
+        }
+        .order_gift_info{
+            margin-top: 30px;
+        }
+        .large_price_span{
+            color: #FF2733;
+            font-size: 28px;
+            padding: 5px;
+        }
+        .confirmouter{
+            float: right;
+            width: 400px;
+            height: 280px;
+            margin: 30px 0px;
+            padding-bottom:150px;
+        }
+        .footout{
+            position:static;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="content">
+        <div class="orderprogress"></div>
+        <div class="shipping_address">
+            <div class="unit_title">请选择收货地址</div>
+            <ul>
+                <li th:each="address:${addresss }">
+                    <div class="addressouter" id="${address.id }">
+                        <div class="addressinner">
+                            <span th:text="${address.prov }"></span>,
+                            <span th:text="${address.city }"></span>,
+                            <span th:text="${address.address_info }"></span>
+                        </div>
+                        <div class="receiver"><span th:text="${address.receiver },${address.tel }"></span></div>
+                    </div>
+                </li>
+            </ul>
+            <!-- <a href="getAllAddress.do">显示所有收货地址</a> -->
+            <a href="manageAddress.do"><div class="mybtn myred">管理收货地址</div></a>
+        </div>
+        <div class="order_gift_info">
+            <table class="ui fixed table" id="confirm_order_table">
+                <thead>
+                <tr>
+                    <th>礼物</th>
+                    <th>礼物属性</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>小计</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="map:${map}" id="${map.key.sc_id }">
+                        <td><a href="giftInfo.do?gift_id=${map.key.gift_id }">
+                            <img src="${map.key.small_img }" width="100px" height="100px" />
+                            <span th:text="${map.key.name }"></span></a></td>
+                        <td>
+                            <span th:each="spec:${map.value }" th:text="${spec.name }+':'+${spec.value }" ></span>
+                        </td>
+                        <td><span th:text="${map.key.price }"></span></td>
+                        <td><span th:text="${map.key.num }"></span></td>
+                        <td><span th:text="${map.key.sc_price}"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="confirmouter">
+            <div class="confirmdiv">
+                <div class="right_aligh_div">实付款：<span id="total_price" class="large_price_span" th:text="${total_price }"></span></div>
+                <div class="right_aligh_div">寄送至：<span id="addressspan"></span></div>
+                <div class="right_aligh_div">收货人：<span id="receiver"></span></div>
+            </div>
+            <div class="right_aligh_div">
+                <div class="largebtn myred mybtn" id="submitOrder">提交订单</div>
+            </div>
+        </div>
+        <div class="clear_float">
+
+        </div>
+    </div>
+    <div class="footout">
+        <div class="footdiv redback">
+            <div class="footinfo">
+                © 2014 - 2016 Liwushuo.com 北京礼品说科技有限公司 电信与信息服务业务经营许可证150653号 京ICP备15031023号-1<br />
+                <p><a href="#">首页</a>&nbsp;|&nbsp;<a href="#">关于我们</a>&nbsp;|&nbsp;电话：010-57510218</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    $(function() {
+        $(".addressouter").eq(0).addClass('address_selected');
+        var select = $(".addressouter.address_selected")
+        $("#addressspan").text(select.children('.addressinner').text());
+        $("#receiver").text(select.children('.receiver').text());
+
+        $(".addressouter").click(function() {
+            $(".addressouter").each(function() {
+                $(this).removeClass('address_selected');
+            })
+            $(this).addClass('address_selected');
+            var select = $(".addressouter.address_selected")
+            $("#addressspan").text(select.children('.addressinner').text());
+            $("#receiver").text(select.children('.receiver').text());
+        })
+        $("#submitOrder").click(function(){
+            var address_id = parseInt($(".addressouter.address_selected").attr('id'));
+            // 取得要提交的参数
+            var sharr = new Array();
+            $("#confirm_order_table tbody tr").each(function(){
+                sharr.push($(this).attr('id'));
+            })
+            var arr = sharr.join(",");
+            var total_price= $("#total_price").text();
+            var a = confirm("确认支付");
+            if(a == true){
+                $.ajax({
+                    url:"submit_order.do",
+                    type:"POST",
+                    data:{
+                        status:1,
+                        address_id:address_id,
+                        sharr:arr,
+                    },
+                    dataType:"text",
+                    success:function(data){
+                        var flag = confirm("支付成功,是否去我的订单查看");
+                        if(flag == true){
+                            window.location.href="myOrder.do";
+                        }else{
+                            window.location.href="index.do";
+                        }
+                    }
+                })
+            }else{
+                $.ajax({
+                    url:"submit_order.do",
+                    type:"POST",
+                    data:{
+                        status:0,
+                        address_id:address_id,
+                        sharr:sharr,
+                    },
+                    dataType:"text",
+                    success:function(){
+                        var flag = confirm("订单提交成功，是否立即付款付款");
+                        if(flag == true){
+                            window.location.href="myOrder.do";
+                        }else{
+                            window.location.href="index.do";
+                        }
+                    }
+                })
+            }
+
+            var param1 = {
+                name:"address_id",
+                value:address_id
+            }
+            var param2 = {
+                name:"sharr",
+                value:sharr
+            }
+            var param3={
+                name:"total_price",
+                value:total_price
+            }
+            console.log(param1);
+            console.log(param2);
+            console.log(param3);
+            console.log(typeof param3.value);
+            formSubmit("submit_order.do",param1,param2,param3);
+        })
+    })
+</script>
+</html>

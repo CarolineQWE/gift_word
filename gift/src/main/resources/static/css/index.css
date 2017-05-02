@@ -1,0 +1,372 @@
+/*index.css*/
+body{
+    box-sizing: content-box;
+}
+a,a:visited,a:hover,a:active{
+    color: #555555;
+    text-decoration: none;
+}
+.menudiv {
+    padding-top: 90px;
+}
+
+.headerdiv {
+    float: right;
+}
+
+#menuul {
+    padding: 0px;
+    margin: 0px;
+}
+
+#menuul li {
+    list-style: none;
+    text-align: center;
+    border-bottom: dashed 1px #dadada;
+    padding: 10px 0px;
+    cursor: pointer;
+}
+
+#allclassify {
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+    border-bottom: dashed 1px #dadada;
+    padding-bottom: 10px;
+}
+
+#maincontent{
+    width: 100%;
+    margin-top:30px;
+    margin-bottom: 80px;
+}
+
+.price{
+    color: #FF6D75;
+    font-size: 16px;
+    padding: 10px 0px;
+}
+.gift_div{
+    border: solid 1px #D9D9D9;
+    width:277px;
+    height: 350px;
+    padding: 5px;
+    border-radius: 5px;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 30px;
+    margin-bottom: 30px;
+    position: relative;
+}
+.gift_div img{
+    width: 100%;
+    height: 215px;
+    border-radius: 5px;
+}
+
+.giftul{
+    width: 1242px;
+}
+.giftul li{
+    list-style: none;
+    display: inline-block;
+    vertical-align: top;
+}
+.gift_title{
+    padding-top: 5px;
+}
+.gift_div:hover .gift_title{
+    color: #000000;
+}
+.gift_div:active .gift_title{
+    color: #000000;
+}
+.gift_popularity{
+    position: absolute;
+    left: 5px;
+    bottom: 10px;
+    width: 100%;
+}
+.gift_popularity i{
+    color: #FF6D75;
+}
+
+#menudiv{
+    display: inline-block;
+    vertical-align: top;
+    height: 440px;
+    z-index: 600;
+}
+.mywidthitem{
+    background-color: #FFFFFF;
+    z-index: 2000;
+    width: 190px;
+    text-align: center;
+}
+
+.inputbtn i {
+    color: #B7B7B7;
+}
+
+.inputbtn:hover i {
+    color: #000000;
+}
+
+.inputbtn:active i {
+    color: #000000;
+}
+
+.inputfocus {
+    border: solid 1px #E78170;
+}
+.dropdown{
+    margin-left:0px;
+}
+#newlunbo {
+    display: inline-block;
+    vertical-align: top;
+    margin-left:65px;
+    border-radius:5px;
+}
+#topdiv{
+    margin-bottom:50px;
+}
+.giftul{
+    padding:0px;
+    margin:0px;
+}
+.div_hover{
+    box-shadow:6px 6px 6px #e0d9d9;
+}
+
+.floor_title{
+    height:32px;
+    padding:10px 0px;
+}
+.floor_img{
+    background: url(../img/floor_tit_icon.png) no-repeat left top;
+    background-position: 0 0;
+    width: 32px;
+    height: 18px;
+    font: bold 14px "Microsoft YaHei";
+    color: #ffffff;
+    float: left;
+    padding: 7px;
+}
+.floor_name{
+    font: bold 18px "Microsoft YaHei";
+    float: left;
+    padding-left: 8px;
+    padding-top: 8px;
+}
+#first_floor{
+    color: #fd603c;
+}
+.floor_content{
+    height:450px;
+    width:1210px;
+    border-bottom: solid 1px #D9D9D9;
+    margin-bottom: 30px;
+}
+.left_side{
+    float: left;
+    height: 449px;
+    width: 240px;
+    border-left: solid 1px #d9d9d9;
+    border-top: solid 1px #d9d9d9;
+    border-bottom: solid 1px #D9D9D9;
+}
+.left_side img{
+    height: 449px;
+    width: 240px;
+}
+.right_side img{
+    height: 449px;
+    width: 244px;
+}
+.right_side{
+    float: right;
+    height: 449px;
+    width: 244px;
+    border-left: solid 1px #d9d9d9;
+    border-top: solid 1px #d9d9d9;
+    border-right: solid 1px #d9d9d9;
+    border-bottom: solid 1px #D9D9D9;
+}
+.center_div{
+    float: left;
+    height: 450px;
+    width: 723px;
+    border-bottom: solid 1px #D9D9D9;
+}
+.center_div ul li{
+    width: 200px;
+    height: 204px;
+    border-left: solid 1px #d9d9d9;
+    border-top: solid 1px #d9d9d9;
+    list-style:none;
+    float: left;
+    padding: 10px;
+    background-color: #FFFFFF;
+    padding: 10px 20px 10px 20px;
+}
+.gift_img img{
+    width: 170px;
+    height: 114px;
+}
+.gift_words{
+    width:200px;
+    height: 80px;
+    padding-bottom: 10px;
+}
+.gift_img{
+    width: 200px;
+    height: 114px;
+    text-align: center;
+}
+.gift_name{
+    font-size: 18px;
+    max-height: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 7px;
+}
+.gift_info{
+    font-size:14px;
+    color: #555555;
+    max-height:28px;
+    overflow: hidden;
+    text-overflow: clip;
+    padding-bottom: 7px;
+}
+.gift_price{
+    color: #FF6D75;
+    font-size: 16px;
+}
+.container {
+    position: relative;
+    background-color: #F9F9F9;
+}
+
+.content {
+    width: 1210px;
+    margin: 0px auto;
+    padding-top: 30px;
+    position: relative;
+    padding-bottom: 60px;
+}
+body{
+    box-sizing: content-box;
+}
+.second_floor_img{
+    background-position: -46px 0;
+}
+.third_floor_img{
+    background-position: -92px 0;
+}
+.fouth_floor_img{
+    background-position: -138px 0;
+}
+.fifth_floor_img{
+    background-position: -184px 0;
+}
+.sixth_floor_img{
+    background-position: -230px 0;
+}
+.seventh_floor_img{
+    background-position: -276px 0;
+}
+.eigth_floor_img{
+    background-position: -322px 0;
+}
+.ninth_floor_img{
+    background-position: -414px 0;
+}
+.tenth_floor_img{
+    background-position: -531px 0;
+    width: 42px;
+}
+#second_floor{
+    color: #007F40;
+}
+#third_floor{
+    color: #FFCC00;
+}
+#fouth_floor{
+    color: #E08683;
+}
+#fifth_floor{
+    color: #45C6CE;
+}
+#sixth_floor{
+    color: #764E00;
+}
+#seventh_floor{
+    color: #C5CC46;
+}
+#eigth_floor{
+    color: #3CA3DC;
+}
+#ninth_floor{
+    color: #B84F00;
+}
+#tenth_floor{
+    color: #3ca3dc;
+}
+
+/*左侧导航栏*/
+.left_nav_bar{
+    display: none;
+    position: fixed;
+    left: 15px;
+    top: 160px;
+    width: 30px;
+    height: 400px;
+}
+.left_nav_bar a{
+    display: block;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 12px;
+}
+.show_nav{
+    margin-left: 7px;
+    display: block;
+    width: 26px;
+    height: 39px;
+    line-height: 39px;
+    color: #333;
+    border-top: 1px solid #d3d7dd;
+}
+.first_show_nav{
+    border-top: none;
+}
+.hide_nav{
+    display: none;
+    width: 30px;
+    height: 30px;
+    line-height: 15px;
+    background-color: #F84E4E;
+    color: #FFFFFF;
+    padding: 5px;
+}
+.sale_zhuanchang{
+    width: 1224px;
+    height: 210px;
+    margin: 30px 0px;
+}
+.sale_zhuanchang ul li{
+    list-style: none;
+    float: left;
+    width: 290px;
+    height: 210px;
+    margin-right: 16px;
+    border-radius: 3px;
+}
+.sale_zhuanchang ul li img{
+    border-radius: 8px;
+}
+body{
+    box-size: content-box;
+}

@@ -1,0 +1,47 @@
+package com.soft.gift.util;
+import java.text.SimpleDateFormat ;
+import java.util.Date ;
+import java.util.Random ;
+public class IPTimeStamp {
+	private SimpleDateFormat sdf = null ;
+	private String ip = null ;
+	public IPTimeStamp(){
+	}
+	public IPTimeStamp(String ip){
+		this.ip = ip ;
+	}
+	public String getIPTimeRand(){
+		StringBuffer buf = new StringBuffer() ;//用来作返回值的字符串 buf
+		if(this.ip != null){
+			String s[] = this.ip.split("\\.") ;//将IP地址分成几个字符串，均是3位，不是3位的用0代替，192 168 001 001
+			for(int i=0;i<s.length;i++){
+				//buf.append(this.addZero(s[i],3)) ;//将时间戳添加到 buf
+			}
+		}
+		buf.append(this.getTimeStamp()) ;
+		Random r = new Random() ;
+		for(int i=0;i<3;i++){  //将3个随机数添加到 buf
+			buf.append(r.nextInt(10)) ;
+		}
+		return buf.toString() ;
+	}
+	public String getDate(){
+		this.sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS") ;
+		return this.sdf.format(new Date()) ;
+	}
+	public String getTimeStamp(){
+		this.sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS") ;
+		return this.sdf.format(new Date()) ;
+	}
+	private String addZero(String str,int len){
+		StringBuffer s = new StringBuffer() ;
+		s.append(str) ;
+		while(s.length() < len){
+			s.insert(0,"0") ;
+		}
+		return s.toString() ;
+	}
+	public static void main(String args[]){
+		System.out.println(new IPTimeStamp("192.168.1.1").getIPTimeRand()) ;
+	}
+}
