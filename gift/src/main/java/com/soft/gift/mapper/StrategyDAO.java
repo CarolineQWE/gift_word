@@ -1,8 +1,8 @@
 package com.soft.gift.mapper;
 
-import com.soft.gift.model.Category;
 import com.soft.gift.model.Strategy;
 import com.soft.gift.util.BaseDAO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -12,4 +12,6 @@ import java.util.List;
 public interface StrategyDAO extends BaseDAO<Strategy> {
     public List<Strategy> getAllStrategyOrderByTime();
     public List<Strategy> getAllStrategyOrderByHot();
+    public List<Strategy> selectStrategyByKeyword(@Param("keyword") String keyword);
+
 }

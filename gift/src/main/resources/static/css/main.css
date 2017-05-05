@@ -53,6 +53,32 @@
     border: solid 1px #D0D0D0;
 }
 
+.mygreen{
+    color: #FFFFFF;
+    background-color: #33B55F;
+    border: solid 1px #33B55F;
+}
+.mygreen:active{
+    color: #FFFFFF;
+    background-color: #007F40;
+    border: solid 1px #007F40;
+}
+
+.myblue{
+    color: #FFFFFF;
+    background-color: #3fc3ee;
+    border: solid 1px #3fc3ee;
+}
+.myblue:active{
+    color: #FFFFFF;
+    background-color: #007F40;
+    border: solid 1px #007F40;
+}
+.myinput{
+    border: none;
+    outline: none;
+}
+
 body,a,h1,h2,h3,h4,h5,h6,p,input{
 font-family: helvetica, arial, "微软雅黑", "华文黑体";
 }
@@ -63,7 +89,7 @@ body{
     color: #555555;
     overflow-y: scroll;
 }
-.navout a,a:visited,a:hover,a:active{
+.navout a,.navout a:visited,.navout a:hover,.navout a:active{
     color: #555555;
     text-decoration: none;
 }
@@ -171,4 +197,54 @@ ul li{
 .nav_out{
 width: 1210px;
 margin: 0 auto;
+}
+
+.popup_box{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 1050;
+    background: #fff;
+    border-radius: 5px;
+}
+.alert{
+    z-index: 10000;
+    width: 360px;
+    padding: 20px 0;
+    text-align: center;
+    background-color: #fff;
+    display: none;
+}
+.BeAlert_overlay {
+    overflow: hidden;
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    z-index: 9999;
+    background:url("../img/overlay.png");
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: auto;
+    height: auto;
+    display: none;
+}
+.alert_content{
+    font-size: 16px;
+    margin-top:15px;
+}
+.surebtn{
+    width: 100px;
+    height: 30px;
+    line-height:30px;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.alert_title{
+    margin-top: 10px;
+    font-size: 20px;
 }

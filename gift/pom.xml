@@ -6,7 +6,7 @@
 	<groupId>com.soft.gift</groupId>
 	<artifactId>gift</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>gift</name>
 	<description>Demo project for Spring Boot</description>
@@ -69,34 +69,36 @@
 			<artifactId>mapper</artifactId>
 			<version>3.4.0</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/cn.songxinqiang/com.baidu.ueditor -->
-		<dependency>
-			<groupId>cn.songxinqiang</groupId>
-			<artifactId>com.baidu.ueditor</artifactId>
-			<version>1.1.2-offical</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.4</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.3.1</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 			<version>1.10</version>
 		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20160810</version>
+		</dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>4.3.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
         </dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework.hateoas/spring-hateoas -->
 		<dependency>
@@ -104,7 +106,11 @@
 			<artifactId>spring-hateoas</artifactId>
 			<version>0.19.0.RELEASE</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
     </dependencies>
 
 	<dependencyManagement>

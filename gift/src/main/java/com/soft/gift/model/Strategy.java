@@ -21,9 +21,11 @@ public class Strategy {
 	private Integer collect;
 	private Integer dislike;
 	private Integer if_publish;
+	private String brief;
+
 
 	public Strategy(String title, String content, String top_img, Integer like, Integer comment, Timestamp publish_time,
-					String relationship, String style, String occasion, String account,Integer collect,Integer dislike,Integer if_publish) {
+					String relationship, String style, String occasion, String account,Integer collect,Integer dislike,Integer if_publish,String brief) {
 		super();
 		this.title = title;
 		this.content = content;
@@ -38,6 +40,7 @@ public class Strategy {
         this.collect = collect;
         this.dislike = dislike;
 		this.if_publish = if_publish;
+		this.brief = brief;
 	}
 	
 	public Strategy() {
@@ -157,5 +160,35 @@ public class Strategy {
 	public void setIf_publish(Integer if_publish) {
 		this.if_publish = if_publish;
 	}
+
+	@Column(name = "brief")
+	public String getBrief() {
+		return brief;
+	}
+
+	public void setBrief(String brief) {
+		this.brief = brief;
+	}
+
+    @Override
+    public String toString() {
+        return "Strategy{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", top_img='" + top_img + '\'' +
+                ", likea=" + likea +
+                ", comment=" + comment +
+                ", publish_time=" + publish_time +
+                ", relationship='" + relationship + '\'' +
+                ", style='" + style + '\'' +
+                ", occasion='" + occasion + '\'' +
+                ", account='" + account + '\'' +
+                ", collect=" + collect +
+                ", dislike=" + dislike +
+                ", if_publish=" + if_publish +
+                ", brief='" + brief + '\'' +
+                '}';
+    }
 }
 

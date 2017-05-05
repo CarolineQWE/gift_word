@@ -26,20 +26,14 @@ public class CommentServiceImpl implements CommentService{
 	private UserInfoDAO userinfoDAO;
 
 	@Override
-	public Map<Comment,UserInfo> getCommentByGiftID(Integer gift_id) {
+	public List<Comment> getCommentByGiftID(Integer gift_id) {
 		Map<Comment, UserInfo> map = new HashMap<>();
 		Comment comment = new Comment();
-		comment.setcommented_id(gift_id);
+		comment.setCommented_id(gift_id);
 		comment.setCommented_type(0);
 		List<Comment> list = new ArrayList<>();
 		list = commentDAO.select(comment);
-		UserInfo userInfo = new UserInfo();
-		for (Comment com : list) {
-			userInfo.setAccount(com.getAccount());
-			userInfo = userinfoDAO.selectOne(userInfo);
-			map.put(com, userInfo);
-		}
-		return map;
+		return list;
 	}
 
 	@Override
@@ -90,4 +84,27 @@ public class CommentServiceImpl implements CommentService{
 		return cl;
 	}
 
+	@Override
+	public void addComment(Comment comment) {
+		commentDAO.insert(comment);
+	}
+
+	@Override
+	public Comment getCommentByID(Integer commented_id) {
+		Comment comment = commentDAO.selectByPrimaryKey(commented_id);
+		return comment;
+	}
+
+	@Override
+	public Map<Comment, List<Comment>> getComments(Integer commented_id) {
+		Map<Comment,List<Comment>> map = new HashMap<>();
+		List<Comment> firstLevelComments = new ArrayList<>();//评论文章或者礼物的
+		firstLevelComments = commentDAO.getCommentsOrderByTime(commented_id,0);
+		for (Comment c:firstLevelComments) {
+			List<Comment> list = new ArrayList<>();
+			list = commentDAO.getCommentsOrderByTime(c.getId(),1);//评论评论的
+			map.put(c,list);
+		}
+		return map;
+	}
 }

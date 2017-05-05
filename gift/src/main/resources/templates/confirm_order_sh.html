@@ -83,7 +83,7 @@
             <div class="unit_title">请选择收货地址</div>
             <ul>
                 <li th:each="address:${addresss }">
-                    <div class="addressouter" id="${address.id }">
+                    <div class="addressouter" th:id="${address.id }">
                         <div class="addressinner">
                             <span th:text="${address.prov }"></span>,
                             <span th:text="${address.city }"></span>,

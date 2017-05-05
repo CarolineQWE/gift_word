@@ -62,7 +62,7 @@
         .stra_title{
             margin: 30px 0px;
             padding-bottom: 20px;
-            border-bottom: solid 1px #D9D9D9;
+            border-bottom: dotted 1px #D9D9D9;
         }
         .stra_title_input{
             border:none;
@@ -71,6 +71,10 @@
             height: 36px;
             font-size: 36px;
             color: #333;
+        }
+        .stra_title_input.small{
+            height: 18px;
+            font-size: 18px;
         }
         .submit_outer_div{
             position: fixed;
@@ -137,6 +141,9 @@
         <form id="all_form" method="post">
             <div class="stra_title">
                 <input type="text" class="stra_title_input" name="title" placeholder="请输入标题"/>
+            </div>
+            <div class="stra_title">
+                <input type="text" id="brief_input" class="stra_title_input small" name="brief" placeholder="请输入内容简介"/>
             </div>
             <div class="three fields selects">
                 <div class="field">
@@ -213,7 +220,58 @@
 </body>
 <script th:inline="javascript">
     /*<![CDATA[*/
-    var ue = UE.getEditor('editor');
+    var ue = UE.getEditor('editor',{
+        toolbars: [
+            [
+                'undo', //撤销
+                'redo', //重做
+                'bold', //加粗
+                'indent', //首行缩进
+                'snapscreen', //截图
+                'italic', //斜体
+                'underline', //下划线
+                'strikethrough', //删除线
+                'subscript', //下标
+                'fontborder', //字符边框
+                'blockquote', //引用
+                'selectall', //全选
+                'preview', //预览
+                'horizontal', //分隔线
+                'time', //时间
+                'date', //日期
+                'inserttitle', //插入标题
+                'cleardoc', //清空文档
+                'fontfamily', //字体
+                'fontsize', //字号
+                'paragraph', //段落格式
+                'simpleupload', //单图上传
+                'insertimage', //多图上传
+                'link', //超链接
+                'emotion', //表情
+                'spechars', //特殊字符
+                'insertvideo', //视频
+                'justifyleft', //居左对齐
+                'justifyright', //居右对齐
+                'justifycenter', //居中对齐
+                'justifyjustify', //两端对齐
+                'forecolor', //字体颜色
+                'backcolor', //背景色
+                'insertorderedlist', //有序列表
+                'insertunorderedlist', //无序列表
+                'fullscreen', //全屏
+                'rowspacingtop', //段前距
+                'rowspacingbottom', //段后距
+                'pagebreak', //分页
+                'imagenone', //默认
+                'imagecenter', //居中
+                'lineheight', //行间距
+                'edittip ', //编辑提示
+                'autotypeset', //自动排版
+                'background', //背景
+                'template' //模板
+            ]
+        ]
+    });
     $('.ui.dropdown').dropdown();
     function getContent() {
         var arr = [];
@@ -222,6 +280,8 @@
         arr.push(UE.getEditor('editor').getContent());
         alert(arr.join("\n"));
     }
+
+
     $('.pre_fileupload').click(function () {
         $('.top_img_input').click();
 
@@ -250,6 +310,7 @@
         var occasion = $("#occasion_input").val();
         var style = $("#style_input").val();
         var title = $('.stra_title_input').val();
+        var brief = $('#brief_input').val();
         var content = ue.getContent();
         var _src =  src;
         console.log(src);
@@ -281,7 +342,11 @@
             name:"ifPublish",
             value:0
         };
-       formSubmit(url,obj,obj1,obj2,obj3,obj4,obj5,obj6);
+        var obj7 = {
+            name:"brief",
+            value:brief
+        };
+       formSubmit(url,obj,obj1,obj2,obj3,obj4,obj5,obj6,obj7);
     });
 
 

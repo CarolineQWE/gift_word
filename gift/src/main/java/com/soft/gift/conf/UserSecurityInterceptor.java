@@ -1,6 +1,5 @@
 package com.soft.gift.conf;
 
-import com.soft.gift.model.User;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -28,6 +27,14 @@ public class UserSecurityInterceptor implements HandlerInterceptor {
         }
 
         if(request.getServletPath().startsWith("/strategy/all")) {
+            return true;
+        }
+
+        if(request.getServletPath().startsWith("/strategy/strategies")) {
+            return true;
+        }
+
+        if(request.getServletPath().startsWith("/strategy/strategyInfo")) {
             return true;
         }
         //3、如果用户已经登录 放行

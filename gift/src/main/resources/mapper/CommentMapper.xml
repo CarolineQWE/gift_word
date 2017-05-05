@@ -6,10 +6,31 @@
 		<result property="name" column="name" javaType="java.lang.String"/>
 		<result property="num" column="num" javaType="java.lang.Integer"/>
 	</resultMap>
+
+	<resultMap type="com.soft.gift.model.Comment" id="commentMap">
+		<id property="id" column="id" javaType="java.lang.Integer"></id>
+		<result property="commented_id" column="commented_id" javaType="java.lang.Integer"></result>
+		<result property="commented_type" column="commented_type" javaType="java.lang.Integer"></result>
+		<result property="comment_time" column="comment_time" javaType="java.sql.Timestamp"></result>
+		<result property="content" column="content" javaType="java.lang.String"></result>
+		<result property="score" column="score" javaType="java.lang.Integer"></result>
+		<result property="level" column="level" javaType="java.lang.Integer"></result>
+		<result property="account" column="account" javaType="java.lang.String"/>
+		<result property="commented_account" column="commented_account" javaType="java.lang.String"/>
+		<result property="commented_nickname" column="commented_nickname" javaType="java.lang.String"/>
+		<result property="nickname" column="nickname" javaType="java.lang.String"/>
+		<result property="head" column="head" javaType="java.lang.String"/>
+	</resultMap>
+
 	<select id="getAverSorceByGiftID" resultType="java.lang.Double">
 		SELECT ROUND(AVG(`score`),1) FROM `t_comment` WHERE `commented_id` = #{gift_id} AND `commented_type` = 0
 	</select>
+
 	<select id="getCommentNumClassifyBySorce" resultMap="scoreNumMap">
 		SELECT score,COUNT(*) AS num FROM `t_comment` WHERE `commented_id` = #{gift_id} AND `commented_type` = 0 GROUP BY `score` 
+	</select>
+
+	<select id="getCommentsOrderByTime" resultMap="commentMap">
+		SELECT * FROM `t_comment` WHERE `commented_id` = #{commented_id} AND `level` = #{level} ORDER BY `comment_time` DESC
 	</select>
 </mapper>

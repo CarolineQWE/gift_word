@@ -1,0 +1,130 @@
+.login_box{
+    width: 500px;
+    height: 492px;
+    overflow: hidden;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 1050;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 20px #111;
+    display: none;
+}
+.box_header{
+    height:30px;
+    padding:15px;
+    font-size: 18px;
+    border-bottom: solid 1px #D9D9D9;
+}
+.header_title{
+    float: left;
+    height:30px;
+    line-height:30px;
+    width:100px;
+}
+.header_title i{
+    font-size: 20px;
+}
+.right_close_div{
+    float: right;
+    height:30px;
+    width:30px;
+    line-height:30px;
+    cursor: pointer;
+}
+.right_close_div i{
+    font-size: 20px;
+}
+.right_close_div:hover{
+    color: #e32f2f;
+}
+.box_center{
+    padding: 20px 100px;
+}
+.box_tab{
+    width:312px;
+    margin-bottom: 30px;
+    cursor: pointer;
+}
+.tab_small{
+    border-bottom: solid 2px #D9D9D9;
+    color: #7B7B7B;
+    width: 136px;
+    text-align: center;
+    padding:10px;
+    font-size: 16px;
+    float: left;
+    cursor: pointer;
+}
+.box_content_center{
+    margin:0 auto;
+
+}
+.selected_tab{
+    border-bottom: solid 2px #F84E4E;
+    color: #e32f2f;
+}
+#content_reg{
+    display: none;
+}
+.forget_pass{
+    width: 300px;
+    text-align: right;
+}
+.forget_pass a{
+    text-decoration: none;
+    color: #7B7B7B;
+}
+/*gonggog*/
+.inputdiv{
+    width: 300px;
+    height: 40px;
+    border: solid 1px #FF6D75;
+    border-radius: 3px;
+    margin-bottom: 30px;
+    line-height: 38px;
+    padding: 0px;
+    position:relative;
+}
+.myinput{
+    width: 290px;
+    padding: 0 5px;
+    border: none;
+    background-color: #FFFFFF;
+    outline:medium;
+    height: 38px;
+}
+.errorlabel{
+    position: absolute;
+    right: 10px;
+    top: 0px;
+    line-height: 40px;
+    color: #ff2a44;
+}
+.mybutton{
+    width: 302px;
+    height: 40px;
+    color: #FFF2F2;
+    background-color: #FF6D75;
+    cursor: pointer;
+    line-height: 40px;
+    text-align: center;
+    margin: 0px auto;
+    font-size: 16px;
+    border-radius: 3px;
+    margin-top: 30px;
+}
+.mybutton:visited{
+    color: #FFF2F2;
+    background-color: #FF6D75;
+}
+.mybutton:hover{
+    color: #FFFFFF;
+    background-color: #f74560;
+}
+.mybutton:active{
+    color: #FFFFFF;
+    background-color: #f74560;
+}

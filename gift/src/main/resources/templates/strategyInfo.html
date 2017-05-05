@@ -4,12 +4,14 @@
     <meta charset="UTF-8"/>
     <title>攻略详情</title>
     <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
-    <link rel="stylesheet" href="../static/css/main.css" />
-    <link rel="stylesheet" href="../static/css/nav.css" />
+    <!--<script type="text/javascript" th:src="@{../static/js/login_box.js}"></script>-->
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/nav.css" />
     <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/login_box.css" />
     <style>
         .main_content{
-            width: 770px;
+            width: 880px;
             margin: 0px auto;
         }
         .top_img_div img{
@@ -28,7 +30,6 @@
         }
         .right_div{
             float: left;
-            height: 60px;
             margin-left: 20px;
         }
         .author_info_div{
@@ -94,7 +95,7 @@
             padding: 20px 0px;
         }
         .comment_input{
-            width:740px;
+            width: 850px;
             padding: 10px 15px;
             height: 80px;
             border: 1px solid #dcdcdc;
@@ -105,6 +106,11 @@
             vertical-align: top;
             outline-style: none;
             font-size: 14px;
+        }
+        .comment_input.small{
+            width: 660px;
+            height: 30px;
+            padding: 5px;
         }
         .submit{
             margin-top:20px;
@@ -140,71 +146,468 @@
         }
         .comments_div ul li{
             margin: 10px 0px;
-            padding-top: 10px 0px;
+            padding-top: 10px;
             border-top: solid 1px #e8e8e8;
+        }
+        .stra_brief{
+            margin:20px 0;
+        }
+        .main_content{
+            padding: 30px 0;
+        }
+        .strategy_popularity_ul{
+            padding:0;
+            margin: 0;
+        }
+        .strategy_popularity_ul li{
+            float: left;
+            list-style: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .strategy_popularity_ul li a{
+            color: #e32f2f;
+            text-decoration: none;
+            padding-right: 15px;
+        }
+        .strategy_popularity_ul li a:visited{
+            color: #e32f2f;
+        }
+        .strategy_popularity_ul li a:hover{
+            color: #e32f2f;
+        }
+        .strategy_popularity_ul li a:active{
+            color: #e32f2f;
+        }
+        .strategy_popularity_ul li i{
+            font-size: 20px;
+        }
+        .userInfo_div{
+            display: none;
+        }
+        .author_name_small{
+            font-size: 16px;
+            padding-bottom: 5px;
+        }
+        .reply_div{
+            padding: 5px 0;
+            color: #7B7B7B;
+            cursor: pointer;
+        }
+        .reply_input_div{
+            display: none;
+        }
+        .comment_content{
+            width: 800px;
+        }
+        .inline-block{
+            display: inline-block;
+            vertical-align: top;
+            padding:5px 0px;
+            margin-right: 10px;
+            font-size: 13px;
+        }
+        .inline-block i{
+            font-size: 14px;
+        }
+        .up{
+            display: none;
+        }
+        .hidden_div{
+            display: none;
         }
     </style>
 </head>
 <body>
+<div th:include="nav :: mynav"></div>
 <div class="container">
-    <div class="nav_out">
-        <div th:include="nav :: mynav"></div>
-    </div>
+    <div class="userInfo_div" th:text="${session.userInfo.getAccount()}" th:name="${strategy.id}"></div>
     <div class="main_content">
         <div class="top_img_div">
-            <img src="../static/img/3.jpg"/>
+            <img th:src="${strategy.top_img}"/>
         </div>
-        <h1 class="stra_title">这是标题这是标题这是标题这是标题这是标题这是标题</h1>
+        <h1 class="stra_title" th:text="${strategy.title}"></h1>
         <div class="author_info_div">
             <div class="left_head_img">
-                <img src="../static/img/s.jpg"/>
+                <img th:src="${author_userInfo.head}"/>
             </div>
             <div class="right_div">
                 <div class="author_name">
                     <span class="author_span">作者</span>
-                    <span class="author">临颍</span>
-                    <span class="addCare"><a href="addCare">+关注</a></span>
+                    <span class="author" th:text="${author_userInfo.nickname}"></span>
+                    <span class="addCare"><a th:href="@{'user/addCare?account='+${author_userInfo.account}}">+关注</a></span>
                 </div>
-                <div class="publish_time">2015-11-11 12:12</div>
+                <div class="publish_time" th:text="${strategy.publish_time}"></div>
             </div>
         </div>
-        <div class="stra_content">
-            我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容
-            我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容
-        </div>
+        <div class="stra_brief" th:text="${strategy.brief}"></div>
+        <div class="stra_content" th:utext="${strategy.content}"></div>
         <div class="strategy_popularity">
-            <i class="icon iconfont icon-dianzan"></i><span th:text="${strategy.like }"></span> 赞
-            <i class="icon iconfont icon-bad"></i><span th:text="${strategy.like }"></span> 不喜欢
-            <i class="icon iconfont icon-pinglun3"></i><span th:text="${strategy.comment }"></span>评价
-            <i class="icon iconfont icon-shoucang1"></i><span th:text="${strategy.collect }"></span>收藏
+            <ul class="strategy_popularity_ul">
+                <li><a id="like_a" href="javascript:void(0);" th:class="${strategy.id}"><i class="icon iconfont icon-dianzan"></i><span th:text="${strategy.like }"></span> 喜欢</a></li>
+               <!-- <li><a id="dislike_a" href="javascript:void(0);" th:class="${strategy.id}"><i class="icon iconfont icon-bad"></i><span th:text="${strategy.like }"></span> 不喜欢</a></li>-->
+                <li><a href="#conmments_div"><i class="icon iconfont icon-pinglun4"></i><span th:text="${strategy.comment }"></span> 评价</a></li>
+                <li><a id="collect_a" href="javascript:void(0);" th:class="${strategy.id}"><i class="icon iconfont icon-shoucang1"></i><span th:text="${strategy.collect }"></span> 收藏</a></li>
+            </ul>
+            <div class="clear_float"></div>
         </div>
         <div class="comment_title">评论</div>
         <form class="comment_form">
             <textarea class="comment_input" rows="5" placeholder="写下你的评论"></textarea>
             <div class="submit">
                 <div class="cancel_btn my_btn">取消</div>
-                <div class="submit_btn my_btn">评论</div>
+                <div class="submit_btn my_btn" id="comment_btn" th:commented_id="${stratgy.id}">评论</div>
             </div>
         </form>
-        <div class="comments_div">
+        <div class="comments_div" id="conmments_div">
             <div class="jingcai">精彩评论</div>
-            <ul>
-                <li>
-                    <div class="left_head_img"><img src="../static/img/1.jpg"/></div>
+            <ul class="top_ul" th:if="${commentListMap} ne null">
+                <li th:each="map:${commentListMap}">
+                    <div class="left_head_img"><img th:src="${map.key.head}"/></div>
                     <div class="right_div">
-                        <div class="author_name">用户名</div>
-                        <div class="comment_content">评论内容评论内容评论内容评论内容</div>
+                        <div class="author_name_small" th:text="${map.key.nickname}"></div>
+                        <div class="comment_content" th:text="${map.key.content}"></div>
+                        <div class="inline-block" th:text="${map.key.comment_time}"></div>
+                        <div class="reply_div inline-block down"><i class="icon iconfont icon-hf"></i>回复</div>
+                        <div class="reply_div inline-block up">收起评论</div>
+                        <div class="reply_input_div">
+                            <input type="text" class="comment_input small"/>
+                            <div class="submit_btn my_btn next_submit_btn">评论</div>
+                            <div class="hidden_div commented_id" th:text="${map.key.id}"></div>
+                            <div class="hidden_div commented_account" th:text="${map.key.account}"></div>
+                            <div class="hidden_div commented_nickname" th:text="${map.key.nickname}"></div>
+                        </div>
+                        <ul class="next_ul" th:if="${map.value} ne null">
+                            <li th:each="comment:${map.value}">
+                                <div class="author_name_small"><span th:text="${comment.nickname}"></span>&nbsp;回复&nbsp;<span th:text="${comment.commented_nickname}"></span></div>
+                                <div class="comment_content" th:text="${comment.content}"></div>
+                                <div class="inline-block" th:text="${comment.comment_time}"></div>
+                                <div class="reply_div inline-block down"><i class="icon iconfont icon-hf"></i>回复</div>
+                                <div class="reply_div inline-block up">收起评论</div>
+                                <div class="reply_input_div">
+                                    <input type="text" class="comment_input small"/>
+                                    <div class="submit_btn my_btn next_submit_btn">评论</div>
+                                    <div class="hidden_div commented_id" th:text="${map.key.id}"></div>
+                                    <div class="hidden_div commented_account" th:text="${map.key.account}"></div>
+                                    <div class="hidden_div commented_nickname" th:text="${map.key.nickname}"></div>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
+                    <div class="clear_float"></div>
                 </li>
+                <div class="clear_float"></div>
             </ul>
         </div>
     </div>
+    <div class="login_box">
+        <div class="box_header">
+            <div class="header_title">登录 • 注册</div>
+            <div class="right_close_div"><i class="icon iconfont icon-error"></i></div>
+            <div class="clear_float"></div>
+        </div>
+        <div class="box_center">
+            <div class="box_tab">
+                <div class="tab_small selected_tab" id="tab_login">
+                    登录
+                </div>
+                <div class="tab_small" id="tab_reg">
+                    注册
+                </div>
+                <div class="clear_float"></div>
+            </div>
+            <div class="box_content">
+                <div id="content_login" class="box_content_center">
+                    <div class="inputdiv">
+                        <input class="myinput" type="text" id="account" placeholder="账号/手机号/邮箱"/>
+                        <label style="display:none;" class="errorlabel">账号不能为空</label>
+                    </div>
+                    <div class="inputdiv">
+                        <input class="myinput mypassword" type="password" id="password" placeholder="密码" />
+                        <label style="display:none;" class="errorlabel">密码不能为空</label>
+                    </div>
+                    <div class="forget_pass">
+                        <a href="user/forget_pass">忘记密码</a>
+                    </div>
+                    <div class="mybutton" id="logininbtn">
+                        登录
+                    </div>
+                </div>
+                <div id="content_reg" class="box_content_center">
+                    <div class="inputdiv">
+                        <input class="myinput" type="text" id="nickname" placeholder="请填写昵称" />
+                        <label style="display:none;" class="errorlabel">请填写昵称</label>
+                    </div>
+                    <div class="inputdiv">
+                        <input class="myinput" type="text" id="account_reg" placeholder="手机号"/>
+                        <label style="display:none;" class="errorlabel">请填写账号</label>
+                    </div>
+                    <div class="inputdiv">
+                        <input class="myinput mypassword" type="password" id="password_reg" placeholder="密码" />
+                        <label style="display:none;" class="errorlabel">请填写密码</label>
+                    </div>
+                    <div class="mybutton" id="registerbtn">
+                        注册
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popup_box alert">
+        <img src="../static/img/alert_img/tishi.png"/>
+        <!--<div class="alert_title">
+            操作提示
+        </div>-->
+        <div class="alert_content">
+            评论内容不能为空！
+        </div>
+        <div class="mybtn myblue surebtn">确定</div>
+    </div>
+    <div class="BeAlert_overlay"></div>
 </div>
-
 </body>
 <script th:inline="javascript">
     /*<![CDATA[*/
+    $(function () {
+        $(".right_close_div").click(function () {
+            $(".login_box").css('display','none');
+        })
+        $("#tab_login").click(function () {
+            $("#tab_reg").removeClass("selected_tab");
+            $(this).addClass("selected_tab");
+            $("#content_reg").css('display','none');
+            $("#content_login").css('display','block');
+        })
+        $("#tab_reg").click(function () {
+            $("#tab_login").removeClass("selected_tab");
+            $(this).addClass("selected_tab");
+            $("#content_login").css('display','none');
+            $("#content_reg").css('display','block');
+        })
+        /*判空*/
+        $('#logininbtn').click(function(){
+            clearError();
+            var acc = $.trim($("#account").val());
+            var pass= $.trim($("#password").val());
+            if(acc == "" || acc == null){
+                setError($("#account"),"请输入账号");
+                return;
+            }else if(pass==""||pass == null){
+                setError($("#password"),"请输入密码");
+                return;
+            }else{
+                $.ajax({
+                    url:"/loginCheck",
+                    type:"POST",
+                    data:{
+                        account:acc,
+                        password:pass
+                    },
+                    dataType:"text",
+                    success:function(data){
+                        console.log("data",data);
+                        if(data == "用户不存在"){
+                            setError($("#account"),data);
+                        }else if(data == "密码错误"){
+                            setError($("#password"),data);
+                        }else if(data == "登录异常"){
+                            setError($("#password"),data);
+                        }else {
+                            window.location.reload();
+                            console.log("daozhele",0);
+                        }
+                    }
+                })
+            }
+        })
 
+        $('#registerbtn').click(function(){
+            clearError();
+            var account = $.trim($("#account_reg").val());
+            console.log("account",account);
+            var password = $.trim($("#password_reg").val());
+            var nickname = $.trim($("#nickname").val());
+            if(nickname == ""||nickname==null){
+                setError($("#nickname"),"昵称不能为空");
+                return;
+            }else if(account == "" || account == null){
+                setError($("#account_reg"),"账号不能为空");
+                return;
+            }else if(password == "" || password == null){
+                setError($("#password_reg"),"密码不能为空");
+                return;
+            }else{
+                $.ajax({
+                    url:"/gift/register",
+                    type:"POST",
+                    data:{
+                        account:account,
+                        password:password,
+                        nickname:nickname
+                    },
+                    dataType:"text",
+                    success:function(data){
+                        if(data == "用户已存在"){
+                            /* setError($("#account_reg"),"该手机号已经注册&nbsp;&nbsp;"+"<a href='/login'>直接登录</a>");*/
+                        }else if(data == "注册成功"){
+                            alert("注册成功！请直接登录");
+                            window.location.href="/login";
+                        }else{
+                            alert("注册失败！");
+                        }
+                    }
+                })
+            }
+        });
+
+        function setError(selector,msg){
+            selector.addClass('error');
+            selector.placeholder="";
+            selector.siblings('label').html(msg);
+            selector.siblings('label').css('display','inline');
+        }
+
+        function clearError(){
+            $('.myinput').removeClass('error');
+            $('.errorlabel').css('display','none');
+        }
+
+        var userInfo = $(".userInfo_div").text();
+        $("#like_a").click(function () {
+            if(userInfo == null||userInfo == ""){
+                console.log(userInfo);
+                $('.login_box').css('display','block');
+            }else{
+                var a = $(this);
+                var i = $(this).find('i');
+                if(i.hasClass('icon-dianzan1')){
+                    return;
+                }else {
+                    var id = parseInt(a.attr('class'));
+                    console.log(id);
+                    $.ajax({
+                        url:"/strategy/addLike",
+                        data:{
+                            id:id
+                        },
+                        dataType:"text",
+                        success:function (data) {
+                            i.removeClass('icon-dianzan').addClass('icon-dianzan1');
+                            var num = parseInt(a.find('span').text());
+                            a.find('span').text(num+1);
+                        }
+                    })
+                }
+            }
+        });
+
+        $("#collect_a").click(function () {
+            if(userInfo == null||userInfo == ""){
+                console.log(userInfo);
+                $('.login_box').css('display','block');
+            }else {
+                var a = $(this);
+                var i = $(this).find('i');
+                if (i.hasClass('icon-shoucangshixin')) {
+                    return;
+                } else {
+                    var id = parseInt(a.attr('class'));
+                    console.log(id);
+                    $.ajax({
+                        url: "/strategy/addCollect",
+                        data: {
+                            id: id
+                        },
+                        success: function () {
+                            i.removeClass('icon-shoucang1').addClass('icon-shoucangshixin');
+                            var num = parseInt(a.find('span').text());
+                            a.find('span').text(num + 1);
+                        }
+                    })
+                }
+            }
+        });
+        $("#comment_btn").click(function () {
+            if(userInfo == null||userInfo == ""){
+                console.log(userInfo);
+                $('.login_box').css('display','block');
+            }else {
+                var content = $(".comment_input").val();
+                console.log(content);
+                if(content =="" || content == null){
+                    $('.alert').css('display','block');
+                    $('.BeAlert_overlay').css('display','block');
+                    return;
+                }else {
+                    var strategy_id = parseInt($(".userInfo_div").attr('name'));
+                    console.log(strategy_id);
+                    console.log(strategy_id);
+                    $.ajax({
+                        url: "/comment/strategy",
+                        data: {
+                            commented_id: strategy_id,
+                            content: content
+                        },
+                        dataType: "text",
+                        success: function (data) {
+                            console.log(data);
+                            window.location.reload();
+                        }
+                    })
+                }
+            }
+        });
+
+        $('.surebtn').click(function () {
+            $('.alert').css('display','none');
+            $('.BeAlert_overlay').css('display','none');
+        });
+
+        $(".down").click(function () {
+            if(userInfo == null||userInfo == ""){
+                console.log(userInfo);
+                $('.login_box').css('display','block');
+            }else {
+                $(this).siblings('.reply_input_div').css('display','block');
+                $(this).css('display','none');
+                $(this).siblings('.up').css('display','inline-block');
+            }
+
+        });
+
+        $('.up').click(function () {
+            $(this).siblings('.reply_input_div').css('display','none');
+            $(this).css('display','none');
+            $(this).siblings('.down').css('display','inline-block');
+        })
+
+        $(".next_submit_btn").click(function () {
+            var content = $(this).siblings('input').val();
+            if(content =="" || content == null){
+                $('.alert').css('display','block');
+                $('.BeAlert_overlay').css('display','block');
+                return;
+            }else{
+                var commented_id = parseInt($(this).siblings('.commented_id').text());
+                var commented_account = $(this).siblings('.commented_account').text();
+                var commented_nickname = $(this).siblings('.commented_nickname').text();
+                $.ajax({
+                    url:"/comment/replyComment",
+                    data:{
+                        commented_id:commented_id,
+                        commented_account:commented_account,
+                        commented_nickname:commented_nickname,
+                        content:content
+                    },
+                    dataType:"text",
+                    success:function (data) {
+                        console.log(data);
+                        window.location.reload();
+                    }
+                });
+            }
+        })
+    })
     /*]]>*/
 </script>
 </html>

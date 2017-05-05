@@ -42,4 +42,53 @@ public class StrategySeviceImpl implements StrategyService {
     public void addStrategy(Strategy strategy) {
         strategyDAO.insert(strategy);
     }
+
+    @Override
+    public List<Strategy> findStraByKeyword(String keyword) {
+        List<Strategy> list = new ArrayList<Strategy>();
+        list = strategyDAO.selectStrategyByKeyword(keyword);
+        return list;
+    }
+
+    @Override
+    public List<Strategy> findStra(String relationship, String occasion, String style) {
+        List<Strategy> strategies = new ArrayList<>();
+        Strategy strategy = new Strategy();
+        strategy.setRelationship(relationship);
+        strategy.setOccasion(occasion);
+        strategy.setStyle(style);
+        strategies = strategyDAO.select(strategy);
+        return strategies;
+    }
+
+    @Override
+    public Strategy findStraById(Integer id) {
+        Strategy strategy = new Strategy();
+        strategy.setId(id);
+        Strategy strategy1 = strategyDAO.selectOne(strategy);
+        return strategy1;
+    }
+
+    @Override
+    public void addLike(Integer id) {
+        Strategy strategy = strategyDAO.selectByPrimaryKey(id);
+        strategy.setLike(strategy.getLike()+1);
+        strategyDAO.updateByPrimaryKey(strategy);
+    }
+
+    @Override
+    public void addDislike(Integer id) {
+        Strategy strategy = strategyDAO.selectByPrimaryKey(id);
+        strategy.setDislike(strategy.getDislike()+1);
+        strategyDAO.updateByPrimaryKey(strategy);
+    }
+
+    @Override
+    public void addCollect(Integer id) {
+        Strategy strategy = strategyDAO.selectByPrimaryKey(id);
+        System.out.println("collect"+strategy.getCollect());
+        strategy.setCollect(strategy.getCollect()+1);
+        System.out.println("collect"+strategy.getCollect());
+        strategyDAO.updateByPrimaryKey(strategy);
+    }
 }

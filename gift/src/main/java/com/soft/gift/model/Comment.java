@@ -20,22 +20,28 @@ public class Comment implements Serializable,Comparable<Comment>{
 	private Timestamp comment_time;
 	private Integer score;
 	private Integer commented_type;
-	private Integer leval;
-	
+	private Integer level;
+	private String nickname;
+	private String commented_account;
+	private String commented_nickname;
+    private String head;
+
 	public Comment() {
 		super();
 	}
-	
-	public Comment(Integer commented_id, String account, String content, Timestamp comment_time, Integer score,
-			Integer commented_type,Integer leval) {
-		super();
+
+	public Comment(Integer commented_id, String account, String content, Timestamp comment_time, Integer score, Integer commented_type, Integer level, String nickname, String commented_account, String commented_nickname,String head) {
 		this.commented_id = commented_id;
 		this.account = account;
 		this.content = content;
 		this.comment_time = comment_time;
 		this.score = score;
 		this.commented_type = commented_type;
-		this.leval = leval;
+		this.level = level;
+		this.nickname = nickname;
+		this.commented_account = commented_account;
+		this.commented_nickname = commented_nickname;
+        this.head = head;
 	}
 
 	public Integer getId() {
@@ -44,13 +50,15 @@ public class Comment implements Serializable,Comparable<Comment>{
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	@Column(name="commented_id" ,nullable=false)
-	public Integer getcommented_id() {
+	public Integer getCommented_id() {
 		return commented_id;
 	}
-	public void setcommented_id(Integer commented_id) {
+	public void setCommented_id(Integer commented_id) {
 		this.commented_id = commented_id;
 	}
+
 	@Column(name="account", nullable=false,length=30)
 	public String getAccount() {
 		return account;
@@ -58,6 +66,7 @@ public class Comment implements Serializable,Comparable<Comment>{
 	public void setAccount(String account) {
 		this.account = account;
 	}
+
 	@Column(name="content", nullable=false,length=200)
 	public String getContent() {
 		return content;
@@ -65,6 +74,7 @@ public class Comment implements Serializable,Comparable<Comment>{
 	public void setContent(String content) {
 		this.content = content;
 	}
+
 	@Column(name="comment_time",nullable=false)
 	public Timestamp getComment_time() {
 		return comment_time;
@@ -91,16 +101,50 @@ public class Comment implements Serializable,Comparable<Comment>{
 		this.commented_type = commented_type;
 	}
 
-	@Column(name="leval")
-	public Integer getLeval() {
-		return leval;
+	@Column(name="level")
+	public Integer getLevel() {
+		return level;
 	}
 
-	public void setLeval(Integer leval) {
-		this.leval = leval;
+	public void setLevel(Integer level) {
+		this.level = level;
 	}
-	
-	@Override
+
+
+	@Column(name="nickname",length=30)
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	@Column(name="commented_account",length=30)
+	public String getCommented_account() {
+		return commented_account;
+	}
+	public void setCommented_account(String commented_account) {
+		this.commented_account = commented_account;
+	}
+
+	@Column(name="commented_nickname",length=30)
+	public String getCommented_nickname() {
+		return commented_nickname;
+	}
+	public void setCommented_nickname(String commented_nickname) {
+		this.commented_nickname = commented_nickname;
+	}
+
+    @Column(name="head",length=100)
+    public String getHead() {
+        return head;
+    }
+
+    public void setHead(String head) {
+        this.head = head;
+    }
+
+    @Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -157,5 +201,21 @@ public class Comment implements Serializable,Comparable<Comment>{
 		}
 	}
 
-
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", commented_id=" + commented_id +
+                ", account='" + account + '\'' +
+                ", content='" + content + '\'' +
+                ", comment_time=" + comment_time +
+                ", score=" + score +
+                ", commented_type=" + commented_type +
+                ", level=" + level +
+                ", nickname='" + nickname + '\'' +
+                ", commented_account='" + commented_account + '\'' +
+                ", commented_nickname='" + commented_nickname + '\'' +
+                ", head='" + head + '\'' +
+                '}';
+    }
 }

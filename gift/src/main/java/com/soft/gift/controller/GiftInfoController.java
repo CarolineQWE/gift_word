@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -36,7 +35,7 @@ public class GiftInfoController {
 			oneSpecName = saleSpecMap.subList(i,i+specNums.get(i).getSpec_num()-1);
 			classifiedSpecMap.put(specNums.get(i).getSpec_name(),oneSpecName);
 		}
-		Map<Comment, UserInfo> comments = commentService.getCommentByGiftID(gift_id);
+		List<Comment> comments = commentService.getCommentByGiftID(gift_id);
 		Double avg = commentService.getAverageSorceByGiftID(gift_id);
 		List<Integer> nums = commentService.getCommentNum(gift_id);
 		mv.put("gift",gift);

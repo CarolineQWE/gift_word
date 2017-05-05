@@ -449,17 +449,17 @@
                     </ul>
                 </div>
                 <div class="commentdiv" th:each="comment:${comments }">
-                    <img src="${comment.value.head }" align="top" class="commentimg"/>
+                    <img th:src="@{${comment.head }}" align="top" class="commentimg"/>
                     <div class="comment_content_span">
-                        <div class="authorspan" th:text="${comment.value.nickname }">
+                        <div class="authorspan" th:text="${comment.nickname }">
                         </div>
-                        <span th:text="${comment.key.content }"></span>
+                        <span th:text="${comment.content }"></span>
                         <div class="comment_long_div">
                                 <span class="scorespan">
                                 评论分数
-                                <div class="ui star rating" data-rating="${comment.key.score }"></div>
+                                <div class="ui star rating" th:data-rating="${comment.score }"></div>
                                 </span>
-                            <div class="timespan" th:text="${comment.key.comment_time }">
+                            <div class="timespan" th:text="${comment.comment_time }">
                             </div>
                             <div class="clear_float"></div>
                         </div>

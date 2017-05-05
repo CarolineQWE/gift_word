@@ -1,6 +1,6 @@
 package com.soft.gift.service;
 
-import com.Base64;
+import com.soft.gift.conf.Base64;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;

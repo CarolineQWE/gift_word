@@ -16,6 +16,7 @@
         <result property="account" column="account" javaType="java.lang.String"/>
         <result property="top_img" column="top_img" javaType="java.lang.String"/>
         <result property="if_publish" column="if_publish" javaType="java.lang.Integer"/>
+        <result property="brief" column="brief" javaType="java.lang.String"/>
     </resultMap>
 
     <select id="getAllStrategyOrderByTime" resultMap="strategyMap">
@@ -24,5 +25,9 @@
 
     <select id="getAllStrategyOrderByHot" resultMap="strategyMap">
         SELECT * FROM `t_strategy` ORDER BY `likea` DESC,`comment` DESC,`collect` DESC
+    </select>
+
+    <select id="selectStrategyByKeyword" parameterType="java.util.Map" resultMap="strategyMap">
+        SELECT * FROM `t_strategy` WHERE CONCAT(`relationship`,`style`,`occasion`,`title`,`brief`) LIKE #{'%'+keyword+'%'}
     </select>
 </mapper>
