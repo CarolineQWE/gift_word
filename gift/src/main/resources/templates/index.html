@@ -16,7 +16,6 @@
 </head>
 <body>
 <div th:include="nav :: mynav"></div>
-<div th:include="login_box :: box"></div>
 <div class="container">
     <div class="content">
         <div id="topdiv">
@@ -431,6 +430,19 @@
             $(this).children('.hide_nav').css('display','none');
             $(this).children('.show_nav').css('display','block');
         });
+
+        $('.strategy_li').hover(function(){
+            $(this).find('.strategy_menu').css('display','block');
+        },function(){
+            $(this).find('.strategy_menu').css('display','none');
+        });
+        $(".selector_li").hover(function(){
+            $(this).children('.con').css('display','block');
+            $(this).addClass('li_border');
+        },function(){
+            $(this).children('.con').css('display','none');
+            $(this).removeClass('li_border');
+        })
 
         /*页面滚动监听*/
         var $window = $(window);

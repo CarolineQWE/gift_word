@@ -19,6 +19,9 @@ public class UserSecurityInterceptor implements HandlerInterceptor {
         }
 
         //2、比如退出、首页等页面无需登录，即此处要放行 允许游客的请求
+        if(request.getServletPath().startsWith("/register")) {
+            return true;
+        }
         if(request.getServletPath().startsWith("/index")) {
             return true;
         }

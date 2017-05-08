@@ -5,7 +5,6 @@ import com.soft.gift.model.Comment;
 import com.soft.gift.model.Strategy;
 import com.soft.gift.model.UserInfo;
 import com.soft.gift.service.CommentService;
-import com.soft.gift.service.PicService;
 import com.soft.gift.service.StrategyService;
 import com.soft.gift.service.UserService;
 import com.soft.gift.util.FileUtil;
@@ -36,8 +35,6 @@ public class StrategyController {
     @Autowired
     private ServletContext context;
     @Autowired
-    private PicService picService;
-    @Autowired
     private UserService userService;
     @Autowired
     private CommentService commentService;
@@ -59,7 +56,7 @@ public class StrategyController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/strategy/uploadImg")
+    @RequestMapping(value = "/uploadImg")
     public Map uploadImg(HttpServletRequest request, HttpServletResponse response, @RequestParam("file") MultipartFile file) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
         Map returnMap = new HashMap();

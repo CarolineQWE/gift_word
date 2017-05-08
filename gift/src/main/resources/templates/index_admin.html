@@ -3,8 +3,423 @@
 <head>
     <meta charset="UTF-8"/>
     <title>管理员主页</title>
+    <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css"/>
+
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/nav_admin.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/login_box.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css"/>
+
+    <script type="text/javascript" charset="utf-8" src="../static/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../static/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="../static/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../static/js/jquery.form.js"></script>
+    <style>
+        body{
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+        }
+        .main_content{
+            width:1210px;
+            margin: 30px auto;
+        }
+        .top_operation_div{
+            padding:20px;
+            background: #f9fafb;
+            border-radius: 10px;
+            border: 1px solid rgba(34,36,38,.1);
+        }
+        .gift_img{
+            width:80px;
+            height: 80px;
+            vertical-align: middle;
+            padding-right: 10px;
+        }
+        .float_div{
+            float: left;
+            height:80px;
+            width:80px;
+        }
+        .name_div{
+            width:205px;
+            margin-left: 15px;
+        }
+        .name_td{
+            width:300px;
+            height:80px;
+        }
+
+        .small_title {
+            font-size: 16px;
+            margin: 15px 0px;
+        }
+
+        .small_title i{
+            font-size: 18px;
+        }
+        .width_input{
+            width: 600px;
+        }
+        .delete_gift_box{
+            display: none;
+        }
+        .check_one_box{
+            display: none;
+        }
+    </style>
 </head>
 <body>
+<div th:include="adminNav :: myAdmin"></div>
+<div class="container">
+    <div class="main_content">
+        <div class="top_operation_div">
+            <button class="ui button primary button" id="addGift">新增礼物</button>
+            <button class="ui button red button" id="deleteGifts">删除礼物</button>
+        </div>
+        <table class="ui celled table">
+            <thead>
+                <tr>
+                    <th>
+                        <div class="ui checkbox">
+                            <input type="checkbox" id="allChk"/>
+                            <label></label>
+                        </div>
+                    </th>
+                    <th>编号</th>
+                    <th>礼物名称</th>
+                    <th>类别</th>
+                    <th>价格</th>
+                    <th>销量</th>
+                    <th>库存</th>
+                    <th>收藏数</th>
+                    <th>评论数</th>
+                    <th>上架时间</th>
+                    <th>能否定制</th>
+                    <th>礼物状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="gift:${giftMap}">
+                    <td>
+                        <div class="ui checkbox">
+                            <input type="checkbox" class="buycheck" th:name="${gift.key.id}" th:data-id="${gift.key.id}"/>
+                            <label></label>
+                        </div>
+                    </td>
+                    <td th:text="${gift.key.id}"></td>
+                    <td class="name_td">
+                        <div class="float_div"><img th:src="${gift.key.small_img}" class="gift_img"/></div>
+                        <div class="float_div name_div" th:text="${gift.key.name}"><span ></span></div>
+                        <div class="clear_float"></div>
+                    </td>
+                    <td th:text="${gift.value}"></td>
+                    <td class="price_td" th:text="${gift.key.price}"></td>
+                    <td th:text="${gift.key.sale_num}"></td>
+                    <td class="stock_td" th:text="${gift.key.stock}"></td>
+                    <td th:text="${gift.key.collection}"></td>
+                    <td th:text="${gift.key.comment}"></td>
+                    <td th:text="${gift.key.on_shelf_time}"></td>
+                    <td th:if="${gift.key.if_custom_made eq 0}">可以定制</td>
+                    <td th:if="${gift.key.if_custom_made eq 1}">不可定制</td>
+                    <td th:class="sale_status" th:if="${gift.key.status eq 0}">销售中</td>
+                    <td th:class="sale_status" th:if="${gift.key.status eq 1}">已下架</td>
+                    <td th:id="${gift.key.id}">
+                        <button class="ui button tiny blue modify_status" th:if="${gift.key.status eq 0}">下架</button>
+                        <button class="ui button tiny blue modify_status" th:if="${gift.key.status eq 1}">上架</button>
+                        <button class="ui button tiny green button modify_gift">修改</button>
+                        <button class="ui button tiny red button single_delete">删除</button>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+            <tr><th colspan="13">
+                <div class="ui right floated pagination menu">
+                    <a class="icon item">
+                        <i class="left chevron icon"></i>
+                    </a>
+                    <a class="item">1</a>
+                    <a class="item">2</a>
+                    <a class="item">3</a>
+                    <a class="item">4</a>
+                    <a class="icon item">
+                        <i class="right chevron icon"></i>
+                    </a>
+                </div>
+            </th>
+            </tr></tfoot>
+        </table>
+    </div>
+    <div class="popup_box alert delete_gift_box">
+        <img src="../static/img/alert_img/ask.png"/>
+        <div class="alert_content">
+            删除之后不可返回，请确认是否删除
+        </div>
+        <div class="mybtn myblue alertBtn left_btn" id="alert_sure_btn">确定</div>
+        <div class="mybtn mywhite alertBtn close_btn">取消</div>
+    </div>
+    <div class="popup_box alert check_one_box">
+        <img src="../static/img/alert_img/tishi.png"/>
+        <div class="alert_content">
+            请至少选择一项
+        </div>
+        <div class="mybtn myblue alertBtn close_btn">确定</div>
+    </div>
+    <div class="BeAlert_overlay"></div>
 
+    <div class="modify_box">
+        <div class="box_header">
+            <div class="header_title">修改礼物信息</div>
+            <div class="right_close_div"><i class="icon iconfont icon-error"></i></div>
+            <div class="clear_float"></div>
+        </div>
+        <div class="box_content">
+            <form id="modify_form"  method="post" action="/gift/modifyGift" class="ui form" role="form">
+                <div class="field">
+                    <div class="small_title"><i class="remove bookmark red icon"></i>礼物标题</div>
+                    <input  style="width: 630px;" type="text" name="title"/>
+                </div>
+                <div class="field">
+                    <div class="small_title"><i class="remove bookmark red icon"></i>礼物简介</div>
+                    <input  style="width: 630px;" type="text" name="brief"/>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <div class="small_title"><i class="remove bookmark red icon"></i>库存（件）</div>
+                        <input  style="width: 290px;" type="text" name="stock"/>
+                    </div>
+                    <div class="field">
+                        <div class="small_title"><i class="remove bookmark red icon"></i>价格（元）</div>
+                        <input  style="width: 290px;" type="text" name="price"/>
+                    </div>
+                </div>
+                <div class="small_title"><i class="remove bookmark red icon"></i>商品详情</div>
+                <script id="editor" type="text/plain" style="width: 660px; height: 200px;">
+                </script>
+            </form>
+        </div>
+        <div class="box_footer">
+            <div class="mybtn myblue alertBtn left_btn" id="modify_sure_btn">确定</div>
+            <div class="mybtn mywhite alertBtn" id="modify_cancel_btn">取消</div>
+        </div>
+    </div>
+</div>
 </body>
+<script>
+    $(function () {
+        var ue = UE.getEditor('editor',{
+            toolbars: [
+                [
+                    'undo', //撤销
+                    'bold', //加粗
+                    'indent', //首行缩进
+                    'italic', //斜体
+                    'underline', //下划线
+                    'strikethrough', //删除线
+                    'subscript', //下标
+                    'preview', //预览
+                    'horizontal', //分隔线
+                    'inserttitle', //插入标题
+                    'cleardoc', //清空文档
+                    'fontfamily', //字体
+                    'fontsize', //字号
+                    'paragraph', //段落格式
+                    'simpleupload', //单图上传
+                    'insertimage', //多图上传
+                    'link', //超链接
+                    'emotion', //表情
+                    'spechars', //特殊字符
+                    'insertvideo', //视频
+                    'justifyleft', //居左对齐
+                    'justifyright', //居右对齐
+                    'justifycenter', //居中对齐
+                    'justifyjustify', //两端对齐
+                    'forecolor', //字体颜色
+                    'backcolor', //背景色
+                    'insertorderedlist', //有序列表
+                    'insertunorderedlist', //无序列表
+                    'rowspacingtop', //段前距
+                    'rowspacingbottom', //段后距
+                    'imagecenter', //居中
+                    'lineheight', //行间距
+                    'autotypeset', //自动排版
+                    'background', //背景
+                ]
+            ]
+        });
+        function getContent() {
+            var arr = [];
+            arr.push("使用editor.getContent()方法可以获得编辑器的内容");
+            arr.push("内容为：");
+            arr.push(UE.getEditor('editor').getContent());
+            alert(arr.join("\n"));
+        }
+        function setContent(isAppendTo) {
+            var arr = [];
+            arr.push("使用editor.setContent('欢迎使用ueditor')方法可以设置编辑器的内容");
+            UE.getEditor('editor').setContent('欢迎使用ueditor', isAppendTo);
+            alert(arr.join("\n"));
+        }
+
+        $(".close_btn").click(function () {
+            $(this).parents('.alert').css('display','none');
+            $('.BeAlert_overlay').css('display','none');
+        })
+        $(".right_close_div").click(function () {
+            $(".modify_box").css('display','none');
+        })
+        $('#modify_cancel_btn').click(function () {
+            $(".modify_box").css('display','none');
+        })
+        $('#addGift').click(function () {
+            window.location.href = "/gift/addGift";
+        });
+        $("#allChk").click(function() {
+            $(".buycheck").prop("checked",this.checked);
+        });
+        $("#deleteGifts").click(function () {
+            var arr = new Array();
+            $('.buycheck').each(function () {
+                console.log($(this).attr('name'));
+                if($(this).prop("checked") == true){
+                    console.log($(this).attr('name'));
+                    arr.push($(this).attr('name'));
+                }
+            });
+            if(arr.length == 0){
+                $('.check_one_box').css('display','block');
+                $('.BeAlert_overlay').css('display','block');
+            }else{
+                var str = arr.join(",");
+                $.ajax({
+                    url:"gift/deleteGifts",
+                    type:"post",
+                    data:{
+                        str:str
+                    },
+                    dataType:"text",
+                    success:function (data) {
+                        console.log(data);
+                        window.location.reload();
+                    }
+                })
+            }
+        });
+
+        var deleted_gift_id;
+        $('.single_delete').click(function () {
+            $('.delete_gift_box').css('display','block');
+            $('.BeAlert_overlay').css('display','block');
+            deleted_gift_id = $(this).parent('td').attr('id');
+        })
+
+        $('#alert_sure_btn').click(function () {
+            $('.delete_gift_box').css('display','none');
+            $('.BeAlert_overlay').css('display','none');
+            var gift_id = deleted_gift_id;
+            $.ajax({
+                url:"gift/deleteGift",
+                type:"post",
+                data:{
+                    gift_id:gift_id
+                },
+                dataType:"text",
+                success:function (data) {
+                    console.log(data);
+                    window.location.reload();
+                }
+            })
+        });
+
+        $('#alert_cancel_btn').click(function () {
+            $('.delete_gift_box').css('display','none');
+            $('.BeAlert_overlay').css('display','none');
+        });
+        
+        $(".modify_status").click(function () {
+            var gift_status_id = $(this).parent('td').attr('id');
+            var status_td = $(this).parent('td').find('.sale_status');
+            var text = status_td.text();
+            $.ajax({
+                url:"gift/updateGiftStatus",
+                type:"post",
+                data:{
+                    gift_id:gift_status_id
+                },
+                dataType:"text",
+                success:function (data) {
+                    console.log(data);
+                    if(text == "销售中"){
+                        status_td.text("已下架");
+                    }else{
+                        status_td.text("销售中");
+                    }
+                }
+            })
+        })
+
+        var gift_td;
+        $('.modify_gift').click(function () {
+            $('.modify_box').css('display','block');
+            gift_td = $(this).parent('td');
+            var gift_id = gift_td.attr('id');
+            var name =  gift_td.parents('tr').find('.name_div').text();
+            var price = gift_td.parents('tr').find('.price_td').text();
+            var stock = gift_td.parents('tr').find('.stock_td').text();
+            $.ajax({
+                url:"gift/getGift",
+                type:"post",
+                data:{
+                    gift_id:gift_id
+                },
+                dataType:"JSON",
+                success:function (data) {
+                    console.log(data);
+                    var giftInfo = data;
+                    $('.modify_box').css('display','block');
+                    $("input[name='title']").val(name);
+                    $("input[name='brief']").val(giftInfo.brief);
+                    $("input[name='price']").val(price);
+                    $("input[name='stock']").val(stock);
+                    ue.setContent(giftInfo.gift_info);
+                },
+                error:function (data) {
+                    console.log(data);
+                }
+            })
+        })
+        
+        $("#modify_sure_btn").click(function () {
+            var gift_id = gift_td.attr('id');
+            var content = ue.getContent();
+            console.log("确认按钮");
+            $('.modify_box').css('display','none');
+            $('#modify_form').ajaxSubmit({
+                data:{
+                    gift_id:gift_id,
+                    content:content
+                },
+                dataType:"JSON",
+                success:function (data,status,xhr,$form) {
+                    var gift = data;
+                    console.log(gift);
+                    console.log(gift_td.parents('tr').find('.name_div'));
+                    console.log(gift.name);
+                    gift_td.parents('tr').find('.name_div').text(gift.name);
+                    gift_td.parents('tr').find('.price_td').text(gift.price);
+                    gift_td.parents('tr').find('.stock_td').text(gift.stock);
+                },
+                error:function (xhr, status, error, $form) {
+                    console.log("error",xhr, status, error, $form);
+                }
+            })
+        })
+
+
+    })
+</script>
 </html>

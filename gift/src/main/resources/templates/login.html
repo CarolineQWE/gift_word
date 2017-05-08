@@ -259,9 +259,9 @@
                         }else if (data == "0"){
                             window.location.href="/index";
                             console.log("daozhele",0);
-                        }else if (data == "1"||data == "2"){
+                        }else if (data == "1"){
                             window.location.href="/index_admin";
-                        }else if (data == "3"){
+                        }else if (data == "2"){
                             window.location.href="/index_designer";
                         }
                     }
@@ -286,7 +286,7 @@
                 return;
             }else{
                 $.ajax({
-                    url:"/gift/register",
+                    url:"/register",
                     type:"POST",
                     data:{
                         account:account,
@@ -296,7 +296,7 @@
                     dataType:"text",
                     success:function(data){
                         if(data == "用户已存在"){
-                           /* setError($("#account_reg"),"该手机号已经注册&nbsp;&nbsp;"+"<a href='/login'>直接登录</a>");*/
+                           setError($("#account_reg"),'该手机号已经注册<a href="/login">直接登录</a>');
                         }else if(data == "注册成功"){
                             alert("注册成功！请直接登录");
                             window.location.href="/login";

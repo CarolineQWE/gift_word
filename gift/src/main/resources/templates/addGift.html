@@ -2,35 +2,26 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>礼物上架</title>
+    <title>新增礼物</title>
     <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
     <script type="text/javascript" src="../static/js/jquery.cookie.js"></script>
     <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css">
-    <link rel="stylesheet" href="../static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/nav_admin.css" />
     <script type="text/javascript" charset="utf-8" src="../static/ueditor/ueditor.config.js"></script>
     <script type="text/javascript" charset="utf-8" src="../static/ueditor/ueditor.all.min.js"> </script>
     <script type="text/javascript" charset="utf-8" src="../static/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../static/js/jquery.form.js"></script>
 
     <style type="text/css">
-        .leftmenu {
-            display: inline-block;
-            vertical-align: top;
-        }
-
-        #main_div {
-            display: inline-block;
-            vertical-align: top;
-            margin-left: 70px;
-            width: 925px;
-            height: 100%;
-        }
-
         .small_title {
             font-size: 16px;
-            border-left: solid 3px #E78170;
-            padding-left: 5px;
             margin: 15px 0px;
+        }
+
+        .small_title i{
+            font-size: 18px;
         }
         .btnmargin{
             margin:20px 0px;
@@ -40,115 +31,199 @@
         .borderdiv{
             border:solid 1px #d9d9d9;
             border-radius:5px;
-            padding:20px;
+            padding:14px;
+            margin-bottom: 30px;
+        }
+        .dingkuan{
+            width:100%;
+        }
+        .uploadImgs ul{
+            padding:0;
+            margin:0;
+        }
+        .uploadImgs ul li{
+            float: left;
+            list-style: none;
+            padding-right: 30px;
+        }
+        .top_img_div{
+            position: relative;
+            float: left;
+            margin-right: 30px;
+            width:200px;
+            height:200px;
+        }
+        .top_img_input{
+            width: 200px;
+            height: 200px;
+            outline:none;
+            border: none;
+        }
+        .pre_fileupload{
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            width: 200px;
+            height: 200px;
+            background-color: #f3f4f5;
+            cursor: pointer;
+        }
+        .center_div{
+            position: absolute;
+            left: 65px;
+            top: 70px;
+            text-align: center;
+        }
+        .center_icon_div i{
+            font-size: 40px;
+            color: #b1b1b1;
+        }
+        .center_titu_div{
+            font-size: 18px;
+            color: #838282;
+        }
+        .dingzhi{
+            margin: 20px;
+            font-size: 20px;
+        }
+        .padding_bottom{
+            padding-bottom: 10px;
         }
     </style>
 </head>
-
 <body>
-<div class="nav_out">
-    <div th:include="nav :: mynav"></div>
-</div>
-
+<div th:include="adminNav :: myAdmin"></div>
 <div class="container">
     <div class="content">
-        <div class="leftmenu">
-            <div class="ui vertical pointing menu">
-                <a class="item active">礼物上架 </a>
-                <a class="item">礼物下架 </a>
-                <a class="item">礼物修改 </a>
-                <a class="item">批量导入 </a>
-                <a class="item">批量删除 </a>
-                <a class="item">销量查询 </a>
+        <div class="borderdiv">
+            <div class="small_title"><a class="ui orange ribbon label">礼物图片</a></div>
+            <div class="top_img_div">
+                <form id="file_form" enctype="multipart/form-data" method="post" action="/uploadImg">
+                    <input id="file_input" type="file" name="file" class="top_img_input"/>
+                    <div class="pre_fileupload" id="pre">
+                        <div class="center_div">
+                            <div class="center_icon_div"><i class="cloud icon"></i></div>
+                            <div class="center_titu_div">上传图片</div>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </div>
-        <div id="main_div">
-            <form id="myform" class="ui form segment dingkuan" role="form">
-                <div class="field">
-                    <div class="small_title">礼物标题</div>
-                    <input type="text" name="title">
-                </div>
-                <div class="field">
-                    <div class="small_title">礼物简介</div>
-                    <input type="text" name="brief">
-                </div>
-                <div class="two fields">
-                    <div class="field">
-                        <div class="small_title">礼物分类</div>
-                        <div class="ui fluid selection dropdown">
-                            <input type="hidden" name="category">
-                            <div class="default text">礼物分类</div>
-                            <i class="dropdown icon"></i>
-                            <div class="menu">
-                                <div th:each="cate:${categories }" class="item firstcate" data-value="${cate.id }" id="${cate.id }" th:text="${cate.name }"></div>
-                            </div>
+            <div class="top_img_div">
+                <form id="file_form2" enctype="multipart/form-data" method="post" action="/uploadImg">
+                    <input id="file_input2" type="file" name="file" class="top_img_input"/>
+                    <div class="pre_fileupload" id="pre2">
+                        <div class="center_div">
+                            <div class="center_icon_div"><i class="cloud icon"></i></div>
+                            <div class="center_titu_div">上传图片</div>
                         </div>
                     </div>
-                    <div class="field">
-                        <div class="small_title">详细分类</div>
-                        <div class="ui fluid selection dropdown">
-                            <input type="hidden" name="secondcate">
-                            <div class="default text">详细分类</div>
-                            <i class="dropdown icon"></i>
-                            <div id="secondcate" class="menu">
+                </form>
+            </div>
+            <div class="top_img_div">
+                <form id="file_form3" enctype="multipart/form-data" method="post" action="/uploadImg">
+                    <input id="file_input3" type="file" name="file" class="top_img_input"/>
+                    <div class="pre_fileupload" id="pre3">
+                        <div class="center_div">
+                            <div class="center_icon_div"><i class="cloud icon"></i></div>
+                            <div class="center_titu_div">上传图片</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="clear_float"></div>
+        </div>
+        <form id="myform" enctype="multipart/form-data" method="post" action="/gift/submitGift" class="ui form segment dingkuan" role="form">
+            <div class="field">
+                <div class="small_title"><a class="ui blue ribbon label">基本信息</a></div>
+                <div class="small_title"><i class="remove bookmark red icon"></i>礼物标题</div>
+                <input type="text" name="title"/>
+            </div>
+            <div class="field">
+                <div class="small_title"><i class="remove bookmark red icon"></i>礼物简介</div>
+                <input type="text" name="brief"/>
+            </div>
 
-                            </div>
+            <div class="two fields">
+                <div class="field">
+                    <div class="small_title"><i class="remove bookmark red icon"></i>礼物分类</div>
+                    <div class="ui fluid selection dropdown">
+                        <input type="hidden"/>
+                        <div class="default text">礼物分类</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu cate_menu">
+                            <div th:each="cate:${categories }" class="item firstcate" th:id="${cate.id }"  th:text="${cate.name }"></div>
                         </div>
                     </div>
                 </div>
-                <div class="two fields">
-                    <div class="field">
-                        <div class="small_title">库存</div>
-                        <input type="text" name="stock">
-                    </div>
-                    <div class="field">
-                        <div class="small_title">价格</div>
-                        <input type="text" name="price">
+                <div class="field">
+                    <div class="small_title"><i class="remove bookmark red icon"></i>详细分类</div>
+                    <div class="ui fluid selection dropdown">
+                        <input type="hidden"/>
+                        <div class="default text">详细分类</div>
+                        <i class="dropdown icon"></i>
+                        <div id="secondCate" class="menu second_cate_menu">
+
+                        </div>
                     </div>
                 </div>
-                <div class="small_title">销售属性</div>
-                <div class="borderdiv">
-                    <div th:each="map:${saleSpecs }" class="field">
+            </div>
+            <div class="two fields">
+                <div class="field">
+                    <div class="small_title"><i class="remove bookmark red icon"></i>库存（件）</div>
+                    <input type="text" name="stock"/>
+                </div>
+                <div class="field">
+                    <div class="small_title"><i class="remove bookmark red icon"></i>价格（元）</div>
+                    <input type="text" name="price"/>
+                </div>
+            </div>
+            <div class="dingzhi">
+                <div class="ui toggle checkbox">
+                    <input type="checkbox" id="if_custom_made"/>
+                    <label>能否定制</label>
+                </div>
+            </div>
+            <div class="small_title"><a class="ui green ribbon label">属性信息</a></div>
+            <div class="small_title"><i class="remove bookmark red icon"></i>销售属性</div>
+            <div class="borderdiv">
+                <div th:each="map:${saleSpecs }" class="field">
+                    <label th:text="${map.key }"></label>
+                    <div class="inline field">
+                        <div th:each="spec:${map.value }" class="ui checkbox">
+                            <input type="checkbox" th:id="${spec.id }" class="sale_spec_input"/>
+                            <label th:text="${spec.value }"></label>
+                        </div>
+                        <!-- <a id="" href="/addColor">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;新增分类</a> -->
+                    </div>
+                </div>
+                <a href="/addSaleSpec">新增销售属性</a>
+            </div>
+            <div class="small_title"><i class="remove bookmark red icon"></i>基本属性</div>
+            <div class="borderdiv">
+                <div th:each="map:${baseSpecs }" class="two fields padding_bottom">
+                    <div class="field">
                         <label th:text="${map.key }"></label>
-                        <div class="inline field">
-                            <div th:each="spec:${map.value }" class="ui checkbox">
-                                <input type="checkbox" name="${spec.id }">
-                                <label th:text="${spec.value }"></label>
-                            </div>
-                            <!-- <a id="" href="/addColor">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;新增分类</a> -->
-                        </div>
-                    </div>
-                    <a href="/addSaleSpec">新增销售属性</a>
-                </div>
-                <div class="small_title">基本属性</div>
-                <div class="borderdiv">
-                    <div th:each="map:${baseSpecs }" class="two fields">
-                        <div class="field">
-                            <label th:text="${map.key }"></label>
-                            <label th:text="${map.key }"></label>
-                            <div class="ui fluid selection dropdown">
-                                <input type="hidden" name="${map.key }"/>
-                                <div class="default text">基本属性</div>
-                                <i class="dropdown icon"></i>
-                                <div class="menu">
-                                    <div th:each="spec:${map.value }" class="item" data-value="${spec.id }" th:text="${spec.value}"></div>
-                                </div>
+                        <div class="ui fluid selection dropdown">
+                            <input type="hidden"/>
+                            <div class="default text" th:text="${map.key }"></div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu base_menu">
+                                <div th:each="spec:${map.value }" class="item" th:id="${spec.id }" th:text="${spec.value}"></div>
                             </div>
                         </div>
                     </div>
-                    <a href="/addBaseSpec">新增基本属性</a>
                 </div>
-                <div class="small_title">商品详情</div>
-                <div class="borderdiv">
-                    <script id="editor" type="text/plain" style="width: 750px; height: 300px;">
-                    </script>
-                </div>
-                <div class="ui myred  mybtn btnmargin largebtn" id="submitbtn">礼物上架</div>
-            </form>
-        </div>
+                <a href="/addBaseSpec">新增基本属性</a>
+            </div>
+            <div class="small_title"><a class="ui orange ribbon label">详细信息</a></div>
+            <div class="small_title"><i class="remove bookmark red icon"></i>商品详情</div>
+            <script id="editor" type="text/plain" style="width: 1180px; height: 300px;">
+            </script>
+            <div class="ui myred  mybtn btnmargin largebtn" id="submitbtn">礼物上架</div>
+        </form>
+
     </div>
 </div>
-
 </body>
 <script th:inline="javascript">
     /*<![CDATA[*/
@@ -163,50 +238,11 @@
          }
 
         $('.ui.dropdown').dropdown();
-        $('.ui.form').form({
-            fields: {
-                title: {
-                    identifier: 'title',
-                    rules: [{
-                        type: 'empty',
-                        prompt: 'Please enter a gender'
-                    }]
-                },
-                brief: {
-                    identifier: 'brief',
-                    rules: [{
-                        type: 'empty',
-                        prompt: 'Please enter a gender'
-                    }]
-                },
-                gender: {
-                    identifier: 'category',
-                    rules: [{
-                        type: 'empty',
-                        prompt: 'Please enter a gender'
-                    }]
-                },
-                secondcate: {
-                    identifier: 'secondcate',
-                    rules: [{
-                        type: 'empty',
-                        prompt: 'Please enter a gender'
-                    }]
-                },
-                name: {
-                    identifier: 'name',
-                    rules: [{
-                        type: 'empty',
-                        prompt: 'Please enter your name'
-                    }]
-                }
-            }
-        });
 
         $(".firstcate").click(function(){
             var id = $(this).attr('id');
             $.ajax({
-                url:"/getSecondMenu",
+                url:"/gift/getSecondMenu",
                 type:"post",
                 data:{
                     id:id
@@ -215,30 +251,120 @@
                 success:function(data){
                     console.log(data);
                     var len = data.length;
+                    var arr = new Array();
                     for(var i = 0;i < len; i++){
-                        console.log(data[i].name);
-                        var $dom=$("<div class='item' data-value="+data[i].id+" id="+data[i].id+">"+data[i].name+"</div>")
-                        $("#secondcate").append($dom);
+                        console.log(data[i]);
+                        arr[i]='<div class="item" id='+data[i].id+'>'+data[i].name+'</div>';
                     }
+                    var string = arr.join("");
+                    $("#secondCate").html($(string));
                 }
             })
         })
 
-        $("#submitbtn").click(function(){
-            var $form = $('form'),
-                    allFields = $form.form('get values');
-            console.log("allFields",allFields);
-            var string = JSON.stringify(allFields);
-            console.log("string",string);
-            $.ajax({
-                url:"/submitGift",
-                method:"post",
-                data:{
-                    string:string
+        $('.pre_fileupload').click(function () {
+            $(this).siblings('.top_img_input').click();
+
+        });
+        var src1 = "";
+        var src2 = "";
+        var src3 = "";
+
+        $('#file_input').change(function () {
+            console.log("val",$(this).val());
+            $("#file_form").ajaxSubmit({
+                success: function(data,status,xhr,$form) {
+                    src1 = data.url;
+                    console.log(src1);
+                    if(!(src1 == null || src1 == undefined)){
+                        $('#pre').css('background-image','url('+src1+')');
+                        $('#pre').css('background-repeat','no-repeat');
+                        $('#pre').find('.center_div').css('display','none');
+                    }
                 },
-                dataType:"text",
-                success:function(data){
-                    alert(data);
+                error: function(xhr, status, error, $form){
+                    console.log("error",xhr, status, error, $form);
+                }
+            })
+        });
+        $('#file_input2').change(function () {
+            console.log("val",$(this).val());
+            $("#file_form2").ajaxSubmit({
+                success: function(data,status,xhr,$form) {
+                    src2 = data.url;
+                    console.log(src2);
+                    if(!(src2 == null || src2 == undefined)){
+                        $('#pre2').css('background-image','url('+src2+')');
+                        $('#pre2').css('background-repeat','no-repeat');
+                        $('#pre2').find('.center_div').css('display','none');
+                    }
+                },
+                error: function(xhr, status, error, $form){
+                    console.log("error",xhr, status, error, $form);
+                }
+            })
+        });
+        $('#file_input3').change(function () {
+            console.log("val",$(this).val());
+            $("#file_form3").ajaxSubmit({
+                success: function(data,status,xhr,$form) {
+                    src3 = data.url;
+                    console.log(src3);
+                    if(!(src3 == null || src3 == undefined)){
+                        $('#pre3').css('background-image','url('+src3+')');
+                        $('#pre3').css('background-repeat','no-repeat');
+                        $('#pre3').find('.center_div').css('display','none');
+                    }
+                },
+                error: function(xhr, status, error, $form){
+                    console.log("error",xhr, status, error, $form);
+                }
+            })
+        });
+
+        $("#submitbtn").click(function(){
+            var spec_ids = new Array();
+            $('.sale_spec_input:checked').each(function () {
+                var spec_id = $(this).attr('id');
+                spec_ids.push(spec_id);
+            })
+            console.log(spec_ids);
+            var spec_ids_str = spec_ids.join(",");
+
+            var base_spec_ids = new Array();
+            $('.base_menu').find('.item.selected').each(function () {
+                var base_spec_id = $(this).attr('id');
+                base_spec_ids.push(base_spec_id);
+            })
+            console.log(base_spec_ids);
+            var base_spec_ids_str = base_spec_ids.join(",");
+            var content = ue.getContent();
+            var if_custom_made;
+            if($("#if_custom_made").prop('checked')){
+                if_custom_made = 0;
+            }else{
+                if_custom_made = 1;
+            }
+            var cate_id =  $('.cate_menu').find('.item.selected').attr('id');
+            var second_cate_id = $('.second_cate_menu').find('.item.selected').attr('id');
+            $("#myform").ajaxSubmit({
+                data:{
+                    src1:src1,
+                    src2:src2,
+                    src3:src3,
+                    content:content,
+                    spec_ids:spec_ids_str,
+                    base_spec_ids:base_spec_ids_str,
+                    if_custom_made:if_custom_made,
+                    cate_id:cate_id,
+                    second_cate_id:second_cate_id
+                },
+                success: function(data,status,xhr,$form) {
+                    console.log(data);
+                    alert("新增礼物成功");
+                },
+                error: function(xhr, status, error, $form){
+                    console.log("error",xhr, status, error, $form);
                 }
             })
         })

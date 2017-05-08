@@ -1,19 +1,18 @@
 package com.soft.gift.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.soft.gift.model.Category;
-import com.soft.gift.model.Spec;
+import com.soft.gift.model.*;
 import com.soft.gift.service.GiftService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,37 +22,55 @@ public class AddGiftController {
 	@Autowired
 	private GiftService giftService;
 	
-	@RequestMapping(value="addGift.do")
-	public ModelAndView addGift(HttpServletRequest request){
-		ModelAndView mView = new ModelAndView("addGift");
+	@RequestMapping(value="/gift/addGift")
+	public String addGift(HttpServletRequest request, ModelMap map){
 		List<Category> categories = new ArrayList<Category>();
 		categories = giftService.getFirstCate();
 		Map<String,List<Spec>> saleSpecs= giftService.getSpecBySpecName(0);
 		Map<String,List<Spec>> baseSpecs = giftService.getSpecBySpecName(1);
-		mView.addObject("categories",categories);
-		mView.addObject("saleSpecs",saleSpecs);
-		mView.addObject("baseSpecs",baseSpecs);
-		return mView;
+		map.put("categories",categories);
+		map.put("saleSpecs",saleSpecs);
+		map.put("baseSpecs",baseSpecs);
+		return "addGift";
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="getSecondMenu.do")
+	@RequestMapping(value="/gift/getSecondMenu")
 	public String getSecondMenu(HttpServletRequest request,HttpServletResponse response,Integer id) throws IOException{
 		List<Category> categories = giftService.getSecondMenu(id);
 		String json = JSON.toJSONString(categories);
-		PrintWriter writer = response.getWriter();
-		writer.write(json);
-		writer.close();
 		return json;
 	}
-	
-	@RequestMapping(value="submitGift.do")
-	public void submitGift(HttpServletRequest request,String string) throws IOException{
-		System.out.println(string);
-		System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-		/*Gift gift = new Gift(name, 0, 0, stock, price, new Timestamp(new Date().getTime()), 0, small_img, category);
-		GiftInfo giftInfo = new GiftInfo(gift_id, brief, gift_info);
-		GiftSpec giftSpec = new GiftSpec(gift_id, spec_id);
-		giftService.addGift();*/
+
+	@ResponseBody
+	@RequestMapping(value="/gift/submitGift")
+	public String submitGift(HttpServletRequest request,String title,String brief,String src1,String src2,String src3,
+							 Integer cate_id,Integer second_cate_id,Integer stock,Double price,String content,String spec_ids,String base_spec_ids,
+							 Integer if_custom_made) throws IOException{
+
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		if (second_cate_id == null && cate_id != null){
+			second_cate_id = cate_id;
+		}
+		Gift gift = new Gift(title,0,0,stock,price,timestamp,0,src1,src2,src3,if_custom_made,second_cate_id);
+		System.out.println("gift:"+gift);
+		giftService.addGift(gift);//插入礼物表
+		GiftInfo giftInfo = new GiftInfo(gift.getId(),brief,content);
+		giftService.addGiftInfo(giftInfo);//插入礼物详情表
+		String [] arr  = spec_ids.split(",");
+		for(String s:arr){
+			Integer spec_id = Integer.parseInt(s);
+			GiftSpec giftSpec = new GiftSpec(gift.getId(), spec_id);
+			giftService.addGiftSpec(giftSpec);//插入礼物属性对应表
+		}
+		String [] arr_base = base_spec_ids.split(",");
+		for (String s:arr_base){
+			Integer spec_id = Integer.parseInt(s);
+			GiftSpec giftSpec = new GiftSpec(gift.getId(), spec_id);
+			giftService.addGiftSpec(giftSpec);//插入礼物属性对应表
+		}
+		return "成功";
+
 	}
+
 }

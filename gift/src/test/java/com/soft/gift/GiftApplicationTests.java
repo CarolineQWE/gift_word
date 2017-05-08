@@ -1,7 +1,11 @@
 package com.soft.gift;
 
+import com.soft.gift.mapper.CareDAO;
+import com.soft.gift.mapper.GiftDAO;
 import com.soft.gift.mapper.StrategyDAO;
+import com.soft.gift.model.Gift;
 import com.soft.gift.model.Strategy;
+import com.soft.gift.service.CareService;
 import com.soft.gift.service.StrategyService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +22,12 @@ public class GiftApplicationTests {
 	public StrategyDAO strategyDAO;
 	@Autowired
 	public StrategyService strategyService;
-
+	@Autowired
+	public CareDAO careDAO;
+	@Autowired
+	public CareService careService;
+	@Autowired
+	public GiftDAO giftDAO;
 	@Test
 	public void contextLoads() {
 	}
@@ -42,10 +51,20 @@ public class GiftApplicationTests {
 		List<Strategy> list = strategyService.findStra(rel,occasion,style);
 		System.out.println(list);*/
 
-		Strategy strategy = strategyDAO.selectByPrimaryKey(20);
+		/*Strategy strategy = strategyDAO.selectByPrimaryKey(20);
 		strategy.setLike(strategy.getLike()+1);
 		Integer a = strategyDAO.updateByPrimaryKey(strategy);
-		System.out.println("a:"+a);
+		System.out.println("a:"+a);*/
+		/*Care care = new Care("qwe","qwe");
+		Integer a = careService.addCare(care);
+		System.out.println("<<<<<<<<<<<<<<<<<<care.id:"+care.getId());*/
+
+		Gift gift = new Gift();
+		gift.setId(13);
+		gift.setStatus(0);
+		gift.setPrice(12.1);
+		gift.setStock(459999);
+		giftDAO.updateByPrimaryKeySelective(gift);
 	}
 
 }

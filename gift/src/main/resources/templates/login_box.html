@@ -2,19 +2,19 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
     <title></title>
 </head>
 <body>
     <div th:fragment="box">
-
+        <div class="popup_box alert">
+            <img src="../static/img/alert_img/tishi.png"/>
+            <div class="alert_content">
+                评论内容不能为空！
+            </div>
+            <div class="mybtn myblue surebtn">确定</div>
+        </div>
+        <div class="BeAlert_overlay"></div>
     </div>
 </body>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    $(function () {
 
-    })
-    /*]]>*/
-</script>
 </html>

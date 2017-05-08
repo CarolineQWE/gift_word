@@ -59,10 +59,11 @@ public class UserServiceImpl implements UserService{
 		if( !(user3 == null || user3.equals(""))){
 			return "用户已存在";
 		}else{
-			User user2 = new User(account,password,0,0);
+			User user2 = new User(account,password,0,0,0);
 			UserInfo userInfo = new UserInfo();
 			userInfo.setAccount(account);
 			userInfo.setNickname(nickname);
+			userInfo.setHead("../static/img/moren_head.jpg");
 			int n1 = userDAO.insert(user2);
 			int n2 = userInfoDAO.insert(userInfo);
 			if(n1 == 1 && n2 ==1){

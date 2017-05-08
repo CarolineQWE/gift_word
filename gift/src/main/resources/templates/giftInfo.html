@@ -342,11 +342,8 @@
 </style>
 
 <body>
-
+<div th:include="nav :: mynav"></div>
 <div class="container">
-    <div class="nav_out">
-        <div th:include="nav :: mynav"></div>
-    </div>
     <div class="content">
         <div class="left_gift_img">
             <img th:src="@{'../static/'+${gift.small_img}}" id="showimg" />

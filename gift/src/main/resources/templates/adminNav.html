@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css"/>
+    <style type="text/css">
+        body{
+            box-sizing: content-box;
+        }
+    </style>
+</head>
+<body>
+    <div th:fragment="myAdmin">
+        <div class="navout">
+            <div class="nav">
+                <div class="logodiv">
+                    <img src="../static/img/logo.png" class="logoimg" />
+                </div>
+                <div class="spans">
+                    <a href="/index_admin"><span class="underline_span underline_selected" id="shopspan">
+                            礼物管理
+                        </span></a>
+                    <a href="order.do"><span class="underline_span" id="strategyspan">
+                            订单管理
+                        </span></a>
+                    <a href="#"><span class="underline_span" id="writespan">
+                            攻略管理
+                        </span></a>
+                    <a href="#"><span class="underline_span" id="writespan">
+                            评论管理
+                        </span></a>
+                </div>
+                <div id="userInfo">
+                    <div class="headspan"><img src="../static/img/8.png" class="headimg" /></div>
+                    <div class="username">qwe</div>
+                </div>
+                <div class="inputdiv">
+                    <input class="myinput search_input" type="text" placeholder="搜索"/>
+                    <div class="search_img_outer"><img class="search_img_white" src="../static/img/icon_search.png"/></div>
+                </div>
+                <div class="clear_float"></div>
+            </div>
+        </div>
+    </div>
+</body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(function(){
+        $(".inputbtn").click(function(){
+            var text = $('.myinput').text();
+            alert("qwe");
+            if(text==""|| text == null){
+                return;
+            }else{
+                window.location.href="searchGiftByKeyWord.do?keyword="+text;
+            }
+        })
+
+        $('.myinput').focus(function() {
+            $(this).parent().addClass('inputfocus');
+            $(this).siblings('.inputbtn').children('i').css('color', '#847471');
+        })
+        $('.myinput').blur(function() {
+            $(this).parent().removeClass('inputfocus');
+            $(this).siblings('.inputbtn').children('i').css('color', '#D9D9D9');
+        })
+
+        //http://baijii-common.b0.upaiyun.com/loaders/tiny.gif
+        $('.underline_span').click(function(){
+            $('.underline_span').each(function(){
+                $(this).removeClass('underline_selected');
+            })
+            $(this).addClass('underline_selected');
+        });
+
+    })
+    /*]]>*/
+</script>
+</html>

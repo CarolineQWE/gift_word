@@ -359,6 +359,66 @@ public class GiftServiceImpl implements GiftService {
 	}
 
 	@Override
+	public Integer addGift(Gift gift) {
+		Integer gift_id = giftDAO.insert(gift);
+		return gift_id;
+	}
+
+	@Override
+	public void addGiftInfo(GiftInfo giftInfo) {
+		giftInfoDAO.insert(giftInfo);
+	}
+
+	@Override
+	public void addGiftSpec(GiftSpec giftSpec) {
+		giftSpecDAO.insert(giftSpec);
+	}
+
+	@Override
+	public String getCateByID(Integer category_id) {
+	  	Category category = categoryDAO.selectByPrimaryKey(category_id);
+		return  category.getName();
+	}
+
+    @Override
+    public void batchDeleteGift(String str) {
+        String [] strings = str.split(",");
+        List<Integer> gift_ids = new ArrayList<>();
+        for(String s:strings){
+            Integer gift_id = Integer.parseInt(s);
+            gift_ids.add(gift_id);
+			giftDAO.deleteByPrimaryKey(gift_id);
+        }
+        /*giftDAO.batchDeleteGift(gift_ids);*/
+    }
+
+    @Override
+    public void deleteGift(Integer gift_id) {
+        giftDAO.deleteByPrimaryKey(gift_id);
+    }
+
+    @Override
+    public void updateGiftStatus(Integer gift_id) {
+        Gift gift = giftDAO.selectByPrimaryKey(gift_id);
+        if (gift.getStatus() == 0){
+            gift.setStatus(1);
+        }else{
+            gift.setStatus(0);
+        }
+        giftDAO.updateByPrimaryKey(gift);
+    }
+
+    @Override
+    public void updateGiftById(Gift gift) {
+        giftDAO.updateByPrimaryKeySelective(gift);
+    }
+
+    @Override
+    public void updateGiftInfoByGiftId(GiftInfo giftInfo) {
+        giftInfoDAO.updateByPrimaryKeySelective(giftInfo);
+    }
+
+    @Override
 	public List<Category> getFirstCate() {
 		List<Category> list = new ArrayList<Category>();
 		Category category = new Category();

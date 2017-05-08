@@ -1,0 +1,157 @@
+.navout{
+    width: 1210px;
+    margin: 0px auto;
+    position: relative;
+    height: 60px;
+}
+.nav {
+    width: 1210px;
+    margin: 0px auto;
+    height: 60px;
+    top: 0px;
+    z-index: 1000;
+    position: fixed;
+    background-color: #FFFFFF;
+    border-bottom: solid 2px #D9D9D9;
+}
+
+.logoimg {
+    width: 250px;
+    height: 30px;
+}
+
+.logodiv {
+    height: 60px;
+    padding: 15px 0px;
+    float: left;
+}
+
+.headimg {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+}
+
+.headspan {
+    display: inline-block;
+    vertical-align: top;
+    padding: 10px 0px;
+}
+
+.username {
+    display: inline-block;
+    vertical-align: top;
+    height: 60px;
+    line-height: 60px;
+}
+
+.spans {
+    float: left;;
+    vertical-align: top;
+    height: 60px;
+    padding-left: 30px;
+}
+
+.underline_span {
+    display: inline-block;
+    height: 60px;
+    line-height: 60px;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0px 5px;
+    margin: 0px 5px;
+}
+.underline_span:hover {
+    border-bottom: solid 2px #E78170;
+    color: #000000;
+}
+
+.underline_selected {
+    color: #000000;
+    border-bottom: solid 2px #E78170;
+}
+
+.myinput {
+    border: none;
+    background-color: #FFFFFF;
+    outline: medium;
+    width: 100%;
+}
+.inputbtn i {
+    color: #B7B7B7;
+}
+
+.inputbtn:hover i {
+    color: #000000;
+}
+
+.inputbtn:active i {
+    color: #000000;
+}
+
+.inputfocus {
+    border: solid 1px #E78170;
+}
+.mydropdown{
+    position: relative;
+    text-align: center;
+    margin-left:60px;
+}
+.mydropdown:hover ul{
+    display: block;
+}
+.mydropdown ul{
+    position: absolute;
+    right: 0px;
+    height: 0px;
+    padding: 0px;
+    margin: 0px;
+    display: none;
+}
+.mydropdown ul li{
+    width: 150px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #FFFFFF;
+    text-align: center;
+    border-top: dashed 1px #D8D8D8;
+    color:#FFF0F0;
+}
+.mydropdown ul li:hover{
+    background-color:#f7f7f7;
+}
+.mydropdown ul li a:hover{
+    color: #FF6D75;
+    display:block;
+    width:150px;
+    height:40px;
+    backgound-color:#f7f7f7;
+}
+.inputdiv {
+    vertical-align: top;
+    float: right;
+    position: relative;
+    margin-top: 10px;
+    margin-right: 30px;
+}
+.spans a{
+    color: #555;
+}
+.search_input{
+    border-radius: 20px;
+    border: solid 1px #b7b7b7;
+    width: 200px;
+    height:35px;
+    padding-left: 20px;
+    padding-right: 30px;
+    font-size:16px;
+}
+.search_img_outer{
+    position: absolute;
+    right:10px;
+    top:8px;
+}
+#userInfo{
+    float: right;
+    margin-right: 30px;
+}

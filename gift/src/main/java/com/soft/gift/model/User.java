@@ -14,12 +14,13 @@ public class User {
 	private Integer identity;
 	
 	
-	public User(String account, String password, Integer credits, Integer care) {
+	public User(String account, String password, Integer credits, Integer care,Integer identity) {
 		super();
 		this.account = account;
 		this.password = password;
 		this.credits = credits;
 		this.care = care;
+		this.identity = identity;
 	}
 
 	public User() {
@@ -74,9 +75,16 @@ public class User {
 	public void setIdentity(Integer identity) {
 		this.identity = identity;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", account=" + account + ", password=" + password + ", credits=" + credits + "]";
+		return "User{" +
+				"id=" + id +
+				", account='" + account + '\'' +
+				", password='" + password + '\'' +
+				", credits=" + credits +
+				", care=" + care +
+				", identity=" + identity +
+				'}';
 	}
 }

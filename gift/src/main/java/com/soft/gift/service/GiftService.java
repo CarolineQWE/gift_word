@@ -41,5 +41,22 @@ public interface GiftService {
 	public Map<Order, Map<LargeOrderInfo, List<Spec>>> getOrderByAccountAndStatus(String account, Integer status);
 	public Map<Order, Map<LargeOrderInfo, List<Spec>>> getOrderByStatus(Integer status);
 	public Map<LargeOrder, Map<LargeOrderInfo, List<Spec>>> getAllOrder();
-	//
+
+    public Integer addGift(Gift gift);
+
+	public void addGiftInfo(GiftInfo giftInfo);
+
+	public void addGiftSpec(GiftSpec giftSpec);
+
+    public String getCateByID(Integer category_id);
+
+	public void batchDeleteGift(String str);
+
+	public void deleteGift(Integer gift_id);
+
+	public void updateGiftStatus(Integer gift_id);
+
+	public void updateGiftById(Gift gift);
+
+	public void updateGiftInfoByGiftId(GiftInfo giftInfo);
 }

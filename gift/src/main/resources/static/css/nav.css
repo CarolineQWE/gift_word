@@ -262,7 +262,7 @@ body,body,ul,li{
     position: absolute;
     left: 0px;
     top: 40px;
-    padding: 20px;
+    padding: 0 20px;
     z-index: 111;
     padding-bottom: 0px;
 }

@@ -10,7 +10,7 @@
     background: #fff;
     border-radius: 5px;
     box-shadow: 0 0 20px #111;
-    display: none;
+    /*display: none;*/
 }
 .box_header{
     height:30px;
@@ -22,7 +22,7 @@
     float: left;
     height:30px;
     line-height:30px;
-    width:100px;
+    width:150px;
 }
 .header_title i{
     font-size: 20px;
@@ -78,7 +78,7 @@
     color: #7B7B7B;
 }
 /*gonggog*/
-.inputdiv{
+.login_input_div{
     width: 300px;
     height: 40px;
     border: solid 1px #FF6D75;
@@ -88,7 +88,7 @@
     padding: 0px;
     position:relative;
 }
-.myinput{
+.login_input{
     width: 290px;
     padding: 0 5px;
     border: none;
@@ -127,4 +127,27 @@
 .mybutton:active{
     color: #FFFFFF;
     background-color: #f74560;
+}
+.box_footer{
+    padding-right: 20px;
+    border-top: solid 1px #d9d9d9;
+    text-align: right;
+    width: 680px;
+    padding-bottom:10px;
+}
+.box_content{
+    padding:0 20px;
+    max-bottom: 20px;
+}
+.modify_box{
+    width: 700px;
+    position: absolute;
+    left: 330px;
+    top:0;
+    z-index: 1050;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 20px #111;
+    margin-bottom: 30px;
+    display: none;
 }

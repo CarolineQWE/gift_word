@@ -16,15 +16,17 @@ public class Gift{
 	private Timestamp on_shelf_time;
 	private Integer sale_num;
 	private String small_img;
+	private String second_img;
+	private String third_img;
+	private Integer if_custom_made;
 	private Integer category;
+	private Integer status;
 	
 	public Gift() {
 		super();
 	}
 
-	public Gift(String name, Integer collection, Integer comment, Integer stock, Double price,
-			Timestamp on_shelf_time,Integer sale_num,String small_img,Integer category) {
-		super();
+	public Gift(String name, Integer collection, Integer comment, Integer stock, Double price, Timestamp on_shelf_time, Integer sale_num, String small_img, String second_img, String third_img, Integer if_custom_made, Integer category) {
 		this.name = name;
 		this.collection = collection;
 		this.comment = comment;
@@ -33,9 +35,12 @@ public class Gift{
 		this.on_shelf_time = on_shelf_time;
 		this.sale_num = sale_num;
 		this.small_img = small_img;
+		this.second_img = second_img;
+		this.third_img = third_img;
+		this.if_custom_made = if_custom_made;
 		this.category = category;
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -119,12 +124,58 @@ public class Gift{
 		this.category = category;
 	}
 
+	@Column(name="second_img",length = 100)
+	public String getSecond_img() {
+		return second_img;
+	}
+
+	public void setSecond_img(String second_img) {
+		this.second_img = second_img;
+	}
+
+	@Column(name="third_img",length = 100)
+	public String getThird_img() {
+		return third_img;
+	}
+
+	public void setThird_img(String third_img) {
+		this.third_img = third_img;
+	}
+
+	@Column(name="if_custom_made")
+	public Integer getIf_custom_made() {
+		return if_custom_made;
+	}
+
+	public void setIf_custom_made(Integer if_custom_made) {
+		this.if_custom_made = if_custom_made;
+	}
+
+	@Column(name="status")
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
-		return "Gift [id=" + id + ", name=" + name + ", collection=" + collection + ", comment=" + comment + ", stock="
-				+ stock + ", price=" + price + ", on_shelf_time=" + on_shelf_time + ", sale_num=" + sale_num
-				+ ", small_img=" + small_img + ", category=" + category + "]";
+		return "Gift{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", collection=" + collection +
+				", comment=" + comment +
+				", stock=" + stock +
+				", price=" + price +
+				", on_shelf_time=" + on_shelf_time +
+				", sale_num=" + sale_num +
+				", small_img='" + small_img + '\'' +
+				", second_img='" + second_img + '\'' +
+				", third_img='" + third_img + '\'' +
+				", if_custom_made='" + if_custom_made + '\'' +
+				", category=" + category +
+				'}';
 	}
-	
-	
 }

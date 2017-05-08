@@ -12,6 +12,11 @@
 		<result property="sale_num" column="sale_num" javaType="java.lang.Integer"></result>
 		<result property="stock" column="stock" javaType="java.lang.Integer"></result>
 		<result property="category" column="category" javaType="java.lang.Integer"/>
+		<result property="if_custom_made" column="if_custom_made" javaType="java.lang.Integer"/>
+		<result property="small_img" column="small_img" javaType="java.lang.String"></result>
+		<result property="second_img" column="second_img" javaType="java.lang.String"></result>
+		<result property="third_img" column="third_img" javaType="java.lang.String"></result>
+		<result property="status" column="status" javaType="java.lang.Integer"/>
 	</resultMap>
 	
 	<select id="getAllGiftNew" resultMap="giftMap">
@@ -25,4 +30,22 @@
 	<select id="selectByKeyWords" resultMap="giftMap">
 		SELECT * FROM `t_gift` WHERE `name`  LIKE #{'%'+keyword+'%'}
 	</select>
+
+	<insert id="insertGift" parameterType="com.soft.gift.model.Gift">
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+			select LAST_INSERT_ID()
+		</selectKey>
+		INSERT INTO `t_gift` (`name`,`collection`,`comment`,`stock`,`price`,`on_shelf_time`,
+		`sale_num`,`small_img`,`category`,`if_custom_made`,`second_img`,`third_img`,`status`)
+		VALUES (#{name},#{collection},#{comment},#{stock},#{price},#{on_shelf_time},
+		#{sale_num},#{small_img},#{category},#{if_custom_made},#{second_img},#{third_img},0);
+	</insert>
+
+	<delete id="batchDeleteGift">
+		DELETE FROM `t_gift` WHERE `id` IN (
+			<foreach collection="gift_ids" item="id" separator=",">
+				#{id}
+			</foreach>
+		);
+	</delete>
 </mapper>
