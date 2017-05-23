@@ -301,10 +301,13 @@
                         if(data == "用户已存在"){
                            setError($("#account_reg"),'该手机号已经注册<a href="/login">直接登录</a>');
                         }else if(data == "注册成功"){
-                            alert("注册成功！请直接登录");
+                            alert("注册成功！请直接登录", function () {
+                                //after click the confirm button, will run this callback function
+                                window.location.reload();
+                            }, {type: 'success', confirmButtonText: 'OK'});
                             window.location.href="/login";
                         }else{
-                            alert("注册失败！");
+                            alert("注册失败！",{type: 'error', confirmButtonText: 'OK'});
                         }
                     }
                 })

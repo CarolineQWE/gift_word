@@ -125,16 +125,12 @@
                         <span th:case="4">已评价</span>
                     </div>
                 </li>
-                <li>
+                <li th:if="${order.status eq 1}">
                     <div class="unit_title">
                         您可以：
                     </div>
-                    <div class="right_content" th:switch="${order.status}">
-                        <span th:case="0"><a th:href="@{'/modify_order?order_id='+${order.id}}"></a></span>
-                        <span th:case="1">待发货</span>
-                        <span th:case="2">待收货</span>
-                        <span th:case="3">待评价</span>
-                        <span th:case="4">已评价</span>
+                    <div class="right_content">
+                        <a th:href="@{'/modify_order?order_id='+${order.id}}">立即发货</a>
                     </div>
                 </li>
             </ul>

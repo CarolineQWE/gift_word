@@ -646,7 +646,7 @@
                     },
                     dataType:"text",
                     success:function(data){
-                        alert("添加成功，请到购物车结算吧");
+                        alert("添加成功，请到购物车结算吧",{type: 'success', confirmButtonText: 'OK'});
                         console.log(data);
                         reform();
                     }
@@ -670,7 +670,7 @@
                 dataType:"text",
                 success:function (data) {
                     console.log(data);
-                    alert("评论成功");
+                    alert("评论成功",{type: 'success', confirmButtonText: 'OK'});
                     window.location.reload();
                 }
             })

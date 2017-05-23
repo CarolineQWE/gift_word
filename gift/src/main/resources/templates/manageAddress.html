@@ -172,6 +172,7 @@
                     $("input[name='address_info']").val(address.address_info);
                     $("input[name='tel']").val(address.tel);
                     $('.modify_box').css('display','block');
+                    $('.modify_box').attr('id',address.id);
                 }
             })
         });
@@ -181,8 +182,9 @@
             $("#address_form").ajaxSubmit({
                 url:"/addAddress",
                 success: function(data,status,xhr,$form) {
-                    alert("新增地址成功");
-                    window.location.reload();
+                    alert("新增地址成功",function () {
+                        window.location.reload();
+                    },{type: 'success', confirmButtonText: 'OK'});
                 },
                 error: function(xhr, status, error, $form){
                     console.log("error",xhr, status, error, $form);
@@ -192,11 +194,16 @@
 
         $("#modify_sure_btn").click(function () {
             $('.modify_box').css('display','none');
+            var address_id =  $('.modify_box').attr('id');
             $("#address_form").ajaxSubmit({
                 url:"/modifyAddress",
+                data:{
+                    address_id:address_id
+                },
                 success: function(data,status,xhr,$form) {
-                    alert("您已成功修改收货地址");
-                    window.location.reload();
+                    alert("您已成功修改收货地址",function () {
+                        window.location.reload();
+                    },{type: 'success', confirmButtonText: 'OK'});
                 },
                 error: function(xhr, status, error, $form){
                     console.log("error",xhr, status, error, $form);

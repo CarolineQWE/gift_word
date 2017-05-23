@@ -289,6 +289,31 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     $(function() {
+        /*搜索*/
+        $("#search_btn").click(function () {
+            var keyword = $("#search").val();
+            if(!(keyword==null||keyword == "")){
+                var url = "/search/Keyword";
+                var obj = {
+                    name:"keyword",
+                    value:keyword
+                };
+                formSubmit(url,obj);
+            }
+        })
+
+        $('.white_img_outer').click(function () {
+            var keyword = $("#white_input").val();
+            if(!(keyword==null||keyword == "")){
+                var url = "/search/Keyword";
+                var obj = {
+                    name:"keyword",
+                    value:keyword
+                };
+                formSubmit(url,obj);
+            }
+        })
+        /*搜索*/
         $('.strategy_li').hover(function(){
             $(this).find('.strategy_menu').css('display','block');
         },function(){
@@ -452,8 +477,10 @@
                 },
                 success: function(data,status,xhr,$form) {
                     console.log(data);
-                    alert("新增礼物成功");
-                    window.location.reload();
+                    alert("新增礼物成功", function () {
+                        //after click the confirm button, will run this callback function
+                        window.location.reload();
+                    }, {type: 'success', confirmButtonText: 'OK'});
                 },
                 error: function(xhr, status, error, $form){
                     console.log("error",xhr, status, error, $form);

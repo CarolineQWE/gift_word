@@ -8,8 +8,6 @@
     <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
     <link rel="stylesheet" href="../static/css/nav.css" />
     <link rel="stylesheet" href="../static/css/iconfont.css" />
-    <link rel="stylesheet" type="text/css" href="../static/css/BeAlert.css"/>
-    <script type="text/javascript" src="../static/js/BeAlert.js"></script>
     <style>
         body{
             box-sizing: content-box;
@@ -264,6 +262,19 @@
                     </div>
                 </li>
                 <li>
+                    <div class="unit_title" th:if="${order.status eq 0} or ${order.status eq 2}">
+                        您可以：
+                    </div>
+                    <div class="right_content" th:switch="${order.status}">
+                        <span th:case="0">
+                            <a class="padding_left pay_a" href="javascript:void(0);" th:id="${order.id }">立即支付</a>
+                        </span>
+                        <span th:case="2">
+                            <a class="padding_left" th:href="@{'/modify_order?order_id='+${order.id }}">确认收货</a>
+                        </span>
+                    </div>
+                </li>
+                <li th:if="">
                     <div class="unit_title" th:if="${order.status eq 0} or ${order.status eq 2}">
                         您可以：
                     </div>

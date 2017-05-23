@@ -8,6 +8,8 @@
     <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css"/>
     <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../static/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/nav.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css"/>
     <link rel="stylesheet" type="text/css" href="../static/css/BeAlert.css"/>
     <script type="text/javascript" src="../static/js/BeAlert.js"></script>
     <style type="text/css">
@@ -158,22 +160,7 @@
     </style>
 </head>
 <body>
-<div class="navout">
-    <div class="nav">
-        <div class="logodiv">
-            <img src="../static/img/logo.png" class="logoimg" />
-        </div>
-        <div id="userInfo">
-            <div class="headspan"><img src="../static/img/8.png" class="headimg" /></div>
-            <div class="username">qwe</div>
-        </div>
-        <div class="inputdiv">
-            <input class="myinput search_input" type="text" placeholder="搜索"/>
-            <div class="search_img_outer"><img class="search_img_white" src="../static/img/icon_search.png"/></div>
-        </div>
-        <div class="clear_float"></div>
-    </div>
-</div>
+<div th:include="nav :: mynav"></div>
 <div class="main_content">
     <div class="ui top attached tabular menu" id="mymenu">
         <input type="hidden" id="num" th:value="${num }"/>
@@ -193,7 +180,7 @@
                 <th class="five wide">设计图</th>
                 <th class="one wide">是否已经审核</th>
                 <th class="one wide">能否实现</th>
-                <th class="two wide">操作</th>
+                <th class="one wide">操作</th>
             </tr>
             </thead>
             <tbody>
@@ -219,10 +206,10 @@
                 <td class="if_achieve" th:if="${map.key.if_achieve eq 1}">
                     不能实现
                 </td>
-                <td th:if="${map.key.if_exam eq 0}">
-                    <div class="mybtn myred exam_btn" th:id="${map.key.id }">审核</div>
+                <td th:if="${map.key.if_achieve eq 0}">
+                    <a th:href="@{'/customMade/giftInfo?gift_id='+${map.value.id }}">前往购买</a>
                 </td>
-                <td th:if="${map.key.if_exam eq 1}">
+                <td th:if="${map.key.if_achieve eq 1}">
                 </td>
             </tr>
             </tbody>
@@ -232,45 +219,15 @@
 </div>
 </body>
 <script th:inline="javascript">
-/*<![CDATA[*/
-$(function () {
-    $('.exam_btn').click(function () {
-        var btn = $(this);
-        var achieve = confirm("该设计能否实现？");
-        var id = $(this).attr('id');
-        var if_achieve;
-        if(achieve){
-            if_achieve = 0;
-        }else{
-            if_achieve = 1;
-        }
-        $.ajax({
-            url:"/exam/design",
-            data:{
-                id:id,
-                if_achieve:if_achieve
-            },
-            dataType:"text",
-            success:function (data) {
-                console.log(data);
-                alert("审核成功！",{type: 'success', confirmButtonText: 'OK'});
-                btn.parents('tr').find('.if_exam').text('已审核');
-                if(achieve){
-                    btn.parents('tr').find('.if_achieve').text('可以实现');
-                }else{
-                    btn.parents('tr').find('.if_achieve').text('不能实现');
-                }
-                btn.css('display','none');
-            }
+    /*<![CDATA[*/
+    $(function () {
+        $('.item').click(function () {
+            $(this).siblings('item').removeClass('active');
+            $(this).addClass('active');
         })
+        var num = $('#num').val();
+        $('.item').eq(num).addClass('active');
     })
-    $('.item').click(function () {
-        $(this).siblings('item').removeClass('active');
-        $(this).addClass('active');
-    })
-    var num = $('#num').val();
-    $('.item').eq(num).addClass('active');
-})
-/*]]>*/
+    /*]]>*/
 </script>
 </html>

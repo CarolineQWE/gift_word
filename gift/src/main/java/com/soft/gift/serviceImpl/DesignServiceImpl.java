@@ -36,4 +36,21 @@ public class DesignServiceImpl implements DesignService {
     public void updateDesignById(Design design) {
         designDAO.updateByPrimaryKeySelective(design);
     }
+
+    @Override
+    public List<Design> getMyCustomMade(String account) {
+        Design design = new Design();
+        design.setAccount(account);
+        List<Design> designs = designDAO.select(design);
+        return designs;
+    }
+
+    @Override
+    public Design getDesignByGiftIdAndAccount(Integer gift_id, String account) {
+        Design param = new Design();
+        param.setAccount(account);
+        param.setGift_id(gift_id);
+        Design design = designDAO.selectOne(param);
+        return design;
+    }
 }

@@ -48,10 +48,11 @@ public class UserController {
 
 	@ResponseBody
 	@RequestMapping(value = "/modifyAddress")
-	public String modifyAddress(HttpServletRequest request,String prov,String city,String dist,String tel,String receiver,String address_info){
+	public String modifyAddress(HttpServletRequest request,Integer address_id,String prov,String city,String dist,String tel,String receiver,String address_info){
 		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
 		ShippingAddress address = new ShippingAddress(userInfo.getAccount(),prov,city,dist,tel,receiver,address_info);
-		userService.modifyAddress(address);
+		address.setId(address_id);
+		userService.modifyAddressById(address);
 		return "成功";
 	}
 
@@ -93,9 +94,9 @@ public class UserController {
 	public String myCollection(HttpServletRequest request,ModelMap map){
 		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
 		List<Gift> collectedGifts = userService.getCollectedGift(userInfo.getAccount());
-		List<Strategy> strategyMap = userService.getCollectedStra(userInfo.getAccount());
+		List<Strategy> collectedStras = userService.getCollectedStra(userInfo.getAccount());
 		map.put("collectedGifts",collectedGifts);
-		map.put("collectedStras",strategyMap);
+		map.put("collectedStras",collectedStras);
 		return "myCollection";
 	}
 

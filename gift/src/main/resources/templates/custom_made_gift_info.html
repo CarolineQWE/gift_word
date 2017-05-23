@@ -384,6 +384,15 @@
     .submit_plan{
         display: none;
     }
+    .designResultImg{
+        width:200px;
+        height: 200px;
+        border:solid 2px #F84E4E;
+    }
+    .designResultImg img{
+        width:200px;
+        height: 200px;
+    }
 </style>
 
 <body>
@@ -433,12 +442,13 @@
                 </div>
                 <div class="mybtn myred largebtn mar sure" id="surebuy" style="display:none;">确定</div>
                 <div class="mybtn myred largebtn mar sure" id="sureadd" style="display:none;">确定</div>
-                <div class="add_plan green_btn">
+                <div class="add_plan green_btn" th:if="${flag eq false}">
                     <i class="icon iconfont icon-xinzeng"></i> 添加方案
                 </div>
-                <div class="submit_plan green_btn">
+                <div class="submit_plan green_btn" th:if="${flag eq false}">
                     <i class="icon iconfont icon-xinzeng"></i> 提交方案
                 </div>
+                <div class="designResultImg" th:if="${flag}"><img th:src="@{${design.design_img}}"/></div>
                 <div id="fangan"></div>
                 <div id="actionbtns" class="largebtns">
                     <div class="mybtn myred largebtn mar" id="buynow">立即购买</div>
@@ -630,7 +640,7 @@
                             </form>
                         </div>
                     </div>
-                    <div class="operation_area">
+                    <!--<div class="operation_area">
                         <div class="mybtn myred">放大</div>
                         <div class="mybtn myred">缩小</div>
                         <div class="mybtn myred">左旋转</div>
@@ -646,14 +656,14 @@
                                 <a href="hide">隐藏</a>
                                 <a href="delete">删除</a>
                             </li>
-                            <!--<li>
+                            &lt;!&ndash;<li>
                                 ●<img src="../static/img/t.png" />
                                 <span class="layer">名称</span>
                                 <a href="hide">隐藏</a>
                                 <a href="delete">删除</a>
-                            </li>-->
+                            </li>&ndash;&gt;
                         </ul>
-                    </div>
+                    </div>-->
                 </div>
             </div>
             <div class="model_footer"></div>
@@ -699,6 +709,7 @@
             onChange: function(hsb, hex, rgb) {
                 console.log(hex);
                 $('#colorSelector').css('backgroundColor', '#' + hex);
+                $('.new_input').css('color','#'+hex);
             },
             onSubmit: function(hsb, hex, rgb, el) {
                 $('#div1').val(hex);
@@ -706,6 +717,11 @@
                 console.log("ssss", hex);
             }
         });
+
+        $('.font_size_select').change(function () {
+            var size = parseInt($(this).val());
+            $('.new_input').css('font-size',size);
+        })
 
         $('#tab_title_tupian').click(function() {
             $('#tab_title_wenzi').removeClass('tag_selected');
@@ -955,7 +971,7 @@
                     },
                     dataType:"text",
                     success:function(data){
-                        alert("添加成功，请到购物车结算吧");
+                        alert("添加成功，请到购物车结算吧",{type: 'success', confirmButtonText: 'OK'});
                         console.log(data);
                         reform();
                     }
@@ -979,7 +995,7 @@
                 dataType:"text",
                 success:function (data) {
                     console.log(data);
-                    alert("评论成功");
+                    alert("评论成功",{type: 'success', confirmButtonText: 'OK'});
                     window.location.reload();
                 }
             })
@@ -995,7 +1011,7 @@
                 dataType:"text",
                 success:function (data) {
                     console.log(data);
-                    alert("礼物已经加入收藏夹");
+                    alert("礼物已经加入收藏夹",{type: 'success', confirmButtonText: 'OK'});
                 }
             })
         })
@@ -1041,6 +1057,7 @@
 
         $('.submit_plan').click(function () {
             var gift_id = $('.container').attr('id');
+            var btn = $(this);
             $.ajax({
                 url:"/customMade/submit_plan",
                 type:"post",
@@ -1051,7 +1068,9 @@
                 dataType:"text",
                 success:function (data) {
                     console.log(data);
-                    alert("定制方案已经成功提交！请耐心等待设计师审核");
+                    alert("定制方案已经成功提交！请耐心等待设计师审核",function(){
+                        btn.hide();
+                    },{type: 'success', confirmButtonText: 'OK'});
                 }
             })
         })

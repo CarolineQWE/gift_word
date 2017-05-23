@@ -42,12 +42,16 @@ body,body,ul,li{
     font-size: 16px;
     border: none;
     outline: none;
+    background-color: #ffffff;
 }
 .nav_float_left{
     float: left;
 }
+.nav_float_right{
+    float: right;
+}
 .nav_search_btn{
-    width:80px;
+    width:78px;
     height: 32px;
     color: #ffffff;
     background: #F84E4E;
@@ -237,6 +241,7 @@ body,body,ul,li{
     width: 320px;
     height: 28px;
     padding: 0px 5px;
+    background-color: #ffffff;
 }
 .white_input_outer{
     float: left;

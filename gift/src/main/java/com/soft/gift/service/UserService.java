@@ -41,4 +41,6 @@ public interface UserService {
 	public void deleteCare(Care care);
 
 	public void updateUser(User user);
+
+    public void modifyAddressById(ShippingAddress address);
 }

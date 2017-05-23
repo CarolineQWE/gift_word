@@ -3,10 +3,7 @@ package com.soft.gift.controller;
 import com.alibaba.fastjson.JSON;
 import com.soft.gift.model.*;
 import com.soft.gift.model.Collections;
-import com.soft.gift.service.CollectService;
-import com.soft.gift.service.CommentService;
-import com.soft.gift.service.StrategyService;
-import com.soft.gift.service.UserService;
+import com.soft.gift.service.*;
 import com.soft.gift.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,6 +37,8 @@ public class StrategyController {
     private CommentService commentService;
     @Autowired
     private CollectService collectService;
+    @Autowired
+    private CareService careService;
 
     @RequestMapping(value = "/strategy/all")
     public String strategy(HttpServletRequest request, ModelMap map) {
@@ -121,7 +120,7 @@ public class StrategyController {
     }
 
     @RequestMapping(value = "/strategy/strategyInfo")
-    public String getStrategyInfo(@RequestParam(value = "id",required = true) Integer id,ModelMap map){
+    public String getStrategyInfo(HttpServletRequest request,@RequestParam(value = "id",required = true) Integer id,ModelMap map){
         System.out.print(id);
         Strategy strategy = new Strategy();
         strategy.setId(id);
@@ -131,7 +130,14 @@ public class StrategyController {
         userInfo = userService.getUserInfo(account);
         Map<Comment,List<Comment>> commentListMap = new HashMap<>();
         commentListMap = commentService.getComments(id);
+        UserInfo viewerUserInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+        boolean flag = false;//未关注
+        Care care = careService.getCare(userInfo.getAccount(),viewerUserInfo.getAccount());
+        if (care != null){
+            flag = true;//已关注
+        }
         map.put("author_userInfo",userInfo);
+        map.put("flag",flag);
         map.put("strategy",strategy1);
         map.put("commentListMap",commentListMap);
         return "strategyInfo";

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>我的购物车</title>
+    <title>个人中心</title>
     <!--<script src="http://www.jq22.com/jquery/1.8.3/jquery.min.js"></script>-->
     <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
     <script type="text/javascript" src="../static/js/jquery.form.js"></script>
@@ -307,11 +307,14 @@
                 dataType:"text",
                 success: function(data,status,xhr,$form) {
                     console.log(data);
-                    alert("修改个人信息成功");
-                    window.location.reload();
+                    alert("修改个人信息成功",function () {
+                        window.location.reload();
+                    },{type: 'success', confirmButtonText: 'OK'});
+
                 },
                 error: function(xhr, status, error, $form){
                     console.log("error",xhr, status, error, $form);
+                    alert("修改信息失败",{type: 'error', confirmButtonText: 'OK'})
                 }
             })
         })

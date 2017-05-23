@@ -14,4 +14,8 @@ public interface DesignService {
     public List<Design> getDesign(Design design);
 
     public void updateDesignById(Design design);
+
+    public List<Design> getMyCustomMade(String account);
+
+    public Design getDesignByGiftIdAndAccount(Integer gift_id, String account);
 }

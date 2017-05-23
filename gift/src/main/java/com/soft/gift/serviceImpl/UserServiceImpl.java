@@ -215,4 +215,9 @@ public class UserServiceImpl implements UserService{
 	public void updateUser(User user) {
 		userDAO.updateUserCare(user);
 	}
+
+	@Override
+	public void modifyAddressById(ShippingAddress address) {
+		shippingAddressDAO.updateByPrimaryKeySelective(address);
+	}
 }

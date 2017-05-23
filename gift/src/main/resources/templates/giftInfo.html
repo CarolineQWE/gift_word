@@ -13,6 +13,7 @@
     <script type="text/javascript" src="../static/js/formsubmit.js"></script>
     <link rel="stylesheet" type="text/css" href="../static/css/BeAlert.css"/>
     <script type="text/javascript" src="../static/js/BeAlert.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/login_box.css" />
 </head>
 <style type="text/css">
     body{
@@ -179,7 +180,7 @@
         border: solid 1px #b7b7b7;
         border-radius:3px;
     }
-    .myinput{
+    .small_input{
         outline:medium;
         border: none;
         width: 22px;
@@ -370,6 +371,9 @@
         font-size: 24px;
         margin-bottom: 15px;
     }
+    .userInfo_div{
+        display: none;
+    }
 </style>
 
 <body>
@@ -410,7 +414,7 @@
                         <i class="plus icon"></i>
                     </div>
                     <div class="little_input_span myinline">
-                        <input type="text" class="myinput" value="1" id="num"/>
+                        <input type="text" class="small_input" value="1" id="num"/>
                     </div>
                     <div id="minus" class="mysmallbtn mywhite myinline">
                     <i class="minus icon"></i>
@@ -519,20 +523,174 @@
                 生来为爱，匠心手作，大自然的礼物，为了更好的展现您的礼物个性，情人节，女神节，母亲节，感恩节，再到新年礼物以及婚宴的喜礼，都是一份最甜蜜有故事的礼物。
             </div>
         </div>
-    </div><!-- content -->
-    <!-- <div class="footout">
-        <div class="footdiv redback">
-            <div class="footinfo">
-                © 2014 - 2016 Liwushuo.com 北京礼品说科技有限公司 电信与信息服务业务经营许可证150653号 京ICP备15031023号-1<br />
-                <p><a href="#">首页</a>&nbsp;|&nbsp;<a href="#">关于我们</a>&nbsp;|&nbsp;电话：010-57510218</p>
+    </div>
+    <div class="userInfo_div" th:text="${session.userInfo.getAccount()}"></div>
+    <div class="login_box">
+        <div class="box_header">
+            <div class="header_title">登录 • 注册</div>
+            <div class="right_close_div"><i class="icon iconfont icon-error"></i></div>
+            <div class="clear_float"></div>
+        </div>
+        <div class="box_center">
+            <div class="box_tab">
+                <div class="tab_small selected_tab" id="tab_login">
+                    登录
+                </div>
+                <div class="tab_small" id="tab_reg">
+                    注册
+                </div>
+                <div class="clear_float"></div>
+            </div>
+            <div class="box_content">
+                <div id="content_login" class="box_content_center">
+                    <div class="login_input_div">
+                        <input class="login_input" type="text" id="account" placeholder="账号/手机号/邮箱"/>
+                        <label style="display:none;" class="errorlabel">账号不能为空</label>
+                    </div>
+                    <div class="login_input_div">
+                        <input class="login_input" type="password" id="password" placeholder="密码" />
+                        <label style="display:none;" class="errorlabel">密码不能为空</label>
+                    </div>
+                    <div class="forget_pass">
+                        <a href="user/forget_pass">忘记密码</a>
+                    </div>
+                    <div class="mybutton" id="logininbtn">
+                        登录
+                    </div>
+                </div>
+                <div id="content_reg" class="box_content_center">
+                    <div class="login_input_div">
+                        <input class="login_input" type="text" id="nickname" placeholder="请填写昵称" />
+                        <label style="display:none;" class="errorlabel">请填写昵称</label>
+                    </div>
+                    <div class="login_input_div">
+                        <input class="login_input" type="text" id="account_reg" placeholder="手机号"/>
+                        <label style="display:none;" class="errorlabel">请填写账号</label>
+                    </div>
+                    <div class="login_input_div">
+                        <input class="login_input" type="password" id="password_reg" placeholder="密码" />
+                        <label style="display:none;" class="errorlabel">请填写密码</label>
+                    </div>
+                    <div class="mybutton" id="registerbtn">
+                        注册
+                    </div>
+                </div>
             </div>
         </div>
-    </div> -->
+    </div>
 </div>
 </body>
 <script th:inline="javascript">
     /*<![CDATA[*/
     $(function() {
+        /*登录注册*/
+        $(".right_close_div").click(function () {
+            $(".login_box").css('display','none');
+        })
+        $("#tab_login").click(function () {
+            $("#tab_reg").removeClass("selected_tab");
+            $(this).addClass("selected_tab");
+            $("#content_reg").css('display','none');
+            $("#content_login").css('display','block');
+        })
+        $("#tab_reg").click(function () {
+            $("#tab_login").removeClass("selected_tab");
+            $(this).addClass("selected_tab");
+            $("#content_login").css('display','none');
+            $("#content_reg").css('display','block');
+        })
+        /*判空*/
+        $('#logininbtn').click(function(){
+            clearError();
+            var acc = $.trim($("#account").val());
+            var pass= $.trim($("#password").val());
+            if(acc == "" || acc == null){
+                setError($("#account"),"请输入账号");
+                return;
+            }else if(pass==""||pass == null){
+                setError($("#password"),"请输入密码");
+                return;
+            }else{
+                $.ajax({
+                    url:"/loginCheck",
+                    type:"POST",
+                    data:{
+                        account:acc,
+                        password:pass
+                    },
+                    dataType:"text",
+                    success:function(data){
+                        console.log("data",data);
+                        if(data == "用户不存在"){
+                            setError($("#account"),data);
+                        }else if(data == "密码错误"){
+                            setError($("#password"),data);
+                        }else if(data == "登录异常"){
+                            setError($("#password"),data);
+                        }else {
+                            window.location.reload();
+                            console.log("daozhele",0);
+                        }
+                    }
+                })
+            }
+        })
+
+        $('#registerbtn').click(function(){
+            clearError();
+            var account = $.trim($("#account_reg").val());
+            console.log("account",account);
+            var password = $.trim($("#password_reg").val());
+            var nickname = $.trim($("#nickname").val());
+            if(nickname == ""||nickname==null){
+                setError($("#nickname"),"昵称不能为空");
+                return;
+            }else if(account == "" || account == null){
+                setError($("#account_reg"),"账号不能为空");
+                return;
+            }else if(password == "" || password == null){
+                setError($("#password_reg"),"密码不能为空");
+                return;
+            }else{
+                $.ajax({
+                    url:"/gift/register",
+                    type:"POST",
+                    data:{
+                        account:account,
+                        password:password,
+                        nickname:nickname
+                    },
+                    dataType:"text",
+                    success:function(data){
+                        if(data == "用户已存在"){
+                            /* setError($("#account_reg"),"该手机号已经注册&nbsp;&nbsp;"+"<a href='/login'>直接登录</a>");*/
+                        }else if(data == "注册成功"){
+                            alert("注册成功！请直接登录",function () {
+                                window.location.href="/login";
+                            },{type: 'success', confirmButtonText: 'OK'});
+                        }else{
+                            alert("注册失败！",{type: 'error', confirmButtonText: 'OK'});
+                        }
+                    }
+                })
+            }
+        });
+
+        function setError(selector,msg){
+            selector.addClass('error');
+            selector.placeholder="";
+            selector.siblings('label').html(msg);
+            selector.siblings('label').css('display','inline');
+        }
+
+        function clearError(){
+            $('.myinput').removeClass('error');
+            $('.errorlabel').css('display','none');
+        }
+
+        var userInfo = $(".userInfo_div").text();
+        console.log(userInfo);
+        /*登录注册*/
         $('.strategy_li').hover(function(){
             $(this).find('.strategy_menu').css('display','block');
         },function(){
@@ -633,21 +791,25 @@
             }
         })
         $("#buynow").click(function(){
-            var specarr = new Array();
-            var flag = true;
-            $('.specbtns').each(function(){
-                var arr = $(this).children('.myred');
-                if(arr.length != 1){
-                    errordeal("buy");
-                    flag = false;
-                    return false;
-                }else{
-                    var a = arr.attr('id');
-                    specarr.push(a);
+            if(userInfo == null||userInfo == ""){
+                $('.login_box').css('display','block');
+            }else{
+                var specarr = new Array();
+                var flag = true;
+                $('.specbtns').each(function(){
+                    var arr = $(this).children('.myred');
+                    if(arr.length != 1){
+                        errordeal("buy");
+                        flag = false;
+                        return false;
+                    }else{
+                        var a = arr.attr('id');
+                        specarr.push(a);
+                    }
+                })
+                if(flag == true){
+                    buyNow(specarr);
                 }
-            })
-            if(flag == true){
-                buyNow(specarr);
             }
         })
 
@@ -709,7 +871,11 @@
         })
 
         $("#addshopcart").click(function(){
-            addShopCart();
+            if(userInfo == null||userInfo == ""){
+                $('.login_box').css('display','block');
+            }else {
+                addShopCart();
+            }
         })
 
         function addShopCart(){
@@ -745,7 +911,7 @@
                     },
                     dataType:"text",
                     success:function(data){
-                        alert("添加成功，请到购物车结算吧");
+                        alert("添加成功，请到购物车结算吧",{type: 'success', confirmButtonText: 'OK'});
                         console.log(data);
                         reform();
                     }
@@ -769,25 +935,29 @@
                 dataType:"text",
                 success:function (data) {
                     console.log(data);
-                    alert("评论成功");
+                    alert("评论成功",{type: 'success', confirmButtonText: 'OK'});
                     window.location.reload();
                 }
             })
         })
         $("#collect").click(function () {
-            var gift_id = $('.container').attr('id');
-            $.ajax({
-                url:"/gift/addCollection",
-                type:"post",
-                data:{
-                    id:gift_id
-                },
-                dataType:"text",
-                success:function (data) {
-                    console.log(data);
-                    alert("礼物已经加入收藏夹");
-                }
-            })
+            if(userInfo == null||userInfo == ""){
+                $('.login_box').css('display','block');
+            }else {
+                var gift_id = $('.container').attr('id');
+                $.ajax({
+                    url: "/gift/addCollection",
+                    type: "post",
+                    data: {
+                        id: gift_id
+                    },
+                    dataType: "text",
+                    success: function (data) {
+                        console.log(data);
+                        alert("礼物已经加入收藏夹", {type: 'success', confirmButtonText: 'OK'});
+                    }
+                })
+            }
         })
 
     })

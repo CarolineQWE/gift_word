@@ -41,6 +41,7 @@ public class CustomMadeController {
 
     @RequestMapping(value="/customMade/giftInfo")
     public String giftInfo2(HttpServletRequest request, Integer gift_id, ModelMap mv) {
+        UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
         Gift gift = giftService.getGiftByID(gift_id);
         System.out.print("gift_id"+gift_id);
         GiftInfo giftInfo = giftService.getGigtInfoByID(gift_id);
@@ -63,6 +64,11 @@ public class CustomMadeController {
         List<Comment> comments = commentService.getCommentByGiftID(gift_id);
         Double avg = commentService.getAverageSorceByGiftID(gift_id);
         List<Integer> nums = commentService.getCommentNum(gift_id);
+        Design design = designService.getDesignByGiftIdAndAccount(gift_id,userInfo.getAccount());
+        boolean flag = false;//无方案
+        if(design != null){
+            flag = true;//有方案
+        }
         mv.put("gift",gift);
         mv.put("giftInfo",giftInfo);
         mv.put("classifiedSpecMap",classifiedSpecMap);
@@ -70,6 +76,8 @@ public class CustomMadeController {
         mv.put("comments",comments);
         mv.put("avg",avg);
         mv.put("scoreNums",nums);
+        mv.put("flag",flag);
+        mv.put("design",design);
         return "custom_made_gift_info";
     }
 
@@ -92,6 +100,19 @@ public class CustomMadeController {
         }
         map.put("designMap",dgmap);
         return "designs";
+    }
+
+    @RequestMapping(value="/myCustomMade")
+    public String myCustomMade(HttpServletRequest request,ModelMap map) {
+        UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+        List<Design> designs = designService.getMyCustomMade(userInfo.getAccount());
+        Map<Design,Gift> dgmap = new HashMap<>();
+        for (Design design : designs) {
+            Gift gift = giftService.getGiftByID(design.getGift_id());
+            dgmap.put(design,gift);
+        }
+        map.put("designMap",dgmap);
+        return "myCustomMade";
     }
 
     @RequestMapping(value="/getDesign")

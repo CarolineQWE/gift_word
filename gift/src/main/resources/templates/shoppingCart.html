@@ -269,7 +269,7 @@
         $('#jiesuanbtn').unbind('click').click(function(){
             var len = $('.buycheck:checked').length;
             if(len < 1){
-                alert("请至少选择一件商品");
+                alert("请至少选择一件商品",{type: 'warning', confirmButtonText: 'OK'});
                 return;
             }else{
                 var shArr = new Array();
@@ -311,7 +311,7 @@
                 $('#redpsmall').text(gift_num+1);
                 totalMoney();
             }else{
-                alert("库存不足");
+                alert("库存不足",{type: 'info', confirmButtonText: 'OK'});
             }
             //var gift_id= $(this).parents('tr').attr('id');
 
@@ -357,7 +357,7 @@
                 dataType:"text",
                 success:function(data){
                     if(data=="NO"){
-                        alert("修改失败");
+                        alert("修改失败",{type: 'error', confirmButtonText: 'OK'});
                     }
                 }
             })

@@ -7,4 +7,6 @@ import com.soft.gift.model.Care;
  */
 public interface CareService {
     public Integer addCare(Care care);
+
+    Care getCare(String cared_account, String account);
 }

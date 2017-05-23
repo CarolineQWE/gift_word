@@ -20,4 +20,13 @@ public class CareServiceImpl implements CareService {
         Integer a = care.getId();
         return a;
     }
+
+    @Override
+    public Care getCare(String cared_account, String account) {
+        Care care = new Care();
+        care.setCared_account(cared_account);
+        care.setAccount(account);
+        Care result = careDAO.selectOne(care);
+        return result;
+    }
 }
