@@ -3,17 +3,6 @@ body{
 	-moz-box-sizing: content-box;
 	box-sizing: content-box;
 }
-.icon-dianzan{
-	font-size: 28px;
-	line-height: 20px;
-	margin-bottom: -5px;
-}
-.icon-shoucang1{
-	font-size: 26px;
-}
-.icon-pinglun3{
-	font-size: 22px;
-}
 .strategy_div{
     border: solid 1px #D9D9D9;
     width:278px;
@@ -52,6 +41,7 @@ body{
     color: #E32F2F;
     margin-left: 10px;
     margin-right: 3px;
+	font-size: 22px;
 }
 .strategyul a{
     color: #555555;
@@ -142,27 +132,28 @@ body{
 	overflow: hidden;
 	padding:0 10px;
 }
+/*空处理*/
 .blank-holder {
-    width: 100%;
-    height: 390px;
-    text-align: center;
-    clear: both;
-    display: block;
-    border-radius: 10px;
-    background: #fff;
-    border: solid #dedede 1px;
-    margin: 30px auto;
+	width: 100%;
+	height: 390px;
+	text-align: center;
+	clear: both;
+	display: block;
+	border-radius: 10px;
+	background: #fff;
+	border: solid #dedede 1px;
+	margin: 30px auto;
 }
 .blank-holder i {
-    background-image: url(../img/filter_z_b2c729e.png);
-    background-position: -6px -454px;
-    background-repeat: no-repeat;
-    display: block;
-    margin: 117px auto 0;
-    width: 100px;
-    height: 100px;
+	background-image: url(../img/filter_z_b2c729e.png);
+	background-position: -6px -454px;
+	background-repeat: no-repeat;
+	display: block;
+	margin: 117px auto 0;
+	width: 100px;
+	height: 100px;
 }
 .blank-holder p {
-    color: #ccc;
-    margin-top: 35px;
+	color: #717070;
+	margin-top: 35px;
 }

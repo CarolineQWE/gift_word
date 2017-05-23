@@ -1,13 +1,14 @@
 package com.soft.gift.controller;
 
 import com.soft.gift.model.*;
+import com.soft.gift.service.CommentService;
 import com.soft.gift.service.GiftService;
+import com.soft.gift.service.OrderService;
 import com.soft.gift.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -19,6 +20,11 @@ public class MyOrderController {
 	private GiftService giftService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private CommentService commentService;
+	@Autowired
+	private OrderService orderService;
+
 	
 	@RequestMapping(value="/myOrder")
 	public String myOrder(HttpServletRequest request, ModelMap mv){
@@ -28,63 +34,114 @@ public class MyOrderController {
 		User user = userService.getUser(userInfo.getAccount());
 		mv.put("identity",user.getIdentity());
 		mv.put("status","5");
+		mv.put("mapSize",orderMap.size());
 		mv.put("orderMap",orderMap);
 		return "myOrder";
 		
 	}
 	
 	@RequestMapping(value="/order")
-	public ModelAndView order(HttpServletRequest request){
+	public String  order(HttpServletRequest request,ModelMap mv){
 		Map<LargeOrder, Map<LargeOrderInfo, List<Spec>>> orderMap = giftService.getAllOrder();
 		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>orderMap:"+orderMap);
-		ModelAndView mv = new ModelAndView("order_admin");
-		mv.addObject("identity",0);
-		mv.addObject("status","5");
-		mv.addObject("orderMap",orderMap);
-		return mv;
+		mv.put("status","5");
+		mv.put("orderMap",orderMap);
+		mv.put("mapSize",orderMap.size());
+		return "order_admin";
 		
 	}
 	
 	@RequestMapping(value="/getOrdersByStatus")
-	public ModelAndView getOrdersByStatus(HttpServletRequest request, Integer status){
+	public String getOrdersByStatus(HttpServletRequest request, Integer status,ModelMap mv){
 		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
 		Map<Order, Map<LargeOrderInfo, List<Spec>>> orderMap = giftService.getOrderByAccountAndStatus(userInfo.getAccount(),status);
-		ModelAndView mv = new ModelAndView("myOrder");
-		User user = userService.getUser(userInfo.getAccount());
-		mv.addObject("identity",user.getIdentity());
-		mv.addObject("orderMap",orderMap);
-		mv.addObject("status",status);
-		return mv;
+		mv.put("orderMap",orderMap);
+		mv.put("mapSize",orderMap.size());
+		mv.put("status",status);
+		return "myOrder";
 	}
 	
 	
 	@RequestMapping(value="/getAllOrdersByStatus")
-	public ModelAndView getAllOrdersByStatus(HttpServletRequest request, Integer status){
+	public String getAllOrdersByStatus(HttpServletRequest request, Integer status,ModelMap mv){
 		Map<Order, Map<LargeOrderInfo, List<Spec>>> orderMap = giftService.getOrderByStatus(status);
-		ModelAndView mv = new ModelAndView("order_admin");
-		mv.addObject("identity",0);
-		mv.addObject("orderMap",orderMap);
-		mv.addObject("status",status);
-		return mv;
+		mv.put("orderMap",orderMap);
+		mv.put("mapSize",orderMap.size());
+		mv.put("status",status);
+		return "order_admin";
 	}
 	
-	@RequestMapping(value="/modify_order.do")
-	public String modifyOrder(HttpServletRequest request,String order_id,Integer newStatus){
-		giftService.modifyOrderStatus(order_id, newStatus);
-		return "redirect:myOrder.do";
+	@RequestMapping(value="/modify_order")
+	public String modifyOrder(HttpServletRequest request,String order_id,ModelMap mv){
+		Order order = giftService.getOrderByID(order_id);
+		giftService.modifyOrderStatus(order_id, order.getStatus()+1);
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		Map<Order, Map<LargeOrderInfo, List<Spec>>> orderMap = giftService.getOrderByAccount(userInfo.getAccount());
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>orderMap:"+orderMap);
+		mv.put("status","5");
+		mv.put("orderMap",orderMap);
+		mv.put("mapSize",orderMap.size());
+		return "myOrder";
 	}
 	
 	
-	@RequestMapping(value="/deleteOrder.do")
-	public String deleteOrder(HttpServletRequest request,String order_id,Integer newStatus){
+	@RequestMapping(value="/deleteOrder")
+	public String deleteOrder(HttpServletRequest request,String order_id,ModelMap mv){
 		giftService.deleteOrderByOrderID(order_id);
-		return "redirect:myOrder.do";
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+		Map<Order, Map<LargeOrderInfo, List<Spec>>> orderMap = giftService.getOrderByAccount(userInfo.getAccount());
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>orderMap:"+orderMap);
+		mv.put("status","5");
+		mv.put("orderMap",orderMap);
+		mv.put("mapSize",orderMap.size());
+		return "myOrder";
 	}
-	
-	@RequestMapping(value="/delivery.do")
-	public String delivery(HttpServletRequest request,String order_id){
-		giftService.modifyGiftStockByOrderId(order_id);
-		giftService.modifyOrderStatus(order_id, 2);
-		return "redirect:order.do";
+
+	@RequestMapping(value="/delivery")
+	public String delivery(HttpServletRequest request,String order_id,ModelMap mv){
+		Map<LargeOrder, Map<LargeOrderInfo, List<Spec>>> orderMap = giftService.getAllOrder();
+		mv.put("orderMap",orderMap);
+		mv.put("mapSize",orderMap.size());
+		mv.put("status","5");
+		return "order_admin";
 	}
+
+	@RequestMapping(value="/gift/giftBriefInfo")
+	public String comment(HttpServletRequest request,Integer gift_id,ModelMap mv){
+		Gift gift = giftService.getGiftByID(gift_id);
+		System.out.print("gift_id"+gift_id);
+		GiftInfo giftInfo = giftService.getGigtInfoByID(gift_id);
+		List<Comment> comments = commentService.getCommentByGiftID(gift_id);
+		Double avg = commentService.getAverageSorceByGiftID(gift_id);
+		List<Integer> nums = commentService.getCommentNum(gift_id);
+		mv.put("gift",gift);
+		mv.put("giftInfo",giftInfo);
+		mv.put("comments",comments);
+		mv.put("avg",avg);
+		mv.put("scoreNums",nums);
+		return "giftBriefInfo";
+	}
+
+	@RequestMapping(value="/user/view_info")
+	public String orderInfo(HttpServletRequest request,String order_id,ModelMap mv){
+		Order order = orderService.getOrderById(order_id);
+		Map<LargeOrderInfo,List<Spec>> map = orderService.getOrderInfoByOrderId(order_id);
+		ShippingAddress address = orderService.getAddressByAddressId(order.getAddress_id());
+		mv.put("order",order);
+		mv.put("infoMap",map);
+		mv.put("address",address);
+		return "order_info";
+	}
+
+	@RequestMapping(value="/admin/view_info")
+	public String orderInfoAdmin(HttpServletRequest request,String order_id,ModelMap mv){
+		Order order = orderService.getOrderById(order_id);
+		Map<LargeOrderInfo,List<Spec>> map = orderService.getOrderInfoByOrderId(order_id);
+		ShippingAddress address = orderService.getAddressByAddressId(order.getAddress_id());
+		mv.put("order",order);
+		mv.put("infoMap",map);
+		mv.put("address",address);
+		return "order_info_admin";
+	}
+
 }

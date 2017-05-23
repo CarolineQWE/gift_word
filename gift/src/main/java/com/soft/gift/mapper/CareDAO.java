@@ -8,4 +8,6 @@ import com.soft.gift.util.BaseDAO;
  */
 public interface CareDAO extends BaseDAO<Care>{
     public Integer insertCare(Care care);
+
+    public void deleteCareByAccountAndCaredAccount(Care care);
 }

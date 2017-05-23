@@ -25,7 +25,7 @@ public class UserSecurityInterceptor implements HandlerInterceptor {
         if(request.getServletPath().startsWith("/index")) {
             return true;
         }
-        if(request.getServletPath().startsWith("/giftInfo")) {
+        if(request.getServletPath().startsWith("/gift/giftInfo")) {
             return true;
         }
 
@@ -38,6 +38,10 @@ public class UserSecurityInterceptor implements HandlerInterceptor {
         }
 
         if(request.getServletPath().startsWith("/strategy/strategyInfo")) {
+            return true;
+        }
+
+        if(request.getServletPath().startsWith("/getCustomGift")) {
             return true;
         }
         //3、如果用户已经登录 放行

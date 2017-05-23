@@ -8,4 +8,7 @@
         </selectKey>
         INSERT INTO `t_care` (`account`,`cared_account`) VALUES (#{account},#{cared_account});
     </insert>
+    <delete id="deleteCareByAccountAndCaredAccount" parameterType="com.soft.gift.model.Care">
+        DELETE FROM `t_care` WHERE `account` = #{account} AND `cared_account` = #{cared_account}
+    </delete>
 </mapper>

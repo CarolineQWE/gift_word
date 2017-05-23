@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>礼物详情</title>
+    <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.cookie.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css"/>
+    <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/model_box.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/colorpicker.css" />
+    <script type="text/javascript" src="../static/js/formsubmit.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.form.js"></script>
+    <script src="../static/js/colorpicker.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../static/js/drag.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="../static/js/html2canvas.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/BeAlert.css"/>
+    <script type="text/javascript" src="../static/js/BeAlert.js"></script>
+</head>
+<style type="text/css">
+    body{
+        box-sizing: content-box;
+    }
+    body,a,h1,h2,h3,h4,h5,h6,p,input{
+        font-family: helvetica, arial, "微软雅黑", "华文黑体";
+    }
+    h2{
+        margin-top:0px;
+    }
+    .gift_img_ul li {
+        display: inline-block;
+        list-style: none;
+        margin-right: 10px;
+        width: 64px;
+        height: 64px;
+        padding: 2px;
+    }
+
+    .gift_img_ul li img {
+        width: 64px;
+        height: 64px;
+    }
+
+    .gift_img_ul {
+        padding-left: 0px;
+        margin-left: 0px;
+        height: 64px;
+    }
+
+    .gift_img_ul li:visited {
+        border: none;
+    }
+
+    .gift_img_ul li:hover {
+        border: solid 2px #F74560;
+        padding: 0px;
+    }
+
+    .gift_img_ul li:active {
+        border: solid 2px #F74560;
+        padding: 0px;
+    }
+
+    .gift_img_ul .liselected {
+        border: solid 2px #F74560;
+        padding: 0px;
+    !important
+    }
+
+    .left_gift_img {
+        display: inline-block;
+        vertical-align: top;
+        width: 550px;
+    }
+
+    #showimg {
+        width: 550px;
+        height: 400px;
+        margin-bottom: 10px;
+    }
+
+    .right_gift_spec {
+        display: inline-block;
+        vertical-align: top;
+        width: 600px;
+        padding-left: 60px;
+        float: right;
+    }
+
+    .btns .mybtn {
+        margin-left: 20px;
+    }
+
+    .gift_brief {
+        padding: 10px 0px;
+    }
+
+    .book_num {
+        width: 10px;
+        height: 34px;
+    }
+
+    .form {
+        width: 50px;
+    }
+
+    .mysmallbtn {
+        width: 30px;
+        height: 30px;
+        color: #666666;
+        text-align: center;
+        font-size: 12px;
+        display: inline-block;
+        cursor: pointer;
+        line-height: 30px;
+        border-radius: 3px;
+    }
+
+    .my_small_input {
+        padding-right: 0px;
+    }
+
+    .small_input_span {
+        border-radius: 0px;
+        width: 40px;
+    }
+
+    .myinline {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .btns {
+        margin: 20px 0px;
+        color: #666666;
+    }
+
+    .pricespan {
+        color: #FF695E;
+        font-size: 24px;
+        padding-left: 26px;
+    }
+
+    .numspan {
+        padding-right: 25px;
+    }
+
+
+    .mar {
+        margin-right: 30px;
+    }
+
+    .hotstatus {
+        border-top: dashed 1px #D9D9D9;
+        border-bottom: dashed 1px #D9D9D9;
+        width: 100%;
+        text-align: justify;
+        padding: 10px 0px;
+        margin: 10px 0px;
+    }
+
+    .hotstatus .pricespan {
+        font-size: 13px;
+        padding-left: 28px;
+    }
+
+    .giftsalespan {
+        display: inline-block;
+        width: 150px;
+        font-size: 13px;
+    }
+    .main_content{
+        margin: 40px 0px;
+    }
+    .mytable{
+        width: 80%;
+    }
+    .little_input_span{
+        padding:0px;
+        width:30px;
+        height:30px;
+        border: solid 1px #b7b7b7;
+        border-radius:3px;
+    }
+    .num_input{
+        outline:medium;
+        border: none;
+        width: 22px;
+        height: 20px;
+        padding:0px 2px;
+    }
+    .main_content{
+        width: 800px;
+        margin-top: 30px;
+        display:inline-block;
+        vertical-align:top;
+    }
+    .comment_content_span{
+        display: inline-block;
+        vertical-align: top;
+    }
+    .timespan{
+        padding-left:50px;
+        float:right;
+        color: #443e3e;
+        font-size: 14px;
+    }
+    .authorspan{
+        font-weight: bold;
+    }
+    .commentimg{
+        width: 80px;
+        height: 80px;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+    .commentdiv{
+        border-top: dashed 1px #D9D9D9;
+        padding: 20px;
+        width:100%;
+    }
+    .comment_long_div{
+        width: 100%;
+    }
+    .total_score_div{
+        font-size: 36px;
+        color: #FF6D75;
+        height:55px;
+        padding-top:20px;
+    }
+    .total_comment_div{
+        padding-right: 50px;
+        text-align: center;
+        padding-left: 20px;
+        border-right: dashed 1px #D9D9D9;
+        width: 200px;
+        display: inline-block;
+        vertical-align: top;
+    }
+    .outsquera{
+        width: 150px;
+        height: 12px;
+        background-color: #ded9d9;
+        display: inline-block;
+        margin-left: 10px;
+    }
+    .innnersquera{
+        height: 12px;
+        background-color: #FF6D75;
+    }
+    .right_comment{
+        display: inline-block;
+        vertical-align: top;
+        padding-left:30px;
+    }
+    .right_comment ul li{
+        list-style: none;
+        margin-bottom: 15px;
+    }
+    .right_comment ul{
+        padding:0px;
+        margin:0px;
+    }
+    .right_large_div{
+        float:right;
+        margin-left:40px;
+        margin-top:70px;
+        display:inline-block;
+        vertical-align:top;
+    }
+    .right_gift_recommend{
+        width:350px;
+        border:solid 1px #d9d9d9;
+        border-top:none;
+        padding:20px;
+    }
+    .recommend_title{
+        width:350px;
+        height:40px;
+        color:#ffffff;
+        font-size:18px;
+        background-color:#FF6D75;
+        text-align:center;
+        line-height:40px;
+        border:solid 1px #FF6D75;
+    }
+    .error{
+        border:solid 2px #FF6D75;
+        padding-left:20px;
+        padding-bottom:20px;
+    }
+    #errorinfo{
+        width:100%;
+        height:30px;
+        line-height:30px;
+        color:#E78170;
+    }
+    .errorbtn{
+        float:right;
+        text-align:right;
+        color:#FF6D75;
+    }
+    label{
+        padding-left:5px;
+    }
+    .right_large_div{
+        box-sizing: border-box;
+        margin-bottom:100px;
+    }
+    .main_content{
+        box-sizing: border-box;
+    }
+    .mySpecBtn{
+        margin-bottom: 10px;
+        width:auto;
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+    .add_comment_div{
+        box-sizing: content-box;
+        margin-bottom: 30px;
+    }
+    .comment_input{
+        width: 850px;
+        padding: 10px 15px;
+        height: 80px;
+        border: 1px solid #dcdcdc;
+        border-radius: 4px;
+        background-color: hsla(0,0%,71%,.1);
+        resize: none;
+        display: inline-block;
+        vertical-align: top;
+        outline-style: none;
+        font-size: 14px;
+    }
+    .comment_input.little{
+        width: 734px;
+    }
+    .submit{
+        margin-top:20px;
+        text-align: right;
+    }
+    .my_btn{
+        border-radius: 10px;
+        padding: 10px 15px;
+        font-size: 16px;
+        color: #ffffff;
+        display: inline-block;
+        width: 60px;
+        text-align: center;
+        cursor: pointer;
+    }
+    .submit_btn{
+        background-color: #42c02e;
+        margin-left: 20px;
+    }
+    .submit_btn:active{
+        background-color: #41cc22;
+    }
+    .cancel_btn{
+        border: solid 1px #d0c7c7;
+        color: #555;
+    }
+    .cancel_btn:active{
+        background-color: #D9D9D9;
+        border: solid 1px #D9D9D9;
+    }
+    .float_left{
+        float: left;
+    }
+    #fangan{
+        margin: 20px 0;
+    }
+    .absolute_img{
+        /*width:120px;
+        height:120px;*/
+        position: absolute;
+        left: 120px;
+        top: 120px;
+    }
+    .submit_plan{
+        display: none;
+    }
+</style>
+
+<body>
+<div th:include="nav :: mynav"></div>
+<div class="container" th:id="${gift.id}">
+    <div class="content">
+        <div class="left_gift_img">
+            <img th:src="@{${gift.small_img}}" id="showimg" />
+            <ul class="gift_img_ul">
+                <li class="liselected"><img th:src="@{${gift.small_img}}" /></li>
+                <li><img th:src="@{${gift.second_img}}"  /></li>
+                <li><img th:src="@{${gift.third_img}}" /></li>
+            </ul>
+        </div>
+        <div class="right_gift_spec">
+            <input type="hidden" th:value="${gift.id}" id="gift_id"/>
+            <h2 th:text="${gift.name }"></h2>
+            <div class="gift_brief" th:text="${giftInfo.brief }"></div>
+            价格<span class="pricespan" th:text="'￥'+${gift.price }"></span>
+            <div class="hotstatus">
+                <span class="giftsalespan">销量<span class="pricespan" th:text="${gift.sale_num }"></span></span>|
+                <span class="giftsalespan" style="text-align: center;">累计评论<span class="pricespan" th:text="${gift.comment }"></span></span>|
+                <span class="giftsalespan" style="text-align:right;">收藏<span class="pricespan" th:text="${gift.collection }"></span></span>
+            </div>
+            <div id="spec_choose_div">
+                <div style="display:none;" id="errorinfo">
+                    <span class="errortitle">请选择你要的商品属性</span>
+                    <span class="errorbtn"><i class="remove icon"></i></span>
+                </div>
+                <div class="btns specbtns" th:each="oneSpecName:${classifiedSpecMap }">
+                    <span th:text="${oneSpecName.key }"></span>
+                    <div th:each="spec:${oneSpecName.value}" th:id="${spec.id}" class="mybtn mywhite mySpecBtn"
+                         th:text="${spec.value }"></div>
+                </div>
+                <div id="numbtns" class="btns">
+                    <span class="numspan">数目</span>
+                    <div id="plus" class="mysmallbtn mywhite myinline">
+                        <i class="plus icon"></i>
+                    </div>
+                    <div class="little_input_span myinline">
+                        <input type="text" class="num_input" value="1" id="num"/>
+                    </div>
+                    <div id="minus" class="mysmallbtn mywhite myinline">
+                        <i class="minus icon"></i>
+                    </div>
+                    &nbsp;&nbsp;&nbsp;&nbsp;库存：<span id="stockspan" th:text="${gift.stock }"></span>
+                </div>
+                <div class="mybtn myred largebtn mar sure" id="surebuy" style="display:none;">确定</div>
+                <div class="mybtn myred largebtn mar sure" id="sureadd" style="display:none;">确定</div>
+                <div class="add_plan green_btn">
+                    <i class="icon iconfont icon-xinzeng"></i> 添加方案
+                </div>
+                <div class="submit_plan green_btn">
+                    <i class="icon iconfont icon-xinzeng"></i> 提交方案
+                </div>
+                <div id="fangan"></div>
+                <div id="actionbtns" class="largebtns">
+                    <div class="mybtn myred largebtn mar" id="buynow">立即购买</div>
+                    <div class="mybtn myyellow largebtn mar" id="addshopcart">加入购物车</div>
+                    <div class="mybtn myblue largebtn" id="collect">收藏</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="main_content">
+            <div class="ui top attached tabular menu">
+                <a class="item active" id="gift_info_tag">礼物详情</a>
+                <a class="item" id="gift_comment_tag">礼物评论</a>
+            </div>
+            <div id="gift_info" class="ui bottom attached segment">
+                <table class="ui celled striped table mytable">
+                    <thead>
+                    <tr>
+                        <th>属性名</th>
+                        <th>属性值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="baseSpec:${baseSpecMap }">
+                        <td class="lefttd" th:text="${baseSpec.name }"></td>
+                        <td th:text="${baseSpec.value }"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <span th:utext="${giftInfo.gift_info }" ></span>
+            </div>
+            <div id="gift_comment" style="display:none" class="ui segment">
+                <div class="total_comment_div">
+                    总体满意度
+                    <div class="total_score_div" th:text="${avg }+'分'" th:if="${avg ne null}">
+                    </div>
+                    <span th:text="'(共有'+${gift.comment }+'人评论)'"></span>
+                </div>
+                <div class="right_comment">
+                    <ul>
+                        <li>
+                            好评<div class="outsquera">
+                            <div class="innnersquera" id="good"></div>
+                        </div>
+                            <label th:text="${scoreNums.get(3)+'%'}"></label>
+                        </li>
+                        <li>
+                            中评<div class="outsquera">
+                            <div class="innnersquera" id="middle"></div>
+                        </div>
+                            <label th:text="${scoreNums.get(4)}+'%'"></label>
+                        </li>
+                        <li>差评<div class="outsquera">
+                            <div class="innnersquera" id="bad"></div>
+                        </div>
+                            <label th:text="${scoreNums.get(5)}+'%'"></label>
+                        </li>
+                    </ul>
+                </div>
+                <!--<div class="add_comment_div">
+                    <textarea class="comment_input little" rows="5" placeholder="写下你的评论"></textarea>
+                    <div class="submit">
+                        <div class="float_left">
+                            给礼物打个分吧！
+                            <div class="ui star large rating dafen" data-rating="0"></div></div>
+                        <div class="cancel_btn my_btn">取消</div>
+                        <div class="submit_btn my_btn" id="comment_btn" th:commented_id="${stratgy.id}">评论</div>
+                    </div>
+                </div>-->
+                <div class="commentdiv" th:each="comment:${comments }">
+                    <img th:src="@{${comment.head }}" align="top" class="commentimg"/>
+                    <div class="comment_content_span">
+                        <div class="authorspan" th:text="${comment.nickname }">
+                        </div>
+                        <span th:text="${comment.content }"></span>
+                        <div class="comment_long_div">
+                                <span class="scorespan">
+                                评论分数
+                                <div class="ui star rating" th:data-rating="${comment.score }"></div>
+                                </span>
+                            <div class="timespan" th:text="${comment.comment_time }">
+                            </div>
+                            <div class="clear_float"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right_large_div">
+            <div class="recommend_title">
+                礼物推荐
+            </div>
+            <div class="right_gift_recommend" >
+                <img src="../static/img/g13.jpg" width="310px" height="220px" style="padding-bottom:20px"/>
+                生来为爱，匠心手作，大自然的礼物，为了更好的展现您的礼物个性，情人节，女神节，母亲节，感恩节，再到新年礼物以及婚宴的喜礼，都是一份最甜蜜有故事的礼物。
+            </div>
+            <div class="right_gift_recommend" >
+                <img src="../static/img/g13.jpg" width="310px" height="220px" style="padding-bottom:20px"/>
+                生来为爱，匠心手作，大自然的礼物，为了更好的展现您的礼物个性，情人节，女神节，母亲节，感恩节，再到新年礼物以及婚宴的喜礼，都是一份最甜蜜有故事的礼物。
+            </div>
+        </div>
+        <div class="model_box">
+            <div class="model_title">
+                <div class="top_title">
+                    添加定制方案
+                </div>
+                <div class="cancel_dingzhi right_float mybtn mywhite">
+                    <i class="icon iconfont icon-error"></i> 取消
+                </div>
+                <div class="success_dingzhi right_float mybtn mygreen">
+                    <i class="icon iconfont icon-chenggong"></i> 完成
+                </div>
+            </div>
+            <div class="model_content">
+                <div class="left_content">
+                    <div class="edit_area" id = "nodesContainer">
+                        <img class="gift_img" th:src="@{${gift.small_img}}" />
+                    </div>
+                   <div class="zhengfanmian">
+                        <img class="zhengmian" th:src="@{${gift.small_img}}" />
+                        <img class="fanmian" th:src="@{${gift.second_img}}"/>
+                    </div>
+                </div>
+                <div class="right_content">
+                    <div class="right_title">
+                        <div class="tab_title tag_selected" id="tab_title_tupian">
+                            上传图片
+                        </div>
+                        <div class="tab_title" id="tab_title_wenzi">
+                            <i class="icon iconfont icon-wenzi"></i> 添加文字
+                        </div>
+                    </div>
+                    <div class="clear_float"></div>
+                    <div class="right_main_content">
+                        <div class="tab_tupian">
+                            <p>上传图片说明</p>
+                            <p>1. 图片格式要求为JPG,PNG; </p>
+                            <p>2. 图片要求大小为2M以下; </p>
+                            <p>3. 为保证上传图片质量,分辨率建议在240px X 240px 以上; </p>
+                            <p>4. 图片不得涉及违规违法内容,如有违规违法行为均由图片上传 相关单位或个人承担,"礼物说"不负任何法律责任。</p>
+                            <div class="upload_img_outer">
+                                <form id="file_form" enctype="multipart/form-data" method="post" action="/uploadImg">
+                                <input type="file" name="file" class="hide_file" />
+                                </form>
+                                <div class="upload_img add_btn">
+                                    <i class="icon iconfont icon-tupian1"></i> 上传图片
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab_wenzi">
+                            <div class="add_btn" id="add_input">
+                                <i class="icon iconfont icon-wenzi"></i> 添加文本框
+                            </div>
+                            <form>
+                                <div class="form_unit">
+                                    <label class="wenzi_label">字体：</label>
+                                    <select class="font_family_select myselect">
+                                        <option>微软雅黑</option>
+                                        <option>宋体</option>
+                                        <option>Cursive</option>
+                                        <option>Helvetica</option>
+                                        <option>Verdana</option>
+                                    </select>
+                                </div>
+                                <div class="form_unit">
+                                    <label class="wenzi_label">
+                                        字号：
+                                    </label>
+                                    <select class="font_size_select myselect">
+                                        <option>12</option>
+                                        <option>14</option>
+                                        <option>16</option>
+                                        <option>18</option>
+                                        <option>20</option>
+                                        <option>22</option>
+                                    </select>
+                                </div>
+                                <div class="form_unit">
+                                    <div class="color_label_div">
+                                        <label class="wenzi_label">
+                                            颜色：
+                                        </label>
+                                    </div>
+                                    <div class="font_color_selector">
+                                        <input type="text" value="#000000" id="div1" class="myinput color_input" />
+                                        <div id="colorSelector"></div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="operation_area">
+                        <div class="mybtn myred">放大</div>
+                        <div class="mybtn myred">缩小</div>
+                        <div class="mybtn myred">左旋转</div>
+                        <div class="mybtn myred">右旋转</div>
+                        <div class="mybtn myred">图层上移</div>
+                        <div class="mybtn myred">图层下移</div>
+                    </div>
+                    <div class="layers_area">
+                        <ul class="layers_ul">
+                            <li class="li_selected">
+                                ●<img src="../static/img/text_icon.png" />
+                                <span class="layer">名称</span>
+                                <a href="hide">隐藏</a>
+                                <a href="delete">删除</a>
+                            </li>
+                            <!--<li>
+                                ●<img src="../static/img/t.png" />
+                                <span class="layer">名称</span>
+                                <a href="hide">隐藏</a>
+                                <a href="delete">删除</a>
+                            </li>-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="model_footer"></div>
+            <div ></div>
+        </div>
+    </div><!-- content -->
+    <!-- <div class="footout">
+        <div class="footdiv redback">
+            <div class="footinfo">
+                © 2014 - 2016 Liwushuo.com 北京礼品说科技有限公司 电信与信息服务业务经营许可证150653号 京ICP备15031023号-1<br />
+                <p><a href="#">首页</a>&nbsp;|&nbsp;<a href="#">关于我们</a>&nbsp;|&nbsp;电话：010-57510218</p>
+            </div>
+        </div>
+    </div> -->
+</div>
+<form id="nothing_form" enctype="multipart/form-data" method="post" action="/uploadImg"></form>
+</body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(function() {
+        $('.layers_ul li').click(function(){
+            $('.layers_ul li').each(function(){
+                $(this).removeClass('li_selected');
+            })
+            $(this).addClass('li_selected');;
+            var item_id = $.trim($(this).find('span').text());
+            console.log(item_id);
+            $('#'+item_id).addClass('item_focus');
+        });
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+        $('#colorSelector').ColorPicker({
+            color: '#0000ff',
+            onShow: function(colpkr) {
+                $(colpkr).fadeIn(500);
+                return false;
+            },
+            onHide: function(colpkr) {
+                $(colpkr).fadeOut(500);
+                return false;
+            },
+            onChange: function(hsb, hex, rgb) {
+                console.log(hex);
+                $('#colorSelector').css('backgroundColor', '#' + hex);
+            },
+            onSubmit: function(hsb, hex, rgb, el) {
+                $('#div1').val(hex);
+                $(el).ColorPickerHide();
+                console.log("ssss", hex);
+            }
+        });
+
+        $('#tab_title_tupian').click(function() {
+            $('#tab_title_wenzi').removeClass('tag_selected');
+            $(this).addClass('tag_selected');
+            $('.tab_wenzi').css('display', 'none');
+            $('.tab_tupian').css('display', 'block');
+        });
+
+        $('#tab_title_wenzi').click(function() {
+            $('#tab_title_tupian').removeClass('tag_selected');
+            $(this).addClass('tag_selected');
+            $('.tab_tupian').css('display', 'none');
+            $('.tab_wenzi').css('display', 'block');
+        });
+
+        $('.upload_img').click(function() {
+            $('.hide_file').click();
+        })
+
+        var src="";
+        $('.hide_file').change(function () {
+            $("#file_form").ajaxSubmit({
+                success: function(data,status,xhr,$form) {
+                    src = data.url;
+                    console.log(src);
+                    if(!(src == null || src == undefined)){
+                        var $img = $('<img class="absolute_img" src='+src+'/>');
+                        $("#nodesContainer").append($img);
+                        //doDrag($img);
+                    }
+                },
+                error: function(xhr, status, error, $form){
+                    console.log("error",xhr, status, error, $form);
+                }
+            })
+        })
+
+        $('.add_plan').click(function(){
+            $('.model_box').css('display','block');
+        });
+
+        $('.cancel_dingzhi').click(function(){
+            $('.model_box').css('display','none');
+        });
+
+        $('.strategy_li').hover(function(){
+            $(this).find('.strategy_menu').css('display','block');
+        },function(){
+            $(this).find('.strategy_menu').css('display','none');
+        });
+        $(".selector_li").hover(function(){
+            $(this).children('.con').css('display','block');
+            $(this).addClass('li_border');
+        },function(){
+            $(this).children('.con').css('display','none');
+            $(this).removeClass('li_border');
+        })
+
+        var $window = $(window);
+        var $div_anchor = $('.container');
+        var $nav_bar = $('.nav_bar');
+        var $fixed_nav_bar = $('.fixed_nav_bar');
+        $window.scroll(function() {
+            //scrollTop()方法返回或设置匹配元素的滚动条的垂直位置
+            var window_top = $window.scrollTop();
+            //javascript用offsetTop();jquery用offset().top;
+            var div_top = $div_anchor.offset().top;
+            if(window_top > div_top) {
+                $nav_bar.css('display', 'none');
+                $fixed_nav_bar.css('display', 'block');
+            } else {
+                $nav_bar.css('display', 'block');
+                $fixed_nav_bar.css('display', 'none');
+            }
+        });
+        $('.ui.rating').rating({
+            maxRating: 5
+        });
+        $('.ui.rating').rating('disable');
+        $('.ui.rating.dafen').rating();
+
+        $(".innnersquera").each(function(){
+            var rate = $(this).parent().siblings('label').text();
+            $(this).css('width',rate);
+        })
+
+        $('.gift_img_ul li').hover(function() {
+            $('.gift_img_ul li').each(function() {
+                $(this).removeClass('liselected');
+            })
+            $(this).addClass('liselected');
+            var src = $(this).children('img').attr('src');
+            $("#showimg").attr('src', src);
+            $('#imglink').attr('href',src);
+
+        }, function() {
+
+        });
+        $('#gift_info_tag').click(function(){
+            $("#gift_comment_tag").removeClass('active');
+            $("#gift_info_tag").addClass('active');
+            $("#gift_comment").css('display','none');
+            $("#gift_info").css('display','block');
+        })
+        $('#gift_comment_tag').click(function(){
+            $("#gift_info_tag").removeClass('active');
+            $("#gift_comment_tag").addClass('active');
+            $("#gift_info").css('display','none');
+            $("#gift_comment").css('display','block');
+        })
+
+        $(".btns").children('.mybtn').click(function(){
+            console.log("this",$(this));//mybtn
+            $(this).removeClass('mywhite').addClass('myred');
+            $(this).siblings('.mybtn').removeClass('myred').addClass('mywhite');
+        })
+
+        $('#plus').click(function(){
+            var num = parseInt($('#num').val());
+            var stock1= parseInt($("#stockspan").text());
+            if(num < stock1){
+                $("#num").val(num+1);
+            }else{
+                return;
+            }
+        })
+
+
+        $("#minus").click(function(){
+            var num = $("#num").val();
+            if(num>1){
+                $("#num").val(num-1);
+            }else{
+                return;
+            }
+        })
+        $("#buynow").click(function(){
+            var specarr = new Array();
+            var flag = true;
+            $('.specbtns').each(function(){
+                var arr = $(this).children('.myred');
+                if(arr.length != 1){
+                    errordeal("buy");
+                    flag = false;
+                    return false;
+                }else{
+                    var a = arr.attr('id');
+                    specarr.push(a);
+                }
+            })
+            if(flag == true){
+                buyNow(specarr);
+            }
+        })
+
+        function errordeal(a){
+            $("#spec_choose_div").addClass('error');
+            $("#errorinfo").css('display','block');
+            $("#actionbtns").hide();
+            if(a == "buy"){
+                $("#surebuy").css('display','block');
+            }else if(a == "add"){
+                $("#sureadd").css('display','block');
+            }
+        }
+        function reform(){
+            $("#errorinfo").css('display','none');
+            $("#spec_choose_div").removeClass('error');
+            $(".sure").css('display','none');
+            $("#actionbtns").show();
+        }
+        $(".errorbtn").click(function(){
+            reform();
+        })
+        function buyNow(specarr){
+            var gift_id = $("#gift_id").val();
+            var num = $("#num").val();
+            var specTypeNum = $("#specTypeNum").val();
+            console.log("gift_id",gift_id);
+            console.log("num",num);
+            console.log("specarr",specarr);
+            console.log("specTypeNum",specTypeNum);
+            var s =specarr.join(",");
+            console.log("spcarr",specarr);
+            console.log("s",s);
+            window.location.href="/confirm_order?gift_id="+gift_id+"&num="+num+"&spec="+s;
+        }
+
+        $("#surebuy").click(function(){
+            var i = 0;
+            var specarr = new Array();
+            var flag = true;
+            $('.specbtns').each(function(){
+                var arr = $(this).children('.myred');
+                if(arr.length != 1){
+                    errordeal("buy");
+                    flag = false;
+                    return false;
+                }else{
+                    var a = arr.attr('id');
+                    specarr[i++] = a;
+                }
+            })
+            if(flag == true){
+                buyNow(specarr);
+            }
+        })
+
+        $("#sureadd").click(function(){
+            addShopCart();
+        })
+
+        $("#addshopcart").click(function(){
+            addShopCart();
+        })
+
+        function addShopCart(){
+            var i = 0;
+            var specarr = new Array();
+            var flag = true;
+            $('.specbtns').each(function(){
+                var arr = $(this).children('.myred');
+                if(arr.length != 1){
+                    errordeal("add");
+                    flag = false;
+                    return false;
+                }else{
+                    var a = arr.attr('id');
+                    specarr[i++] = a;
+                }
+            })
+            if(flag == true){
+                var s ="";
+                var gift_id = parseInt($("#gift_id").val());
+                var num = $("#num").val();
+                var specTypeNum = $("#specTypeNum").val();
+                console.log(specTypeNum);
+                s = specarr.join(",");
+                console.log("s",s);
+                $.ajax({
+                    url:"/addShoppingCart",
+                    type:"POST",
+                    data:{
+                        gift_id : gift_id,
+                        num : num,
+                        spec : s
+                    },
+                    dataType:"text",
+                    success:function(data){
+                        alert("添加成功，请到购物车结算吧");
+                        console.log(data);
+                        reform();
+                    }
+                })
+            }
+        }
+
+        $("#comment_btn").click(function () {
+            var text = $('.comment_input').val();
+            var score = $('.ui.rating.dafen').rating('get rating');
+            var gift_id = $('.container').attr('id');
+            console.log(score);
+            $.ajax({
+                url:"/gift/submitGiftComment",
+                type:"post",
+                data:{
+                    gift_id:gift_id,
+                    text:text,
+                    score:score
+                },
+                dataType:"text",
+                success:function (data) {
+                    console.log(data);
+                    alert("评论成功");
+                    window.location.reload();
+                }
+            })
+        })
+        $("#collect").click(function () {
+            var gift_id = $('.container').attr('id');
+            $.ajax({
+                url:"/gift/addCollection",
+                type:"post",
+                data:{
+                    id:gift_id
+                },
+                dataType:"text",
+                success:function (data) {
+                    console.log(data);
+                    alert("礼物已经加入收藏夹");
+                }
+            })
+        })
+        var canvas_img_src = "";
+        $('.success_dingzhi').click(function () {
+            var s = $("#nodesContainer");
+            html2canvas(s).then(function(canvas) {
+                $('#fangan').append(canvas);
+                /*canvas转png*/
+                var dataURL = canvas.toDataURL();
+                /*console.log(data);
+                data=data.split(',')[1];
+                data=window.atob(data);
+                var ia = new Uint8Array(data.length);
+                for (var i = 0; i < data.length; i++) {
+                    ia[i] = data.charCodeAt(i);
+                };
+
+                // canvas.toDataURL 返回的默认格式就是 image/png
+                var blob=new Blob([ia], {type:"image/png"});
+                var fd=new FormData();
+                console.log(blob);
+                fd.append('file',blob);*/
+                $.ajax({
+                    url:"/uploadDesignImage",
+                    type:"POST",
+                    data:{
+                        image:dataURL
+                    },
+                    success:function(data){
+                        console.log(data);
+                        canvas_img_src =data;
+                        /*canvas_img_src = data.url;*/
+                        console.log("chenggong");
+                    }
+                });
+
+            });
+            $('.model_box').css('display','none');
+            $('.add_plan').css('display','none');
+            $('.submit_plan').css('display','block');
+        })
+
+        $('.submit_plan').click(function () {
+            var gift_id = $('.container').attr('id');
+            $.ajax({
+                url:"/customMade/submit_plan",
+                type:"post",
+                data:{
+                    gift_id:gift_id,
+                    design_img:canvas_img_src
+                },
+                dataType:"text",
+                success:function (data) {
+                    console.log(data);
+                    alert("定制方案已经成功提交！请耐心等待设计师审核");
+                }
+            })
+        })
+    })
+    /*]]>*/
+</script>
+
+</html>

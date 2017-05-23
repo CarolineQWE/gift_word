@@ -52,7 +52,7 @@ public class AddGiftController {
 		if (second_cate_id == null && cate_id != null){
 			second_cate_id = cate_id;
 		}
-		Gift gift = new Gift(title,0,0,stock,price,timestamp,0,src1,src2,src3,if_custom_made,second_cate_id);
+		Gift gift = new Gift(title,0,0,stock,price,timestamp,0,src1,src2,src3,if_custom_made,second_cate_id,0);
 		System.out.println("gift:"+gift);
 		giftService.addGift(gift);//插入礼物表
 		GiftInfo giftInfo = new GiftInfo(gift.getId(),brief,content);
@@ -73,4 +73,19 @@ public class AddGiftController {
 
 	}
 
+	@ResponseBody
+	@RequestMapping(value="/spec/addSaleSpec")
+	public String addSaleSpec(HttpServletRequest request,String name,String value){
+		Spec spec = new Spec(name,value,0);
+		giftService.addSaleSpec(spec);
+		return "成功";
+	}
+
+	@ResponseBody
+	@RequestMapping(value="/spec/addBaseSpec")
+	public String addBaseSpec(HttpServletRequest request,String name,String value){
+		Spec spec = new Spec(name,value,1);
+		giftService.addBaseSpec(spec);
+		return "成功";
+	}
 }

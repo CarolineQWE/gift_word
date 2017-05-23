@@ -92,8 +92,7 @@ a,a:visited,a:hover,a:active{
 }
 
 #menudiv{
-    display: inline-block;
-    vertical-align: top;
+    float: left;
     height: 440px;
     z-index: 600;
 }
@@ -123,9 +122,8 @@ a,a:visited,a:hover,a:active{
     margin-left:0px;
 }
 #newlunbo {
-    display: inline-block;
-    vertical-align: top;
-    margin-left:65px;
+    float: left;
+    margin-left:30px;
     border-radius:5px;
 }
 #topdiv{
@@ -180,18 +178,76 @@ a,a:visited,a:hover,a:active{
     height: 449px;
     width: 240px;
 }
-.right_side img{
-    height: 449px;
-    width: 244px;
-}
 .right_side{
     float: right;
     height: 449px;
     width: 244px;
-    border-left: solid 1px #d9d9d9;
-    border-top: solid 1px #d9d9d9;
-    border-right: solid 1px #d9d9d9;
-    border-bottom: solid 1px #D9D9D9;
+    border: solid 1px #d9d9d9;
+    background-color: #FFFFFF;
+}
+.right_side_title{
+    height: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    line-height:30px;
+    font-size: 18px;
+    width: 214px;
+}
+.right_side ul{
+    margin:0;
+    padding:0;
+}
+.right_side ul li{
+    width:214px;
+    height: 70px;
+    padding: 15px;
+    list-style:none;
+    border-bottom: solid 1px #d9d9d9;
+}
+.right_side ul li:last-child{
+    border-bottom: none;
+}
+.hot_gift_left{
+    float: left;
+    width:70px;
+    height: 70px;
+}
+.hot_gift_left img{
+    width: 70px;
+    height: 70px;
+}
+.hot_gift_right{
+    float: left;
+    padding-left: 10px;
+    width: 134px;
+    height: 70px;
+}
+.hot_gift_name{
+    font-size: 14px;
+    line-height:22px;
+    max-height:44px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.hot_gift_price{
+    color: #e32f2f;
+}
+.change_gift{
+    float: right;
+}
+.right_side_content{
+    width: 214px;
+    height:174px;
+    padding: 15px;
+    border-bottom: solid 1px #d9d9d9;
+}
+.right_side_content:last-child{
+    border-bottom:none;
+}
+.right_side_img img{
+    width: 200px;
+    height: 110px;
 }
 .center_div{
     float: left;
@@ -201,27 +257,26 @@ a,a:visited,a:hover,a:active{
 }
 .center_div ul li{
     width: 200px;
-    height: 204px;
+    height: 194px;
     border-left: solid 1px #d9d9d9;
     border-top: solid 1px #d9d9d9;
     list-style:none;
     float: left;
-    padding: 10px;
+    padding: 15px 20px;
     background-color: #FFFFFF;
-    padding: 10px 20px 10px 20px;
 }
 .gift_img img{
     width: 170px;
-    height: 114px;
+    height: 135px;
 }
 .gift_words{
     width:200px;
-    height: 80px;
+    height: 50px;
     padding-bottom: 10px;
 }
 .gift_img{
     width: 200px;
-    height: 114px;
+    height: 135px;
     text-align: center;
 }
 .gift_name{
@@ -240,7 +295,7 @@ a,a:visited,a:hover,a:active{
     padding-bottom: 7px;
 }
 .gift_price{
-    color: #FF6D75;
+    color: #e32f2f;
     font-size: 16px;
 }
 .container {

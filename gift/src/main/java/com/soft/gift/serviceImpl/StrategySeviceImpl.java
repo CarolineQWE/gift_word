@@ -91,4 +91,10 @@ public class StrategySeviceImpl implements StrategyService {
         System.out.println("collect"+strategy.getCollect());
         strategyDAO.updateByPrimaryKey(strategy);
     }
+
+    @Override
+    public List<Strategy> searchStrategyByKeyword(String keyword) {
+        List<Strategy> strategies = strategyDAO.selectStrategyByKeyword(keyword);
+        return strategies;
+    }
 }

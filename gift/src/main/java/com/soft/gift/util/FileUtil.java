@@ -16,7 +16,7 @@ import java.util.Map;
  * Created by yinhaijin on 16/5/10.
  */
 public class FileUtil {
-    private String allowSuffix = "jpg,png,gif,jpeg,mp4";//允许文件格式
+    private String allowSuffix = "jpg,png,gif,jpeg,mp4,webp";//允许文件格式
     private long allowSize = 250 * 10240;//允许文件大小250kb
     private float allowWidth = 30000;
     private float allowHeight = 30000;

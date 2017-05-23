@@ -13,6 +13,9 @@
     <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css"/>
     <link rel="stylesheet" type="text/css" href="../static/css/index.css"/>
     <link rel="stylesheet" type="text/css" href="../static/css/login_box.css"/>
+    <script type="text/javascript" src="../static/js/formsubmit.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/BeAlert.css"/>
+    <script type="text/javascript" src="../static/js/BeAlert.js"></script>
 </head>
 <body>
 <div th:include="nav :: mynav"></div>
@@ -25,11 +28,9 @@
                     <div th:each = "menu:${menuMap}">
                         <div class="ui left simple dropdown item">
                             <i class="angle right icon"></i>
-                            <div style="text-align:center" th:text="${menu.key.name}"></div>
+                            <div style="text-align:center"><a th:href="@{'/search/LargeCate?large_cate='+${menu.key.id}}" th:text="${menu.key.name}"></a></div>
                             <div class="menu">
-                                <th:each var="menu2" items="${menu.value }">
-                                    <div class="item"><a href="/searchGiftByCateID?cate_id=${menu2.id }">&nbsp;&nbsp;&nbsp;&nbsp;${menu2.name}&nbsp;&nbsp;&nbsp;&nbsp;</a></div>
-                                </th:each>
+                                <div class="item" th:each="menu2:${menu.value }"><a th:href="@{'/search/CateID?cate_id='+${menu2.id }}" th:text="${menu2.name}"></a></div>
                             </div>
                         </div>
                     </div>
@@ -37,14 +38,16 @@
             </div>
             <div id="newlunbo">
                 <div id="slider">
-                    <a href="#"><img src="../static/img/e.jpg" /></a>
-                    <a href="#"><img src="../static/img/f.jpg" /></a>
-                    <a href="#"><img src="../static/img/t.png" /></a>
-                    <a href="#"><img src="../static/img/r.png" /></a>
-                    <a href="#"><img src="../static/img/y.png" /></a>
-                    <a href="#"><img src="../static/img/back02.jpg" /></a>
+                    <a href="#"><img src="../static/img/post/post-1.jpg" /></a>
+                    <a href="#"><img src="../static/img/post/post-2.webp" /></a>
+                    <a href="#"><img src="../static/img/post/post-3.webp" /></a>
+                    <a href="#"><img src="../static/img/post/post-4.jpg" /></a>
+                    <a href="#"><img src="../static/img/post/post-5.webp" /></a>
+                    <a href="#"><img src="../static/img/post/post-6.webp" /></a>
+                    <a href="#"><img src="../static/img/post/post-7.jpg" /></a>
                 </div>
             </div>
+            <div class="clear_float"></div>
         </div>
         <div class="indextitle">
             <p>发现·礼物</p>
@@ -68,310 +71,437 @@
             </a>
             <a href="#third_floor">
                 <span class="nav_floor_name show_nav">F3</span>
-                <span class="nav_floor_name hide_nav"></span>
+                <span class="nav_floor_name hide_nav">玩偶摆件</span>
             </a>
             <a href="#fouth_floor">
                 <span class="nav_floor_name show_nav">F4</span>
-                <span class="nav_floor_name hide_nav"></span>
+                <span class="nav_floor_name hide_nav">美妆个护</span>
             </a>
             <a href="#fifth_floor">
                 <span class="nav_floor_name show_nav">F5</span>
-                <span class="nav_floor_name hide_nav"></span>
+                <span class="nav_floor_name hide_nav">书籍文具</span>
             </a>
             <a href="#sixth_floor">
                 <span class="nav_floor_name show_nav">F6</span>
-                <span class="nav_floor_name hide_nav"></span>
+                <span class="nav_floor_name hide_nav">3C数码</span>
             </a>
 
             <a href="#seventh_floor">
                 <span class="nav_floor_name show_nav">F7</span>
-                <span class="nav_floor_name hide_nav"></span>
+                <span class="nav_floor_name hide_nav">家居日杂</span>
             </a>
             <a href="#eigth_floor">
                 <span class="nav_floor_name show_nav">F8</span>
-                <span class="nav_floor_name hide_nav"></span>
+                <span class="nav_floor_name hide_nav">全球美食</span>
             </a>
             <a href="#ninth_floor">
                 <span class="nav_floor_name show_nav">F9</span>
-                <span class="nav_floor_name hide_nav"></span>
+                <span class="nav_floor_name hide_nav">运动户外</span>
             </a>
             <a href="#tenth_floor">
                 <span class="nav_floor_name show_nav">F10</span>
-                <span class="nav_floor_name hide_nav"></span>
+                <span class="nav_floor_name hide_nav">鲜花文娱</span>
             </a>
         </div>
         <div id="maincontent">
             <div class="floor_title">
                 <div class="floor_img">F1</div>
-                <div id="first_floor" class="floor_name ">珠宝配饰</div>
+                <div id="first_floor" class="floor_name ">精品鞋服</div>
             </div>
             <div class="floor_content">
                 <div class="left_side">
-                    <img src="../static/img/1.jpg" />
+                    <img src="../static/img/index/yifu.webp" />
                 </div>
                 <div class="center_div">
                     <ul>
-                        <li>
-                            <div class="gift_words">
-                                <div class="gift_name">泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提</div>
-                                <div class="gift_info">泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提</div>
-                                <div class="gift_price">泰国红提</div>
-                            </div>
-                            <div class="gift_img">
-                                <img src="../static/img/1.jpg" />
-                            </div>
+                        <li th:each="gift:${allGifts.get(0).get(0)}">
+                            <a th:href="'gift/giftInfo?gift_id='+${gift.id}">
+                                <div class="gift_words">
+                                    <div class="gift_name" th:text="${gift.name}"></div>
+                                    <div class="gift_price">￥<span th:text="${gift.price}"></span></div>
+                                </div>
+                                <div class="gift_img">
+                                    <img th:src="${gift.small_img}" />
+                                </div>
+                            </a>
                         </li>
-                        <li>
-                            <div class="gift_words">
-                                <div class="gift_name">泰国红提</div>
-                                <div class="gift_info">泰国红提</div>
-                                <div class="gift_price">泰国红提</div>
-                            </div>
-                            <div class="gift_img">
-                                <img src="../static/img/1.jpg" />
-                            </div>
-                        </li>
-                        <li>
-                            <div class="gift_words">
-                                <div class="gift_name">泰国红提</div>
-                                <div class="gift_info">泰国红提</div>
-                                <div class="gift_price">泰国红提</div>
-                            </div>
-                            <div class="gift_img">
-                                <img src="../static/img/1.jpg" />
-                            </div>
-                        </li>
-                        <li>
-                            <div class="gift_words">
-                                <div class="gift_name">泰国红提</div>
-                                <div class="gift_info">泰国红提</div>
-                                <div class="gift_price">泰国红提</div>
-                            </div>
-                            <div class="gift_img">
-                                <img src="../static/img/1.jpg" />
-                            </div>
-                        </li>
-                        <li>
-                            <div class="gift_words">
-                                <div class="gift_name">泰国红提</div>
-                                <div class="gift_info">泰国红提</div>
-                                <div class="gift_price">泰国红提</div>
-                            </div>
-                            <div class="gift_img">
-                                <img src="../static/img/1.jpg" />
-                            </div>
-                        </li>
-                        <li>
-                            <div class="gift_words">
-                                <div class="gift_name">泰国红提</div>
-                                <div class="gift_info">泰国红提</div>
-                                <div class="gift_price">泰国红提</div>
-                            </div>
-                            <div class="gift_img">
-                                <img src="../static/img/1.jpg" />
-                            </div>
-                        </li>
-
                     </ul>
                 </div>
                 <div class="right_side">
-                    <img src="../static/img/1.jpg" />
+                    <div class="right_side_title">大家都在买</div>
+                    <ul>
+                        <li th:each="gift:${allGifts.get(0).get(1)}" >
+                            <a th:href="'gift/giftInfo?gift_id='+${gift.id}">
+                                <div class="hot_gift_left">
+                                    <img th:src="${gift.small_img}" />
+                                </div>
+                                <div class="hot_gift_right">
+                                    <div class="hot_gift_name" th:text="${gift.name}"></div>
+                                    <div class="hot_gift_price">￥<span th:text="${gift.price}"></span></div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="floor_title">
                 <div class="floor_img second_floor_img">F2</div>
-                <div id="second_floor" class="floor_name ">第二层</div>
+                <div id="second_floor" class="floor_name">珠宝配饰</div>
             </div>
             <div class="floor_content">
                 <div class="left_side">
-                    <img src="../static/img/1.jpg" />
+                    <img src="../static/img/index/peishi1.jpg" />
                 </div>
                 <div class="center_div">
                     <ul>
-                        <li>
-                            <div class="gift_words">
-                                <div class="gift_name">泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提</div>
-                                <div class="gift_info">泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提泰国红提</div>
-                                <div class="gift_price">泰国红提</div>
-                            </div>
-                            <div class="gift_img">
-                                <img src="../static/img/1.jpg" />
-                            </div>
+                        <li th:each="gift:${allGifts.get(1).get(0)}">
+                            <a th:href="'gift/giftInfo?gift_id='+${gift.id}">
+                                <div class="gift_words">
+                                    <div class="gift_name" th:text="${gift.name}"></div>
+                                    <div class="gift_price">￥<span th:text="${gift.price}"></span></div>
+                                </div>
+                                <div class="gift_img">
+                                    <img th:src="${gift.small_img}" />
+                                </div>
+                            </a>
                         </li>
-                        <li>
-                            <div class="gift_words">
-                                <div class="gift_name">泰国红提</div>
-                                <div class="gift_info">泰国红提</div>
-                                <div class="gift_price">泰国红提</div>
-                            </div>
-                            <div class="gift_img">
-                                <img src="../static/img/1.jpg" />
-                            </div>
-                        </li>
-                        <li>
-                            <div class="gift_words">
-                                <div class="gift_name">泰国红提</div>
-                                <div class="gift_info">泰国红提</div>
-                                <div class="gift_price">泰国红提</div>
-                            </div>
-                            <div class="gift_img">
-                                <img src="../static/img/1.jpg" />
-                            </div>
-                        </li>
-                        <li>
-                            <div class="gift_words">
-                                <div class="gift_name">泰国红提</div>
-                                <div class="gift_info">泰国红提</div>
-                                <div class="gift_price">泰国红提</div>
-                            </div>
-                            <div class="gift_img">
-                                <img src="../static/img/1.jpg" />
-                            </div>
-                        </li>
-                        <li>
-                            <div class="gift_words">
-                                <div class="gift_name">泰国红提</div>
-                                <div class="gift_info">泰国红提</div>
-                                <div class="gift_price">泰国红提</div>
-                            </div>
-                            <div class="gift_img">
-                                <img src="../static/img/1.jpg" />
-                            </div>
-                        </li>
-                        <li>
-                            <div class="gift_words">
-                                <div class="gift_name">泰国红提</div>
-                                <div class="gift_info">泰国红提</div>
-                                <div class="gift_price">泰国红提</div>
-                            </div>
-                            <div class="gift_img">
-                                <img src="../static/img/1.jpg" />
-                            </div>
-                        </li>
-
                     </ul>
                 </div>
                 <div class="right_side">
-                    <img src="../static/img/1.jpg" />
+                    <div class="right_side_title">大家都在买</div>
+                    <ul>
+                        <li th:each="gift:${allGifts.get(1).get(1)}" >
+                            <a th:href="'gift/giftInfo?gift_id='+${gift.id}">
+                                <div class="hot_gift_left">
+                                    <img th:src="${gift.small_img}" />
+                                </div>
+                                <div class="hot_gift_right">
+                                    <div class="hot_gift_name" th:text="${gift.name}"></div>
+                                    <div class="hot_gift_price">￥<span th:text="${gift.price}"></span></div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="floor_title">
                 <div class="floor_img third_floor_img">F3</div>
-                <div id="third_floor" class="floor_name ">第三层</div>
+                <div id="third_floor" class="floor_name ">玩偶摆件</div>
             </div>
             <div class="floor_content">
                 <div class="left_side">
-                    <img src="../static/img/1.jpg" />
+                    <img src="../static/img/index/wanou.jpg" />
                 </div>
                 <div class="center_div">
+                    <ul>
+                        <li th:each="gift:${allGifts.get(2).get(0)}">
+                            <a th:href="'gift/giftInfo?gift_id='+${gift.id}">
+                                <div class="gift_words">
+                                    <div class="gift_name" th:text="${gift.name}"></div>
+                                    <div class="gift_price">￥<span th:text="${gift.price}"></span></div>
+                                </div>
+                                <div class="gift_img">
+                                    <img th:src="${gift.small_img}" />
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
                 <div class="right_side">
-                    <img src="../static/img/1.jpg" />
+                    <div class="right_side_title">大家都在买</div>
+                    <ul>
+                        <li th:each="gift:${allGifts.get(2).get(1)}" >
+                            <a th:href="'gift/giftInfo?gift_id='+${gift.id}">
+                                <div class="hot_gift_left">
+                                    <img th:src="${gift.small_img}" />
+                                </div>
+                                <div class="hot_gift_right">
+                                    <div class="hot_gift_name" th:text="${gift.name}"></div>
+                                    <div class="hot_gift_price">￥<span th:text="${gift.price}"></span></div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="floor_title">
                 <div class="floor_img fouth_floor_img">F4</div>
-                <div id="fouth_floor" class="floor_name ">第三层</div>
+                <div id="fouth_floor" class="floor_name ">美妆个护</div>
             </div>
             <div class="floor_content">
                 <div class="left_side">
-                    <img src="../static/img/1.jpg" />
+                    <img src="../static/img/index/meizhuang.jpg" />
                 </div>
                 <div class="center_div">
+                    <ul>
+                        <li th:each="gift:${allGifts.get(3).get(0)}">
+                            <a th:href="'gift/giftInfo?gift_id='+${gift.id}">
+                                <div class="gift_words">
+                                    <div class="gift_name" th:text="${gift.name}"></div>
+                                    <div class="gift_price">￥<span th:text="${gift.price}"></span></div>
+                                </div>
+                                <div class="gift_img">
+                                    <img th:src="${gift.small_img}" />
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
                 <div class="right_side">
-                    <img src="../static/img/1.jpg" />
+                    <div class="right_side_title">大家都在买</div>
+                    <div class="right_side_content" th:each="gift,iterStat:${allGifts.get(3).get(0)}" th:if="${iterStat.index lt 2}">
+                        <a th:href="'gift/giftInfo?gift_id='+${gift.id}">
+                            <div class="right_side_img">
+                                <img th:src="${gift.small_img}"/>
+                            </div>
+                            <div class="hot_gift_name" th:text="${gift.name}"></div>
+                            <div class="hot_gift_price">
+                                ￥<span th:text="${gift.price}"></span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="floor_title">
                 <div class="floor_img fifth_floor_img">F5</div>
-                <div id="fifth_floor" class="floor_name ">第三层</div>
+                <div id="fifth_floor" class="floor_name ">书籍文具</div>
             </div>
             <div class="floor_content">
                 <div class="left_side">
-                    <img src="../static/img/1.jpg" />
+                    <img src="../static/img/index/shuji.jpg" />
                 </div>
                 <div class="center_div">
+                    <ul>
+                        <li th:each="gift:${allGifts.get(4).get(0)}">
+                            <a th:href="'gift/giftInfo?gift_id='+${gift.id}">
+                                <div class="gift_words">
+                                    <div class="gift_name" th:text="${gift.name}"></div>
+                                    <div class="gift_price">￥<span th:text="${gift.price}"></span></div>
+                                </div>
+                                <div class="gift_img">
+                                    <img th:src="${gift.small_img}" />
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
                 <div class="right_side">
-                    <img src="../static/img/1.jpg" />
+                    <div class="right_side_title">大家都在买</div>
+                    <ul>
+                        <li th:each="gift:${allGifts.get(4).get(1)}" >
+                            <a th:href="'gift/giftInfo?gift_id='+${gift.id}">
+                                <div class="hot_gift_left">
+                                    <img th:src="${gift.small_img}" />
+                                </div>
+                                <div class="hot_gift_right">
+                                    <div class="hot_gift_name" th:text="${gift.name}"></div>
+                                    <div class="hot_gift_price">￥<span th:text="${gift.price}"></span></div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="floor_title">
                 <div class="floor_img sixth_floor_img">F6</div>
-                <div id="sixth_floor" class="floor_name ">第三层</div>
+                <div id="sixth_floor" class="floor_name ">3C数码</div>
             </div>
             <div class="floor_content">
                 <div class="left_side">
-                    <img src="../static/img/1.jpg" />
+                    <img src="../static/img/index/dianqi.jpg" />
                 </div>
                 <div class="center_div">
+                    <ul>
+                        <li th:each="gift:${allGifts.get(5).get(0)}">
+                            <a th:href="'gift/giftInfo?gift_id='+${gift.id}">
+                                <div class="gift_words">
+                                    <div class="gift_name" th:text="${gift.name}"></div>
+                                    <div class="gift_price">￥<span th:text="${gift.price}"></span></div>
+                                </div>
+                                <div class="gift_img">
+                                    <img th:src="${gift.small_img}" />
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
                 <div class="right_side">
-                    <img src="../static/img/1.jpg" />
+                    <div class="right_side_title">大家都在买</div>
+                    <div class="right_side_content" th:each="gift,iterStat:${allGifts.get(5).get(0)}" th:if="${iterStat.index lt 2}">
+                        <a th:href="'gift/giftInfo?gift_id='+${gift.id}">
+                            <div class="right_side_img">
+                                <img th:src="${gift.small_img}"/>
+                            </div>
+                            <div class="hot_gift_name" th:text="${gift.name}"></div>
+                            <div class="hot_gift_price">
+                                ￥<span th:text="${gift.price}"></span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="floor_title">
                 <div class="floor_img seventh_floor_img">F7</div>
-                <div id="seventh_floor" class="floor_name ">第三层</div>
+                <div id="seventh_floor" class="floor_name ">家居日杂</div>
             </div>
             <div class="floor_content">
                 <div class="left_side">
-                    <img src="../static/img/1.jpg" />
+                    <img src="../static/img/index/jiaju.png" />
                 </div>
                 <div class="center_div">
+                    <ul>
+                        <li th:each="gift:${allGifts.get(6).get(0)}">
+                            <a th:href="'gift/giftInfo?gift_id='+${gift.id}">
+                                <div class="gift_words">
+                                    <div class="gift_name" th:text="${gift.name}"></div>
+                                    <div class="gift_price">￥<span th:text="${gift.price}"></span></div>
+                                </div>
+                                <div class="gift_img">
+                                    <img th:src="${gift.small_img}" />
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
                 <div class="right_side">
-                    <img src="../static/img/1.jpg" />
+                    <div class="right_side_title">大家都在买</div>
+                    <div class="right_side_content" th:each="gift,iterStat:${allGifts.get(6).get(0)}" th:if="${iterStat.index lt 2}">
+                        <a th:href="'gift/giftInfo?gift_id='+${gift.id}">
+                            <div class="right_side_img">
+                                <img th:src="${gift.small_img}"/>
+                            </div>
+                            <div class="hot_gift_name" th:text="${gift.name}"></div>
+                            <div class="hot_gift_price">
+                                ￥<span th:text="${gift.price}"></span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="floor_title">
                 <div class="floor_img eigth_floor_img">F8</div>
-                <div id="eigth_floor" class="floor_name">第三层</div>
+                <div id="eigth_floor" class="floor_name">全球美食</div>
             </div>
             <div class="floor_content">
                 <div class="left_side">
-                    <img src="../static/img/1.jpg" />
+                    <img src="../static/img/index/shengxian.jpg" />
                 </div>
                 <div class="center_div">
+                    <ul>
+                        <li th:each="gift:${allGifts.get(7).get(0)}">
+                            <a th:href="'gift/giftInfo?gift_id='+${gift.id}">
+                                <div class="gift_words">
+                                    <div class="gift_name" th:text="${gift.name}"></div>
+                                    <div class="gift_price">￥<span th:text="${gift.price}"></span></div>
+                                </div>
+                                <div class="gift_img">
+                                    <img th:src="${gift.small_img}" />
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
                 <div class="right_side">
-                    <img src="../static/img/1.jpg" />
+                    <div class="right_side_title">大家都在买</div>
+                    <div class="right_side_content" th:each="gift,iterStat:${allGifts.get(7).get(0)}" th:if="${iterStat.index lt 2}">
+                        <a th:href="'gift/giftInfo?gift_id='+${gift.id}">
+                            <div class="right_side_img">
+                                <img th:src="${gift.small_img}"/>
+                            </div>
+                            <div class="hot_gift_name" th:text="${gift.name}"></div>
+                            <div class="hot_gift_price">
+                                ￥<span th:text="${gift.price}"></span>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="floor_title">
                 <div class="floor_img ninth_floor_img">F9</div>
-                <div id="ninth_floor" class="floor_name">第三层</div>
+                <div id="ninth_floor" class="floor_name">运动户外</div>
             </div>
             <div class="floor_content">
                 <div class="left_side">
-                    <img src="../static/img/1.jpg" />
+                    <img src="../static/img/index/yundong-large.jpg" />
                 </div>
                 <div class="center_div">
+                    <ul>
+                        <li th:each="gift:${allGifts.get(8).get(0)}">
+                            <a th:href="'gift/giftInfo?gift_id='+${gift.id}">
+                                <div class="gift_words">
+                                    <div class="gift_name" th:text="${gift.name}"></div>
+                                    <div class="gift_price">￥<span th:text="${gift.price}"></span></div>
+                                </div>
+                                <div class="gift_img">
+                                    <img th:src="${gift.small_img}" />
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
                 <div class="right_side">
-                    <img src="../static/img/1.jpg" />
+                    <div class="right_side_title">大家都在买</div>
+                    <ul>
+                        <li th:each="gift:${allGifts.get(8).get(1)}" >
+                            <a th:href="'gift/giftInfo?gift_id='+${gift.id}">
+                                <div class="hot_gift_left">
+                                    <img th:src="${gift.small_img}" />
+                                </div>
+                                <div class="hot_gift_right">
+                                    <div class="hot_gift_name" th:text="${gift.name}"></div>
+                                    <div class="hot_gift_price">￥<span th:text="${gift.price}"></span></div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="floor_title">
                 <div class="floor_img tenth_floor_img">F10</div>
-                <div id="tenth_floor" class="floor_name">第三层</div>
+                <div id="tenth_floor" class="floor_name">鲜花文娱</div>
             </div>
             <div class="floor_content">
                 <div class="left_side">
-                    <img src="../static/img/1.jpg" />
+                    <img src="../static/img/index/xianhua.jpg" />
                 </div>
                 <div class="center_div">
+                    <ul>
+                        <li th:each="gift:${allGifts.get(9).get(0)}">
+                            <a th:href="'gift/giftInfo?gift_id='+${gift.id}">
+                                <div class="gift_words">
+                                    <div class="gift_name" th:text="${gift.name}"></div>
+                                    <div class="gift_price">￥<span th:text="${gift.price}"></span></div>
+                                </div>
+                                <div class="gift_img">
+                                    <img th:src="${gift.small_img}" />
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
                 <div class="right_side">
-                    <img src="../static/img/1.jpg" />
+                    <div class="right_side_title">大家都在买</div>
+                    <ul>
+                        <li th:each="gift:${allGifts.get(9).get(1)}" >
+                            <a th:href="'gift/giftInfo?gift_id='+${gift.id}">
+                                <div class="hot_gift_left">
+                                    <img th:src="${gift.small_img}" />
+                                </div>
+                                <div class="hot_gift_right">
+                                    <div class="hot_gift_name" th:text="${gift.name}"></div>
+                                    <div class="hot_gift_price">￥<span th:text="${gift.price}"></span></div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
     <div class="footdiv redback">
-        <p>© 2014 - 2016 Liwushuo.com 北京礼品说科技有限公司 电信与信息服务业务经营许可证150653号 京ICP备15031023号-1</p>
-        <p><a href="#">首页</a>&nbsp;|&nbsp;<a href="#">关于我们</a>&nbsp;|&nbsp;电话：010-57510218</p>
+        <p>礼物说——礼物与全球好货指南</p>
+        <p><a href="#">首页</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物商城</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物定制</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物攻略</a></p>
     </div>
 </div>
 </body>
@@ -380,7 +510,7 @@
     /*<![CDATA[*/
     $(function() {
         $('#slider').vmcSlider({
-            width: 920,
+            width: 968,
             height: 450,
             gridCol: 10,
             gridRow: 5,
@@ -442,6 +572,31 @@
         },function(){
             $(this).children('.con').css('display','none');
             $(this).removeClass('li_border');
+        })
+        $("#search_btn").click(function () {
+            console.log("dianji");
+            var keyword = $("#search").val();
+            console.log(keyword);
+            if(!(keyword==null||keyword == "")){
+                var url = "/search/Keyword";
+                var obj = {
+                    name:"keyword",
+                    value:keyword
+                };
+                formSubmit(url,obj);
+            }
+        })
+
+        $('.white_img_outer').click(function () {
+            var keyword = $("#white_input").val();
+            if(!(keyword==null||keyword == "")){
+                var url = "/search/Keyword";
+                var obj = {
+                    name:"keyword",
+                    value:keyword
+                };
+                formSubmit(url,obj);
+            }
         })
 
         /*页面滚动监听*/

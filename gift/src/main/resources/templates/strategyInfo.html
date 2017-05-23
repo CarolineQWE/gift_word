@@ -9,13 +9,16 @@
     <link rel="stylesheet" type="text/css" href="../static/css/nav.css" />
     <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css" />
     <link rel="stylesheet" type="text/css" href="../static/css/login_box.css" />
+
+    <link rel="stylesheet" type="text/css" href="../static/css/BeAlert.css"/>
+    <script type="text/javascript" src="../static/js/BeAlert.js"></script>
     <style>
         .main_content{
             width: 880px;
             margin: 0px auto;
         }
         .top_img_div img{
-            width: 770px;
+            width: 880px;
             height: 300px;
         }
         .left_head_img img{
@@ -58,27 +61,17 @@
             background-color: #42c02e;
             border-radius: 5px;
             margin-left: 5px;
-            padding-bottom: 3px;
-        }
-        .addCare a{
+            color: #ffffff;
             font-size: 14px;
-            color: #ffffff;
-            padding: 0px 5px;
-            text-decoration: none;
-        }
-        .addCare a:visited{
-            color: #ffffff;
-        }
-        .addCare a:hover{
-            color: #ffffff;
-        }
-        .addCare a:active{
-            color: #ffffff;
+            padding: 3px 10px;
+            cursor: pointer;
         }
         .stra_content{
             font-size: 16px;
             color: #333;
             line-height:1.5;
+            width:880px;
+            overflow-x: hidden;
         }
         .strategy_popularity{
             color: #e32f2f;
@@ -216,6 +209,12 @@
         .hidden_div{
             display: none;
         }
+        .alert{
+            display: none;
+        }
+        .BeAlert_overlay{
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -235,7 +234,7 @@
                 <div class="author_name">
                     <span class="author_span">作者</span>
                     <span class="author" th:text="${author_userInfo.nickname}"></span>
-                    <span class="addCare"><a th:href="@{'user/addCare?account='+${author_userInfo.account}}">+关注</a></span>
+                    <span class="addCare" th:id="${author_userInfo.account}">+关注</span>
                 </div>
                 <div class="publish_time" th:text="${strategy.publish_time}"></div>
             </div>
@@ -470,6 +469,7 @@
         }
 
         var userInfo = $(".userInfo_div").text();
+        console.log(userInfo);
         $("#like_a").click(function () {
             if(userInfo == null||userInfo == ""){
                 console.log(userInfo);
@@ -555,7 +555,7 @@
             }
         });
 
-        $('.surebtn').click(function () {
+        $('.alertBtn').click(function () {
             $('.alert').css('display','none');
             $('.BeAlert_overlay').css('display','none');
         });
@@ -603,6 +603,20 @@
                     }
                 });
             }
+        })
+        $('.addCare').click(function () {
+            var cared_account = $(this).attr('id');
+            $.ajax({
+                url:"/addCare",
+                data:{
+                    cared_account:cared_account
+                },
+                dataType:"text",
+                success:function (data) {
+                    console.log(data);
+                    alert("关注成功！");
+                }
+            })
         })
     })
     /*]]>*/

@@ -10,6 +10,7 @@ public class LargeOrderInfo{
 	private String gift_name;
 	private String small_img;
 	private Double gift_price;
+
 	public LargeOrderInfo(String orderinfo_id, Double orderinfo_price, Integer orderinfo_num, Integer gift_id,
 			String gift_name, String small_img, Double gift_price) {
 		super();

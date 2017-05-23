@@ -5,4 +5,5 @@ import com.soft.gift.util.BaseDAO;
 
 public interface ShippingAddressDAO extends BaseDAO<ShippingAddress> {
 
+    public void updateByAccount(ShippingAddress address);
 }

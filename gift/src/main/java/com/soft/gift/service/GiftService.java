@@ -42,13 +42,14 @@ public interface GiftService {
 	public Map<Order, Map<LargeOrderInfo, List<Spec>>> getOrderByStatus(Integer status);
 	public Map<LargeOrder, Map<LargeOrderInfo, List<Spec>>> getAllOrder();
 
+	//新增礼物
     public Integer addGift(Gift gift);
 
 	public void addGiftInfo(GiftInfo giftInfo);
 
 	public void addGiftSpec(GiftSpec giftSpec);
 
-    public String getCateByID(Integer category_id);
+    public Category getCateByID(Integer category_id);
 
 	public void batchDeleteGift(String str);
 
@@ -59,4 +60,33 @@ public interface GiftService {
 	public void updateGiftById(Gift gift);
 
 	public void updateGiftInfoByGiftId(GiftInfo giftInfo);
+
+    public List<List<List<Gift>>> getAllGifts();
+
+	public void addSaleSpec(Spec spec);
+
+	public void addBaseSpec(Spec spec);
+
+    public Order getOrderByID(String order_id);
+
+ 	public void updateGift(Gift gift);
+
+	//搜索礼物
+	public List<Gift> searchGiftByCateIDOrderBySale(Integer cate_id);
+
+	public List<Gift> searchGiftByCateIDOrderByHot(Integer cate_id);
+
+	public List<Gift> searchGiftByCateIDOrderByPrice(Integer cate_id, Integer min, Integer max);
+
+	public List<Gift> searchGiftByLargeCate(Integer large_cate);
+
+	public List<Gift> searchGiftByLargeCateOrderBySale(Integer large_cate);
+
+	public List<Gift> searchGiftByLargeCateOrderByHot(Integer large_cate);
+
+	public List<Gift> searchGiftByLargeCateOrderByPrice(Integer large_cate, Integer min, Integer max);
+
+	public Category getCategory(Category category);
+
+    public List<Gift> getCustomGift(Integer bool);
 }

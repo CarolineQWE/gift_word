@@ -7,13 +7,16 @@
     <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css"/>
     <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
     <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+    <script type="text/javascript" src="../static/js/formsubmit.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/BeAlert.css"/>
+    <script type="text/javascript" src="../static/js/BeAlert.js"></script>
 </head>
 <body>
 <div th:fragment="mynav">
     <div class="tools_outer">
         <div class="tools_div">
             <div class="welcome_div">
-                欢迎光临礼物说！
+                欢迎光临礼物说！<span th:if='${session.userInfo != null}' th:text="${session.userInfo.getNickname()}"></span>
             </div>
             <div class="tools_right_div">
                 <ul>
@@ -24,11 +27,11 @@
                         <div class="con">
                             <ul>
                                 <li><a href="/myOrder">我的订单</a></li>
-                                <li><a href="/myOrder">我的订单</a></li>
-                                <li><a href="/myOrder">我的订单</a></li>
-                                <li><a href="/myOrder">我的订单</a></li>
-                                <li><a href="/myOrder">我的订单</a></li>
-                                <li><a href="/myOrder">我的订单</a></li>
+                                <li><a href="/getShoppingCart">我的购物车</a></li>
+                                <li><a href="/myStrategy">我的攻略</a></li>
+                                <li><a href="/myCollection">我的收藏</a></li>
+                                <li><a href="/myCare">我的定制</a></li>
+                                <li><a href="/myCustomMade">我的定制</a></li>
                             </ul>
                         </div>
                     </li>
@@ -41,7 +44,6 @@
                                 <li><a href="/myOrder">设计师反馈</a></li>
                                 <li><a href="/myOrder">评论</a></li>
                                 <li><a href="/myOrder">我的赞</a></li>
-                                <li><a href="/myOrder">收藏</a></li>
                             </ul>
                         </div>
                     </li>
@@ -50,7 +52,7 @@
                         <div class="con">
                             <ul>
                                 <li><a href="/myOrder">联系客服</a></li>
-                                <li><a href="/myOrder">宿舍</a></li>
+                                <li><a href="/myOrder">投诉</a></li>
                             </ul>
                         </div>
                     </li>
@@ -61,26 +63,32 @@
     <div class="nav_header">
         <div class="nav_header_left">
             <div class="nav_logo_div">
-                <a href="javascript:void(0);"><img src="../static/img/logo.png"/></a>
+                <a href="/index"><img src="../static/img/logo.jpg"/></a>
             </div>
             <div class="nav_input_div">
                 <div class="nav_float_left nav_search_img"><img src="../static/img/icon_search.png"/></div>
-                <div class="nav_float_left"><input class="nav_my_input" type="text" name="search" id="search" value="" placeholder="搜索礼物、攻略"/></div>
+                <div class="nav_float_left"><input class="nav_my_input" type="text" name="search" id="search" placeholder="搜索礼物、攻略"/></div>
                 <div class="nav_float_left nav_search_btn"><label id="search_btn">搜索</label></div>
             </div>
         </div>
         <div class="nav_header_right">
             <div class="icon_div">
-                <i class="icon iconfont icon-iconfontgouwuche"></i>
-                我的购物车
+                <a href="/getShoppingCart">
+                    <i class="icon iconfont icon-iconfontgouwuche"></i>
+                    我的购物车
+                </a>
             </div>
             <div class="icon_div">
-                <i class="icon iconfont icon-wodedingdan"></i>
-                我的订单
+                <a href="/myOrder">
+                    <i class="icon iconfont icon-wodedingdan"></i>
+                    我的订单
+                </a>
             </div>
             <div class="icon_div">
-                <i class="icon iconfont icon-gerenzhongxin"></i>
-                个人中心
+                <a href="/personal">
+                    <i class="icon iconfont icon-gerenzhongxin"></i>
+                    个人中心
+                </a>
             </div>
         </div>
     </div>
@@ -88,7 +96,7 @@
     <div class="nav_bar">
         <ul>
             <li class="nav_active_li"><a href="/index">礼物商城</a></li>
-            <li><a href="/index">礼物定制</a></li>
+            <li><a href="/getCustomGift">礼物定制</a></li>
             <li class="strategy_li">
                 <a href="/strategy/all">礼物攻略</a>
                 <div class="strategy_menu">
@@ -128,13 +136,13 @@
                     </ul>
                 </div>
             </li>
-            <li><a href="strategy/addStrategy">写攻略</a></li>
+            <li><a href="/strategy/addStrategy">写攻略</a></li>
         </ul>
     </div>
     <div class="nav_bar fixed_nav_bar">
         <ul>
             <li class="nav_active_li"><a href="/index">礼物商城</a></li>
-            <li><a href="/index">礼物定制</a></li>
+            <li><a href="/getCustomGift">礼物定制</a></li>
             <li class="strategy_li">
                 <a href="/strategy/all">礼物攻略</a>
                 <div class="strategy_menu">
@@ -174,10 +182,10 @@
                     </ul>
                 </div>
             </li>
-            <li><a href="strategy/addStrategy">写攻略</a></li>
+            <li><a href="/strategy/addStrategy">写攻略</a></li>
         </ul>
         <div class="white_input_div">
-            <div class="white_input_outer"><input type="text" placeholder="搜索礼物/攻略"/></div>
+            <div class="white_input_outer"><input type="text" placeholder="搜索礼物/攻略" id="white_input"/></div>
             <div class="white_img_outer"><img class="search_img_white" src="../static/img/icon_search.png"/></div>
         </div>
     </div>
@@ -186,25 +194,6 @@
 <script th:inline="javascript">
     /*<![CDATA[*/
     $(function () {
-        /*$(".inputbtn").click(function () {
-         var text = $('.myinput').val();
-
-         if (text == "" || text == null) {
-         alert(text);
-         return;
-         } else {
-         window.location.href = "/searchGiftByKeyWord?keyword=" + text;
-         }
-         })
-         $('.myinput').focus(function () {
-         $(this).parent().addClass('inputfocus');
-         $(this).siblings('.inputbtn').children('i').css('color', '#847471');
-         })
-         $('.myinput').blur(function () {
-         $(this).parent().removeClass('inputfocus');
-         $(this).siblings('.inputbtn').children('i').css('color', '#D9D9D9');
-         })*/
-
         $('.strategy_li').hover(function(){
             $(this).find('.strategy_menu').css('display','block');
         },function(){
@@ -235,6 +224,30 @@
                 $fixed_nav_bar.css('display', 'none');
             }
         });
+
+        $("#search_btn").click(function () {
+            var keyword = $("#search").val();
+            if(!(keyword==null||keyword == "")){
+                var url = "/search/Keyword";
+                var obj = {
+                    name:"keyword",
+                    value:keyword
+                };
+                formSubmit(url,obj);
+            }
+        })
+
+        $('.white_img_outer').click(function () {
+            var keyword = $("#white_input").val();
+            if(!(keyword==null||keyword == "")){
+                var url = "/search/Keyword";
+                var obj = {
+                    name:"keyword",
+                    value:keyword
+                };
+                formSubmit(url,obj);
+            }
+        })
 
     })
     /*]]>*/

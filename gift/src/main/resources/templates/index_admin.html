@@ -17,6 +17,9 @@
     <script type="text/javascript" charset="utf-8" src="../static/ueditor/ueditor.all.min.js"> </script>
     <script type="text/javascript" charset="utf-8" src="../static/ueditor/lang/zh-cn/zh-cn.js"></script>
     <script type="text/javascript" charset="utf-8" src="../static/js/jquery.form.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../static/css/BeAlert.css"/>
+    <script type="text/javascript" src="../static/js/BeAlert.js"></script>
     <style>
         body{
             -webkit-box-sizing: content-box;
@@ -68,6 +71,9 @@
             display: none;
         }
         .check_one_box{
+            display: none;
+        }
+        .BeAlert_overlay{
             display: none;
         }
     </style>
@@ -129,8 +135,8 @@
                     <td th:class="sale_status" th:if="${gift.key.status eq 0}">销售中</td>
                     <td th:class="sale_status" th:if="${gift.key.status eq 1}">已下架</td>
                     <td th:id="${gift.key.id}">
-                        <button class="ui button tiny blue modify_status" th:if="${gift.key.status eq 0}">下架</button>
-                        <button class="ui button tiny blue modify_status" th:if="${gift.key.status eq 1}">上架</button>
+                        <button class="ui button tiny blue modify_status down_sale" th:if="${gift.key.status eq 0}">下架</button>
+                        <button class="ui button tiny orange modify_status up_sale" th:if="${gift.key.status eq 1}">上架</button>
                         <button class="ui button tiny green button modify_gift">修改</button>
                         <button class="ui button tiny red button single_delete">删除</button>
                     </td>
@@ -354,8 +360,10 @@
                 success:function (data) {
                     console.log(data);
                     if(text == "销售中"){
+                        alert("下架成功！");
                         status_td.text("已下架");
                     }else{
+                        alert("上架成功！");
                         status_td.text("销售中");
                     }
                 }

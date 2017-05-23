@@ -2,9 +2,234 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Title</title>
+    <title>我的收货地址</title>
+    <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.form.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/login_box.css" />
+    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css"/>
+    <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
+    <script type="text/javascript" src="../static/js/dispicker/distpicker.data.js"></script>
+    <script type="text/javascript" src="../static/js/dispicker/distpicker.js"></script>
+    <script type="text/javascript" src="../static/js/dispicker/main.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/BeAlert.css"/>
+    <script type="text/javascript" src="../static/js/BeAlert.js"></script>
+    <style>
+        body{
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+        }
+        .container{
+            width:1210px;
+            margin:30px auto;
+        }
+        /*省市区*/
+        .form-group{
+            display: inline-block;
+            padding-right: 20px;
+        }
+        .form-group select{
+            border: solid 1px #bbb;
+            height: 32px;
+            border-radius: 5px;
+        }
+        .form-group select:focus{
+            border:solid 1px #96c8da;
+            outline: none;
+        }
+        /*--------------------------*/
+        #modify_sure_btn{
+            display:none;
+        }
+        .right_content{
+            box-sizing: content-box;
+            float: right;
+            width: 920px;
+            margin:0;
+        }
+        .modify_box{
+            display: none;
+        }
+        .backgroud_div{
+            background-color: #cce2ff;
+        }
+        .small_title{
+            margin: 15px;
+            font-size: 16px;
+        }
+        .box_content{
+            padding-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-    
+<div th:include="nav :: mynav"></div>
+<div class="container">
+    <div th:include="left_nav :: left_nav"></div>
+    <div class="ui segment right_content" style="margin: 0;">
+        <div class="ui segment backgroud_div">
+            <button class="ui button primary" id="addAddress">新增收货地址</button>
+        </div>
+        <table class="ui fixed table">
+            <thead>
+            <tr>
+                <th>收货人</th>
+                <th>所在地区</th>
+                <th>详细地址</th>
+                <th>联系方式</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="address:${addresses}">
+                <td th:text="${address.receiver}"></td>
+                <td th:text="${address.prov}+'，'+${address.city}+'，'+${address.dist}"></td>
+                <td th:text="${address.address_info}"></td>
+                <td th:text="${address.tel}"></td>
+                <td th:id="${address.id}">
+                    <div class="mybtn myblue modifyBtn">修改</div>
+                    <div class="mybtn myred deleteBtn">删除</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modify_box">
+        <div class="box_header">
+            <div class="header_title">新增收货地址</div>
+            <div class="right_close_div"><i class="icon iconfont icon-error"></i></div>
+            <div class="clear_float"></div>
+        </div>
+        <div class="box_content">
+            <form id="address_form"  method="post" class="ui form" role="form">
+                <div class="field">
+                    <div class="small_title"><i class="remove bookmark red icon"></i>收货人</div>
+                    <input  style="width: 630px;" type="text" name="receiver"/>
+                </div>
+                <div class="field">
+                    <div class="small_title"><i class="remove bookmark red icon"></i>所在地区</div>
+                    <div data-toggle="distpicker">
+                        <div class="form-group">
+                            <select class="form-control" id="province1" name="prov" style="width: 80%;"></select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" id="city1" name="city" style="width: 80%;"></select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" id="district1" name="dist" style="width: 80%;"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="small_title"><i class="remove bookmark red icon"></i>详细地址</div>
+                    <input  style="width: 630px;" type="text" name="address_info"/>
+                </div>
+                <div class="field">
+                    <div class="small_title"><i class="remove bookmark red icon"></i>联系方式</div>
+                    <input  style="width: 630px;" type="text" name="tel"/>
+                </div>
+            </form>
+        </div>
+        <div class="box_footer">
+            <div class="mybtn myblue alertBtn left_btn" id="add_sure_btn">提交</div>
+            <div class="mybtn myblue alertBtn left_btn" id="modify_sure_btn">确定</div>
+            <div class="mybtn mywhite alertBtn" id="modify_cancel_btn">取消</div>
+        </div>
+    </div>
+</div>
+
 </body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(function () {
+        $("#addAddress").click(function () {
+            $("#add_sure_btn").css('display','inline-block');
+            $("#modify_sure_btn").css('display','none');
+            $('.modify_box').css('display','block');
+        })
+        $('.modifyBtn').click(function () {
+            var id = $(this).parent('td').attr('id');
+            $.ajax({
+                url:"/getAddress",
+                type:"post",
+                data:{
+                    id:id
+                },
+                dataType:"json",
+                success:function (data) {
+                    var address = data;
+                    console.log(data);
+                    $('.header_title').text("修改收货地址");
+                    $("#add_sure_btn").css('display','none');
+                    $("#modify_sure_btn").css('display','inline-block');
+                    $("input[name='receiver']").val(address.receiver);
+                    $("input[name='prov']").val(address.prov);
+                    $("input[name='city']").val(address.city);
+                    $("input[name='dist']").val(address.dist);
+                    $("input[name='address_info']").val(address.address_info);
+                    $("input[name='tel']").val(address.tel);
+                    $('.modify_box').css('display','block');
+                }
+            })
+        });
+
+        $("#add_sure_btn").click(function () {
+            $('.modify_box').css('display','none');
+            $("#address_form").ajaxSubmit({
+                url:"/addAddress",
+                success: function(data,status,xhr,$form) {
+                    alert("新增地址成功");
+                    window.location.reload();
+                },
+                error: function(xhr, status, error, $form){
+                    console.log("error",xhr, status, error, $form);
+                }
+            })
+        })
+
+        $("#modify_sure_btn").click(function () {
+            $('.modify_box').css('display','none');
+            $("#address_form").ajaxSubmit({
+                url:"/modifyAddress",
+                success: function(data,status,xhr,$form) {
+                    alert("您已成功修改收货地址");
+                    window.location.reload();
+                },
+                error: function(xhr, status, error, $form){
+                    console.log("error",xhr, status, error, $form);
+                }
+            })
+        })
+
+        $("#modify_cancel_btn").click(function () {
+            $('.modify_box').css('display','none');
+        })
+        $(".right_close_div").click(function () {
+            $('.modify_box').css('display','none');
+        })
+
+        $('.deleteBtn').click(function () {
+            var id = $(this).parent('td').attr('id');
+            var flag = confirm("确认删除该地址？");
+            if(flag){
+                $.ajax({
+                    url:"/deleteAddress",
+                    type:"post",
+                    data:{
+                        id:id
+                    },
+                    dataType:"text",
+                    success:function (data) {
+                        console.log(data);
+                        window.location.reload();
+                    }
+                })
+            }
+        })
+    })
+    /*]]>*/
+</script>
 </html>

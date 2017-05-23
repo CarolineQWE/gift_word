@@ -6,10 +6,18 @@
     <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
     <script type="text/javascript" src="../static/js/jquery.cookie.js"></script>
     <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css"/>
     <link rel="stylesheet" href="../static/css/main.css" />
-    <script type="text/javascript" src="../static/js/formSubmit.js"></script>
+    <script type="text/javascript" src="../static/js/formsubmit.js"></script>
+    <link rel="stylesheet" href="../static/css/nav.css" />
+    <link rel="stylesheet" href="../static/css/iconfont.css" />
     <style>
+        body{
+            box-sizing: content-box;
+        }
+        .container{
+            box-sizing: border-box;
+        }
         div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,p,blockquote,th,td {
             margin:0;
             padding:0;
@@ -75,7 +83,7 @@
     </style>
 </head>
 <body>
-
+<div th:include="nav :: mynav"></div>
 <div class="container">
     <div class="content">
         <div class="orderprogress"></div>
@@ -89,7 +97,7 @@
                             <span th:text="${address.city }"></span>,
                             <span th:text="${address.address_info }"></span>
                         </div>
-                        <div class="receiver"><span th:text="${address.receiver },${address.tel }"></span></div>
+                        <div class="receiver"><span th:text="${address.receiver}+','+${address.tel }"></span></div>
                     </div>
                 </li>
             </ul>
@@ -108,9 +116,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="map:${map}" id="${map.key.sc_id }">
-                        <td><a href="giftInfo.do?gift_id=${map.key.gift_id }">
-                            <img src="${map.key.small_img }" width="100px" height="100px" />
+                    <tr th:each="map:${map}" th:id="${map.key.sc_id }">
+                        <td><a th:href="@{'/gift/giftInfo?gift_id='+${map.key.gift_id }}">
+                            <img class="gift_img" th:src="${map.key.small_img }" width="100px" height="100px" align="middle"/>
                             <span th:text="${map.key.name }"></span></a></td>
                         <td>
                             <span th:each="spec:${map.value }" th:text="${spec.name }+':'+${spec.value }" ></span>
@@ -136,17 +144,15 @@
 
         </div>
     </div>
-    <div class="footout">
-        <div class="footdiv redback">
-            <div class="footinfo">
-                © 2014 - 2016 Liwushuo.com 北京礼品说科技有限公司 电信与信息服务业务经营许可证150653号 京ICP备15031023号-1<br />
-                <p><a href="#">首页</a>&nbsp;|&nbsp;<a href="#">关于我们</a>&nbsp;|&nbsp;电话：010-57510218</p>
-            </div>
-        </div>
+    <div class="footdiv redback">
+        <p>礼物说——礼物与全球好货指南</p>
+        <p><a href="#">首页</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物商城</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物定制</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物攻略</a></p>
     </div>
 </div>
 </body>
-<script type="text/javascript">
+<script th:inline="javascript">
+    /*<![CDATA[*/
     $(function() {
         $(".addressouter").eq(0).addClass('address_selected');
         var select = $(".addressouter.address_selected")
@@ -174,7 +180,7 @@
             var a = confirm("确认支付");
             if(a == true){
                 $.ajax({
-                    url:"submit_order.do",
+                    url:"/submit_order",
                     type:"POST",
                     data:{
                         status:1,
@@ -185,51 +191,34 @@
                     success:function(data){
                         var flag = confirm("支付成功,是否去我的订单查看");
                         if(flag == true){
-                            window.location.href="myOrder.do";
+                            window.location.href="/myOrder";
                         }else{
-                            window.location.href="index.do";
+                            window.location.href="/index";
                         }
                     }
                 })
             }else{
                 $.ajax({
-                    url:"submit_order.do",
+                    url:"/submit_order",
                     type:"POST",
                     data:{
                         status:0,
                         address_id:address_id,
-                        sharr:sharr,
+                        sharr:arr,
                     },
                     dataType:"text",
                     success:function(){
-                        var flag = confirm("订单提交成功，是否立即付款付款");
+                        var flag = confirm("订单提交成功，是否立即付款？");
                         if(flag == true){
-                            window.location.href="myOrder.do";
+                            window.location.href="/myOrder";
                         }else{
-                            window.location.href="index.do";
+                            window.location.href="/index";
                         }
                     }
                 })
             }
-
-            var param1 = {
-                name:"address_id",
-                value:address_id
-            }
-            var param2 = {
-                name:"sharr",
-                value:sharr
-            }
-            var param3={
-                name:"total_price",
-                value:total_price
-            }
-            console.log(param1);
-            console.log(param2);
-            console.log(param3);
-            console.log(typeof param3.value);
-            formSubmit("submit_order.do",param1,param2,param3);
         })
-    })
+    });
+    /*]]>*/
 </script>
 </html>

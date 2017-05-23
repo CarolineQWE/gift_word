@@ -88,6 +88,7 @@ public class GiftServiceImpl implements GiftService {
 	public List<SpecNum> getSpecNum(Integer gift_id) {
 		List<SpecNum> list = new ArrayList<SpecNum>();
 		list = giftSpecDAO.getSpecNum(gift_id);
+		System.out.println("service getSpecNum +" +list);
 		return list;
 	}
 
@@ -187,7 +188,8 @@ public class GiftServiceImpl implements GiftService {
 		if (status == 1) {
 			for (ShoppingCart sh : shs) {
 				Gift gift = giftDAO.selectByPrimaryKey(sh.getGift_id());
-				gift.setSale_num(gift.getSale_num()+1);
+				gift.setSale_num(gift.getSale_num()+sh.getNum());
+				gift.setStock(gift.getStock()-sh.getNum());
 				giftDAO.updateByPrimaryKey(gift);
 			}
 		}
@@ -211,6 +213,9 @@ public class GiftServiceImpl implements GiftService {
 			OrderInfoSpec orderInfoSpec = new OrderInfoSpec(orderinfo_id, Integer.parseInt(string));
 			orderInfoSpecDAO.insert(orderInfoSpec);
 		}
+		gift.setSale_num(gift.getSale_num()+num);
+		gift.setSale_num(gift.getStock()-num);
+		giftDAO.updateByPrimaryKey(gift);
 	}
 
 	@Override
@@ -318,21 +323,6 @@ public class GiftServiceImpl implements GiftService {
 		return map;
 	}
 
-	@Override
-	public List<Gift> searchGiftByCateID(Integer cate_id) {
-		Gift gift = new Gift();
-		gift.setCategory(cate_id);
-		List<Gift> gifts = new ArrayList<Gift>();
-		gifts = giftDAO.select(gift);
-		return gifts;
-	}
-
-	@Override
-	public List<Gift> searchGiftByKeyword(String keyword) {
-		List<Gift> gifts = new ArrayList<Gift>();
-		gifts = giftDAO.selectByKeyWords(keyword);
-		return gifts;
-	}
 
 	@Override
 	public Map<LargeOrder, Map<LargeOrderInfo, List<Spec>>> getAllOrder() {
@@ -375,9 +365,9 @@ public class GiftServiceImpl implements GiftService {
 	}
 
 	@Override
-	public String getCateByID(Integer category_id) {
+	public Category getCateByID(Integer category_id) {
 	  	Category category = categoryDAO.selectByPrimaryKey(category_id);
-		return  category.getName();
+		return  category;
 	}
 
     @Override
@@ -418,7 +408,118 @@ public class GiftServiceImpl implements GiftService {
         giftInfoDAO.updateByPrimaryKeySelective(giftInfo);
     }
 
+	@Override
+	public List<List<List<Gift>>> getAllGifts() {
+		List<Gift> latestList;
+		List<Gift> hotList;
+		List<List<Gift>> oneCateGifts;
+        List<List<List<Gift>>> allGifts = new ArrayList<>();
+        Integer i;
+        for (i=1;i<11;i++) {
+			latestList = new ArrayList<>();
+			hotList = new ArrayList<>();
+			latestList = giftDAO.getOneCateGiftOrderByTime(i);
+			hotList = giftDAO.getOneCateGiftOrderByHot(i);
+			oneCateGifts = new ArrayList<>();
+			oneCateGifts.add(latestList);
+			oneCateGifts.add(hotList);
+			allGifts.add(oneCateGifts);
+		}
+        return allGifts;
+	}
+
+	@Override
+	public void addSaleSpec(Spec spec) {
+		specDAO.insert(spec);
+	}
+
+	@Override
+	public void addBaseSpec(Spec spec) {
+		specDAO.insert(spec);
+	}
+
+	@Override
+	public Order getOrderByID(String order_id) {
+		Order order = orderDAO.selectByPrimaryKey(order_id);
+		return order;
+	}
+
+	@Override
+	public void updateGift(Gift gift) {
+		giftDAO.updateByPrimaryKey(gift);
+	}
+
+
+	/*搜索*/
     @Override
+    public List<Gift> searchGiftByCateID(Integer cate_id) {
+        List<Gift> gifts = giftDAO.searchGiftByCateID(cate_id);
+        return gifts;
+    }
+
+    @Override
+    public List<Gift> searchGiftByKeyword(String keyword) {
+        List<Gift> gifts = giftDAO.selectByKeyWords(keyword);
+        return gifts;
+    }
+
+    @Override
+    public List<Gift> searchGiftByCateIDOrderBySale(Integer cate_id) {
+        List<Gift> gifts = giftDAO.searchGiftByCateIDOrderBySale(cate_id);
+        return gifts;
+    }
+
+    @Override
+    public List<Gift> searchGiftByCateIDOrderByHot(Integer cate_id) {
+        List<Gift> gifts = giftDAO.searchGiftByCateIDOrderByHot(cate_id);
+        return gifts;
+    }
+
+    @Override
+    public List<Gift> searchGiftByCateIDOrderByPrice(Integer cate_id, Integer min, Integer max) {
+        List<Gift> gifts = giftDAO.searchGiftByCateIDOrderByPrice(cate_id,min,max);
+        return gifts;
+    }
+
+    @Override
+    public List<Gift> searchGiftByLargeCate(Integer large_cate) {
+        List<Gift> gifts = giftDAO.searchGiftByLargeCate(large_cate);
+        return gifts;
+    }
+
+    @Override
+    public List<Gift> searchGiftByLargeCateOrderBySale(Integer large_cate) {
+        List<Gift> gifts = giftDAO.searchGiftByLargeCateOrderBySale(large_cate);
+        return gifts;
+    }
+
+    @Override
+    public List<Gift> searchGiftByLargeCateOrderByHot(Integer large_cate) {
+        List<Gift> gifts = giftDAO.searchGiftByLargeCateOrderByHot(large_cate);
+        return gifts;
+    }
+
+    @Override
+    public List<Gift> searchGiftByLargeCateOrderByPrice(Integer large_cate, Integer min, Integer max) {
+        List<Gift> gifts = giftDAO.searchGiftByLargeCateOrderByPrice(large_cate,min,max);
+        return gifts;
+    }
+
+	@Override
+	public Category getCategory(Category category) {
+		Category category1 = categoryDAO.selectOne(category);
+		return category1;
+	}
+
+	@Override
+	public List<Gift> getCustomGift(Integer bool) {
+		Gift gift = new Gift();
+		gift.setIf_custom_made(bool);
+		List<Gift> gifts = giftDAO.select(gift);
+		return gifts;
+	}
+
+	@Override
 	public List<Category> getFirstCate() {
 		List<Category> list = new ArrayList<Category>();
 		Category category = new Category();
@@ -447,7 +548,4 @@ public class GiftServiceImpl implements GiftService {
 		List<Category> categories = categoryDAO.select(category);
 		return categories;
 	}
-
-
-
 }

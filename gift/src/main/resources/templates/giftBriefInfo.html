@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>礼物详情</title>
+    <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.cookie.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css"/>
+    <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css" />
+    <script type="text/javascript" src="../static/js/formsubmit.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/BeAlert.css"/>
+    <script type="text/javascript" src="../static/js/BeAlert.js"></script>
+</head>
+<style type="text/css">
+    body{
+        box-sizing: content-box;
+    }
+    body,a,h1,h2,h3,h4,h5,h6,p,input{
+        font-family: helvetica, arial, "微软雅黑", "华文黑体";
+    }
+    h2{
+        margin-top:0px;
+    }
+    .gift_img_ul li {
+        display: inline-block;
+        list-style: none;
+        margin-right: 10px;
+        width: 64px;
+        height: 64px;
+        padding: 2px;
+    }
+
+    .gift_img_ul li img {
+        width: 64px;
+        height: 64px;
+    }
+
+    .gift_img_ul {
+        padding-left: 0px;
+        margin-left: 0px;
+        height: 64px;
+    }
+
+    .gift_img_ul li:visited {
+        border: none;
+    }
+
+    .gift_img_ul li:hover {
+        border: solid 2px #F74560;
+        padding: 0px;
+    }
+
+    .gift_img_ul li:active {
+        border: solid 2px #F74560;
+        padding: 0px;
+    }
+
+    .gift_img_ul .liselected {
+        border: solid 2px #F74560;
+        padding: 0px;
+    !important
+    }
+
+    .left_gift_img {
+        display: inline-block;
+        vertical-align: top;
+        width: 450px;
+    }
+
+    #showimg {
+        width: 450px;
+        height: 300px;
+        margin-bottom: 10px;
+    }
+
+    .right_gift_spec {
+        display: inline-block;
+        vertical-align: top;
+        padding-left: 60px;
+        float: right;
+        width: 470px;
+    }
+
+    .btns .mybtn {
+        margin-left: 20px;
+    }
+
+    .gift_brief {
+        padding: 10px 0px;
+    }
+
+    .book_num {
+        width: 10px;
+        height: 34px;
+    }
+
+    .form {
+        width: 50px;
+    }
+
+    .mysmallbtn {
+        width: 30px;
+        height: 30px;
+        color: #666666;
+        text-align: center;
+        font-size: 12px;
+        display: inline-block;
+        cursor: pointer;
+        line-height: 30px;
+        border-radius: 3px;
+    }
+
+    .my_small_input {
+        padding-right: 0px;
+    }
+
+    .small_input_span {
+        border-radius: 0px;
+        width: 40px;
+    }
+
+    .myinline {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .btns {
+        margin: 20px 0px;
+        color: #666666;
+    }
+
+    .pricespan {
+        color: #FF695E;
+        font-size: 24px;
+        padding-left: 26px;
+    }
+
+    .numspan {
+        padding-right: 25px;
+    }
+
+
+    .mar {
+        margin-right: 30px;
+    }
+
+    .hotstatus {
+        border-top: dashed 1px #D9D9D9;
+        border-bottom: dashed 1px #D9D9D9;
+        width: 100%;
+        text-align: justify;
+        padding: 10px 0px;
+        margin: 10px 0px;
+    }
+
+    .hotstatus .pricespan {
+        font-size: 13px;
+        padding-left: 28px;
+    }
+
+    .giftsalespan {
+        display: inline-block;
+        width: 150px;
+        font-size: 13px;
+    }
+    .main_content{
+        margin: 40px 0px;
+    }
+    .mytable{
+        width: 80%;
+    }
+    .little_input_span{
+        padding:0px;
+        width:30px;
+        height:30px;
+        border: solid 1px #b7b7b7;
+        border-radius:3px;
+    }
+    .myinput{
+        outline:medium;
+        border: none;
+        width: 22px;
+        height: 20px;
+        padding:0px 2px;
+    }
+    .main_content{
+        width: 1000px;
+        margin-top: 30px;
+        display:inline-block;
+        vertical-align:top;
+    }
+    .comment_content_span{
+        display: inline-block;
+        vertical-align: top;
+    }
+    .timespan{
+        padding-left:50px;
+        float:right;
+        color: #443e3e;
+        font-size: 14px;
+    }
+    .authorspan{
+        font-weight: bold;
+    }
+    .commentimg{
+        width: 80px;
+        height: 80px;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+    .commentdiv{
+        border-top: dashed 1px #D9D9D9;
+        padding: 20px;
+        width:100%;
+    }
+    .comment_long_div{
+        width: 100%;
+    }
+    .total_score_div{
+        font-size: 36px;
+        color: #FF6D75;
+        height:55px;
+        padding-top:20px;
+    }
+    .total_comment_div{
+        padding-right: 50px;
+        text-align: center;
+        padding-left: 20px;
+        border-right: dashed 1px #D9D9D9;
+        width: 200px;
+        display: inline-block;
+        vertical-align: top;
+    }
+    .outsquera{
+        width: 150px;
+        height: 12px;
+        background-color: #ded9d9;
+        display: inline-block;
+        margin-left: 10px;
+    }
+    .innnersquera{
+        height: 12px;
+        background-color: #FF6D75;
+    }
+    .right_comment{
+        display: inline-block;
+        vertical-align: top;
+        padding-left:30px;
+    }
+    .right_comment ul li{
+        list-style: none;
+        margin-bottom: 15px;
+    }
+    .right_comment ul{
+        padding:0px;
+        margin:0px;
+    }
+    .right_large_div{
+        float:right;
+        margin-left:40px;
+        margin-top:70px;
+        display:inline-block;
+        vertical-align:top;
+    }
+    .right_gift_recommend{
+        width:350px;
+        border:solid 1px #d9d9d9;
+        border-top:none;
+        padding:20px;
+    }
+    .recommend_title{
+        width:350px;
+        height:40px;
+        color:#ffffff;
+        font-size:18px;
+        background-color:#FF6D75;
+        text-align:center;
+        line-height:40px;
+        border:solid 1px #FF6D75;
+    }
+    .error{
+        border:solid 2px #FF6D75;
+        padding-left:20px;
+        padding-bottom:20px;
+    }
+    #errorinfo{
+        width:100%;
+        height:30px;
+        line-height:30px;
+        color:#E78170;
+    }
+    .errorbtn{
+        float:right;
+        text-align:right;
+        color:#FF6D75;
+    }
+    label{
+        padding-left:5px;
+    }
+    .right_large_div{
+        box-sizing: border-box;
+        margin-bottom:100px;
+    }
+    .main_content{
+        box-sizing: border-box;
+    }
+    .mySpecBtn{
+        margin-bottom: 10px;
+        width:auto;
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+    .add_comment_div{
+        padding-left: 25px;
+        box-sizing: content-box;
+        margin: 30px 0;
+    }
+    .comment_input{
+        width: 850px;
+        padding: 10px 15px;
+        height: 80px;
+        border: 1px solid #dcdcdc;
+        border-radius: 4px;
+        background-color: hsla(0,0%,71%,.1);
+        resize: none;
+        display: inline-block;
+        vertical-align: top;
+        outline-style: none;
+        font-size: 14px;
+    }
+    .comment_input.little{
+        width: 880px;
+    }
+    .submit{
+        margin-top:20px;
+        padding-right: 50px;
+        text-align: right;
+    }
+    .my_btn{
+        border-radius: 10px;
+        padding: 10px 15px;
+        font-size: 16px;
+        color: #ffffff;
+        display: inline-block;
+        width: 60px;
+        text-align: center;
+        cursor: pointer;
+    }
+    .submit_btn{
+        background-color: #42c02e;
+        margin-left: 20px;
+    }
+    .submit_btn:active{
+        background-color: #41cc22;
+    }
+    .cancel_btn{
+        border: solid 1px #d0c7c7;
+        color: #555;
+    }
+    .cancel_btn:active{
+        background-color: #D9D9D9;
+        border: solid 1px #D9D9D9;
+    }
+    .float_left{
+        float: left;
+        font-size: 18px;
+    }
+    .content{
+        width: 1000px;
+    }
+</style>
+
+<body>
+<div th:include="nav :: mynav"></div>
+<div class="container" th:id="${gift.id}">
+    <div class="content">
+        <div class="left_gift_img">
+            <img th:src="@{${gift.small_img}}" id="showimg" />
+        </div>
+        <div class="right_gift_spec">
+            <input type="hidden" th:value="${gift.id}" id="gift_id"/>
+            <h2 th:text="${gift.name }"></h2>
+            <div class="gift_brief" th:text="${giftInfo.brief }"></div>
+            价格<span class="pricespan" th:text="'￥'+${gift.price }"></span>
+            <div class="hotstatus">
+                <span class="giftsalespan">销量<span class="pricespan" th:text="${gift.sale_num }"></span></span>|
+                <span class="giftsalespan" style="text-align: center;">累计评论<span class="pricespan" th:text="${gift.comment }"></span></span>|
+                <span class="giftsalespan" style="text-align:right;">收藏<span class="pricespan" th:text="${gift.collection }"></span></span>
+            </div>
+        </div>
+        <div class="main_content">
+            <div id="gift_comment" class="ui segment">
+                <div class="total_comment_div">
+                    总体满意度
+                    <div class="total_score_div" th:text="${avg }+'分'" th:if="${avg ne null}">
+                    </div>
+                    <span th:text="'(共有'+${gift.comment }+'人评论)'"></span>
+                </div>
+                <div class="right_comment">
+                    <ul>
+                        <li>
+                            好评<div class="outsquera">
+                            <div class="innnersquera" id="good"></div>
+                        </div>
+                            <label th:text="${scoreNums.get(3)+'%'}"></label>
+                        </li>
+                        <li>
+                            中评<div class="outsquera">
+                            <div class="innnersquera" id="middle"></div>
+                        </div>
+                            <label th:text="${scoreNums.get(4)}+'%'"></label>
+                        </li>
+                        <li>差评<div class="outsquera">
+                            <div class="innnersquera" id="bad"></div>
+                        </div>
+                            <label th:text="${scoreNums.get(5)}+'%'"></label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="add_comment_div">
+                    <textarea class="comment_input little" rows="5" placeholder="写下你的评论"></textarea>
+                    <div class="submit">
+                        <div class="float_left">
+                            <label>给礼物打个分吧！</label>
+                            <div class="ui star large rating dafen" data-rating="0"></div>
+                        </div>
+                        <div class="cancel_btn my_btn">取消</div>
+                        <div class="submit_btn my_btn" id="comment_btn" th:commented_id="${stratgy.id}">评论</div>
+                    </div>
+                </div>
+                <div class="commentdiv" th:each="comment:${comments }">
+                    <img th:src="@{${comment.head }}" align="top" class="commentimg"/>
+                    <div class="comment_content_span">
+                        <div class="authorspan" th:text="${comment.nickname }">
+                        </div>
+                        <span th:text="${comment.content }"></span>
+                        <div class="comment_long_div">
+                                <span class="scorespan">
+                                评论分数
+                                <div class="ui star rating fenshu" th:value="${comment.score }"></div>
+                                </span>
+                            <div class="timespan" th:text="${comment.comment_time }">
+                            </div>
+                            <div class="clear_float"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- content -->
+    <!-- <div class="footout">
+        <div class="footdiv redback">
+            <div class="footinfo">
+                © 2014 - 2016 Liwushuo.com 北京礼品说科技有限公司 电信与信息服务业务经营许可证150653号 京ICP备15031023号-1<br />
+                <p><a href="#">首页</a>&nbsp;|&nbsp;<a href="#">关于我们</a>&nbsp;|&nbsp;电话：010-57510218</p>
+            </div>
+        </div>
+    </div> -->
+</div>
+</body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(function() {
+        $('.ui.rating').rating({
+            maxRating: 5
+        });
+        $('.ui.rating').rating('disable');
+        $('.ui.rating.dafen').rating();
+
+        $('.fenshu').each(function () {
+            var fenshu = parseInt($(this).attr('value'));
+            console.log(fenshu);
+            $(this).rating({
+                initialRating: fenshu
+            })
+        })
+        $(".innnersquera").each(function(){
+            var rate = $(this).parent().siblings('label').text();
+            $(this).css('width',rate);
+        })
+
+        $('.gift_img_ul li').hover(function() {
+            $('.gift_img_ul li').each(function() {
+                $(this).removeClass('liselected');
+            })
+            $(this).addClass('liselected');
+            var src = $(this).children('img').attr('src');
+            $("#showimg").attr('src', src);
+            $('#imglink').attr('href',src);
+
+        }, function() {
+
+        });
+        $('#gift_info_tag').click(function(){
+            $("#gift_comment_tag").removeClass('active');
+            $("#gift_info_tag").addClass('active');
+            $("#gift_comment").css('display','none');
+            $("#gift_info").css('display','block');
+        })
+        $('#gift_comment_tag').click(function(){
+            $("#gift_info_tag").removeClass('active');
+            $("#gift_comment_tag").addClass('active');
+            $("#gift_info").css('display','none');
+            $("#gift_comment").css('display','block');
+        })
+
+        $(".btns").children('.mybtn').click(function(){
+            console.log("this",$(this));//mybtn
+            $(this).removeClass('mywhite').addClass('myred');
+            $(this).siblings('.mybtn').removeClass('myred').addClass('mywhite');
+        })
+
+        $('#plus').click(function(){
+            var num = parseInt($('#num').val());
+            var stock1= parseInt($("#stockspan").text());
+            if(num < stock1){
+                $("#num").val(num+1);
+            }else{
+                return;
+            }
+        })
+
+
+        $("#minus").click(function(){
+            var num = $("#num").val();
+            if(num>1){
+                $("#num").val(num-1);
+            }else{
+                return;
+            }
+        })
+        $("#buynow").click(function(){
+            var specarr = new Array();
+            var flag = true;
+            $('.specbtns').each(function(){
+                var arr = $(this).children('.myred');
+                if(arr.length != 1){
+                    errordeal("buy");
+                    flag = false;
+                    return false;
+                }else{
+                    var a = arr.attr('id');
+                    specarr.push(a);
+                }
+            })
+            if(flag == true){
+                buyNow(specarr);
+            }
+        })
+
+        function errordeal(a){
+            $("#spec_choose_div").addClass('error');
+            $("#errorinfo").css('display','block');
+            $("#actionbtns").hide();
+            if(a == "buy"){
+                $("#surebuy").css('display','block');
+            }else if(a == "add"){
+                $("#sureadd").css('display','block');
+            }
+        }
+        function reform(){
+            $("#errorinfo").css('display','none');
+            $("#spec_choose_div").removeClass('error');
+            $(".sure").css('display','none');
+            $("#actionbtns").show();
+        }
+        $(".errorbtn").click(function(){
+            reform();
+        })
+        function buyNow(specarr){
+            var gift_id = $("#gift_id").val();
+            var num = $("#num").val();
+            var specTypeNum = $("#specTypeNum").val();
+            console.log("gift_id",gift_id);
+            console.log("num",num);
+            console.log("specarr",specarr);
+            console.log("specTypeNum",specTypeNum);
+            var s =specarr.join(",");
+            console.log("spcarr",specarr);
+            console.log("s",s);
+            window.location.href="/confirm_order?gift_id="+gift_id+"&num="+num+"&spec="+s;
+        }
+
+        $("#surebuy").click(function(){
+            var i = 0;
+            var specarr = new Array();
+            var flag = true;
+            $('.specbtns').each(function(){
+                var arr = $(this).children('.myred');
+                if(arr.length != 1){
+                    errordeal("buy");
+                    flag = false;
+                    return false;
+                }else{
+                    var a = arr.attr('id');
+                    specarr[i++] = a;
+                }
+            })
+            if(flag == true){
+                buyNow(specarr);
+            }
+        })
+
+        $("#sureadd").click(function(){
+            addShopCart();
+        })
+
+        $("#addshopcart").click(function(){
+            addShopCart();
+        })
+
+        function addShopCart(){
+            var i = 0;
+            var specarr = new Array();
+            var flag = true;
+            $('.specbtns').each(function(){
+                var arr = $(this).children('.myred');
+                if(arr.length != 1){
+                    errordeal("add");
+                    flag = false;
+                    return false;
+                }else{
+                    var a = arr.attr('id');
+                    specarr[i++] = a;
+                }
+            })
+            if(flag == true){
+                var s ="";
+                var gift_id = parseInt($("#gift_id").val());
+                var num = $("#num").val();
+                var specTypeNum = $("#specTypeNum").val();
+                for(var i = 0; i < specTypeNum; i ++){
+                    s += specarr[i]+",";
+                }
+                console.log("s",s);
+                $.ajax({
+                    url:"/addShoppingCart",
+                    type:"POST",
+                    data:{
+                        gift_id : gift_id,
+                        num : num,
+                        spec : s
+                    },
+                    dataType:"text",
+                    success:function(data){
+                        alert("添加成功，请到购物车结算吧");
+                        console.log(data);
+                        reform();
+                    }
+                })
+            }
+        }
+
+        $("#comment_btn").click(function () {
+            var text = $('.comment_input').val();
+            var score = $('.ui.rating.dafen').rating('get rating');
+            var gift_id = $('.container').attr('id');
+            console.log(score);
+            $.ajax({
+                url:"/gift/submitGiftComment",
+                type:"post",
+                data:{
+                    gift_id:gift_id,
+                    text:text,
+                    score:score
+                },
+                dataType:"text",
+                success:function (data) {
+                    console.log(data);
+                    alert("评论成功");
+                    window.location.reload();
+                }
+            })
+        })
+
+
+    })
+    /*]]>*/
+</script>
+
+</html>

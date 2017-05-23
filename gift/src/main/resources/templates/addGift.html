@@ -7,14 +7,21 @@
     <script type="text/javascript" src="../static/js/jquery.cookie.js"></script>
     <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css" />
     <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/login_box.css" />
     <link rel="stylesheet" type="text/css" href="../static/css/nav_admin.css" />
     <script type="text/javascript" charset="utf-8" src="../static/ueditor/ueditor.config.js"></script>
     <script type="text/javascript" charset="utf-8" src="../static/ueditor/ueditor.all.min.js"> </script>
     <script type="text/javascript" charset="utf-8" src="../static/ueditor/lang/zh-cn/zh-cn.js"></script>
     <script type="text/javascript" charset="utf-8" src="../static/js/jquery.form.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/BeAlert.css"/>
+    <script type="text/javascript" src="../static/js/BeAlert.js"></script>
 
     <style type="text/css">
+        /*div{
+            box-sizing: content-box;
+        }*/
         .small_title {
             font-size: 16px;
             margin: 15px 0px;
@@ -46,6 +53,8 @@
             list-style: none;
             padding-right: 30px;
         }
+        /*上传图片样式*/
+        /*=============================================*/
         .top_img_div{
             position: relative;
             float: left;
@@ -82,12 +91,24 @@
             font-size: 18px;
             color: #838282;
         }
+        /*================================================================*/
         .dingzhi{
             margin: 20px;
             font-size: 20px;
         }
         .padding_bottom{
             padding-bottom: 10px;
+        }
+        .add_spec_box{
+            width:500px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            z-index: 1050;
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
         }
     </style>
 </head>
@@ -196,7 +217,7 @@
                         <!-- <a id="" href="/addColor">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;新增分类</a> -->
                     </div>
                 </div>
-                <a href="/addSaleSpec">新增销售属性</a>
+                <div class="mybtn myblue" id="sale_spec_show">添加销售属性</div>
             </div>
             <div class="small_title"><i class="remove bookmark red icon"></i>基本属性</div>
             <div class="borderdiv">
@@ -213,7 +234,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="/addBaseSpec">新增基本属性</a>
+                <div class="mybtn myblue" id="base_spec_show">添加基本属性</div>
             </div>
             <div class="small_title"><a class="ui orange ribbon label">详细信息</a></div>
             <div class="small_title"><i class="remove bookmark red icon"></i>商品详情</div>
@@ -223,11 +244,81 @@
         </form>
 
     </div>
+    <div class="modify_box add_spec_box" id="sale_spec_box">
+        <div class="box_header">
+            <div class="header_title">增加销售属性</div>
+            <div class="right_close_div"><i class="icon iconfont icon-error"></i></div>
+            <div class="clear_float"></div>
+        </div>
+        <div class="box_content">
+            <form id="sale_spec_form" method="post" action="/spec/addSaleSpec" class="ui form" role="form">
+                <div class="field">
+                    <div class="small_title"><i class="remove bookmark red icon"></i>属性名称</div>
+                    <input type="text" name="name" style="width: 430px;"/>
+                </div>
+                <div class="field">
+                    <div class="small_title"><i class="remove bookmark red icon"></i>属性值</div>
+                    <input type="text" name="value" style="width: 430px;"/>
+                </div>
+            </form>
+            <div class="mybtn myblue alertBtn" id="sale_submit_btn">确定</div>
+        </div>
+    </div>
+    <div class="modify_box add_spec_box" id="base_spec_box">
+        <div class="box_header">
+            <div class="header_title">增加销售属性</div>
+            <div class="right_close_div"><i class="icon iconfont icon-error"></i></div>
+            <div class="clear_float"></div>
+        </div>
+        <div class="box_content">
+            <form id="base_spec_form" method="post" action="/spec/addBaseSpec" class="ui form" role="form">
+                <div class="field">
+                    <div class="small_title"><i class="remove bookmark red icon"></i>属性名称</div>
+                    <input type="text" name="name" style="width: 430px;"/>
+                </div>
+                <div class="field">
+                    <div class="small_title"><i class="remove bookmark red icon"></i>属性值</div>
+                    <input type="text" name="value" style="width: 430px;"/>
+                </div>
+            </form>
+            <div class="mybtn myblue alertBtn" id="base_submit_btn">确定</div>
+        </div>
+    </div>
 </div>
 </body>
 <script th:inline="javascript">
     /*<![CDATA[*/
     $(function() {
+        $('.strategy_li').hover(function(){
+            $(this).find('.strategy_menu').css('display','block');
+        },function(){
+            $(this).find('.strategy_menu').css('display','none');
+        });
+        $(".selector_li").hover(function(){
+            $(this).children('.con').css('display','block');
+            $(this).addClass('li_border');
+        },function(){
+            $(this).children('.con').css('display','none');
+            $(this).removeClass('li_border');
+        })
+
+        var $window = $(window);
+        var $div_anchor = $('.container');
+        var $nav_bar = $('.nav_bar');
+        var $fixed_nav_bar = $('.fixed_nav_bar');
+        $window.scroll(function() {
+            //scrollTop()方法返回或设置匹配元素的滚动条的垂直位置
+            var window_top = $window.scrollTop();
+            //javascript用offsetTop();jquery用offset().top;
+            var div_top = $div_anchor.offset().top;
+            if(window_top > div_top) {
+                $nav_bar.css('display', 'none');
+                $fixed_nav_bar.css('display', 'block');
+            } else {
+                $nav_bar.css('display', 'block');
+                $fixed_nav_bar.css('display', 'none');
+            }
+        });
         var ue = UE.getEditor('editor');
         function getContent() {
          var arr = [];
@@ -362,6 +453,7 @@
                 success: function(data,status,xhr,$form) {
                     console.log(data);
                     alert("新增礼物成功");
+                    window.location.reload();
                 },
                 error: function(xhr, status, error, $form){
                     console.log("error",xhr, status, error, $form);
@@ -369,6 +461,29 @@
             })
         })
 
+        $("#sale_spec_show").click(function () {
+            $('#sale_spec_box').css('display','block');
+        })
+        $("#base_spec_show").click(function () {
+            $('#base_spec_box').css('display','block');
+        })
+        $('.right_close_div').click(function () {
+            $('.modify_box').css('display','none');
+        })
+        $("#sale_submit_btn").click(function () {
+            $('#sale_spec_form').ajaxSubmit({
+                success:function (data,status,xhr,$form) {
+                    window.location.reload();
+                }
+            })
+        })
+        $("#base_submit_btn").click(function () {
+            $('#base_spec_form').ajaxSubmit({
+                success:function (data,status,xhr,$form) {
+                    window.location.reload();
+                }
+            })
+        })
     })
     /*]]>*/
 </script>

@@ -3,8 +3,9 @@ package com.soft.gift;
 import com.soft.gift.mapper.CareDAO;
 import com.soft.gift.mapper.GiftDAO;
 import com.soft.gift.mapper.StrategyDAO;
-import com.soft.gift.model.Gift;
+import com.soft.gift.mapper.UserInfoDAO;
 import com.soft.gift.model.Strategy;
+import com.soft.gift.model.UserInfo;
 import com.soft.gift.service.CareService;
 import com.soft.gift.service.StrategyService;
 import org.junit.Test;
@@ -19,15 +20,18 @@ import java.util.List;
 @SpringBootTest
 public class GiftApplicationTests {
 	@Autowired
-	public StrategyDAO strategyDAO;
+	private StrategyDAO strategyDAO;
 	@Autowired
-	public StrategyService strategyService;
+	private StrategyService strategyService;
 	@Autowired
-	public CareDAO careDAO;
+	private CareDAO careDAO;
 	@Autowired
-	public CareService careService;
+	private CareService careService;
 	@Autowired
-	public GiftDAO giftDAO;
+	private GiftDAO giftDAO;
+	@Autowired
+	private UserInfoDAO userInfoDAO;
+
 	@Test
 	public void contextLoads() {
 	}
@@ -59,12 +63,15 @@ public class GiftApplicationTests {
 		Integer a = careService.addCare(care);
 		System.out.println("<<<<<<<<<<<<<<<<<<care.id:"+care.getId());*/
 
-		Gift gift = new Gift();
+		/*Gift gift = new Gift();
 		gift.setId(13);
 		gift.setStatus(0);
 		gift.setPrice(12.1);
 		gift.setStock(459999);
-		giftDAO.updateByPrimaryKeySelective(gift);
+		giftDAO.updateByPrimaryKeySelective(gift);*/
+
+		UserInfo userInfo = new UserInfo("18752001960","wang",22,1,"江苏","jj","jj",null,null,null,null);
+		userInfoDAO.updateByPrimaryKeySelective(userInfo);
 	}
 
 }

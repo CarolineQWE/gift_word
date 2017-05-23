@@ -26,10 +26,6 @@
 	<select id="getAllGiftHot" resultMap="giftMap">
 		SELECT * FROM `t_gift` ORDER BY `sale_num` DESC, `comment` DESC, `collection` DESC 
 	</select>
-	
-	<select id="selectByKeyWords" resultMap="giftMap">
-		SELECT * FROM `t_gift` WHERE `name`  LIKE #{'%'+keyword+'%'}
-	</select>
 
 	<insert id="insertGift" parameterType="com.soft.gift.model.Gift">
 		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -38,7 +34,7 @@
 		INSERT INTO `t_gift` (`name`,`collection`,`comment`,`stock`,`price`,`on_shelf_time`,
 		`sale_num`,`small_img`,`category`,`if_custom_made`,`second_img`,`third_img`,`status`)
 		VALUES (#{name},#{collection},#{comment},#{stock},#{price},#{on_shelf_time},
-		#{sale_num},#{small_img},#{category},#{if_custom_made},#{second_img},#{third_img},0);
+		#{sale_num},#{small_img},#{category},#{if_custom_made},#{second_img},#{third_img},#{status});
 	</insert>
 
 	<delete id="batchDeleteGift">
@@ -48,4 +44,66 @@
 			</foreach>
 		);
 	</delete>
+
+	<select id="getOneCateGiftOrderByTime" resultMap="giftMap">
+		SELECT g.* FROM `t_gift` g LEFT JOIN `t_category` c ON g.`category` = c.`id` WHERE c.`p_id` = #{cate}
+		ORDER BY g.`on_shelf_time` DESC LIMIT 6
+	</select>
+
+	<select id="getOneCateGiftOrderByHot" resultMap="giftMap">
+		SELECT g.* FROM `t_gift` g LEFT JOIN `t_category` c ON g.`category` = c.`id` WHERE c.`p_id` = #{cate}
+		 ORDER BY g.`sale_num` DESC,g.`comment` DESC, g.`collection` DESC LIMIT 4
+	</select>
+
+	<select id="selectByKeyWords" resultMap="giftMap">
+		SELECT * FROM `t_gift` g LEFT JOIN `t_gift_info` i ON g.`id` = i.`gift_id`
+		LEFT JOIN `t_category` c ON g.`category` = c.`id`
+		WHERE CONCAT(g.`name`,i.`brief`,i.`gift_info`,c.`name`) LIKE CONCAT('%', #{keyword}, '%')
+		ORDER BY `sale_num` DESC,`comment` DESC,`collection` DESC,`on_shelf_time` DESC
+	</select>
+	<select id="searchGiftByCateID" resultMap="giftMap">
+		SELECT * FROM `t_gift` WHERE `category` = #{cate_id}
+		ORDER BY `sale_num` DESC,`comment` DESC,`collection` DESC,`on_shelf_time` DESC
+	</select>
+	<select id="searchGiftByCateIDOrderBySale" resultMap="giftMap">
+		SELECT * FROM `t_gift` WHERE `category` = #{cate_id} ORDER BY `sale_num` DESC
+	</select>
+	<select id="searchGiftByCateIDOrderByHot" resultMap="giftMap">
+		SELECT * FROM `t_gift` WHERE `category` = #{cate_id}
+		ORDER BY `sale_num` DESC,`comment` DESC,`collection` DESC
+	</select>
+	<select id="searchGiftByCateIDOrderByPrice" resultMap="giftMap">
+		SELECT * FROM `t_gift` WHERE 1=1
+		<if test="min != null">
+		AND `price` &gt; #{min}
+		</if>
+		<if test="max != null">
+		AND `price` &lt; #{max}
+		</if>
+		ORDER BY `sale_num` DESC,
+		 `comment` DESC,`collection` DESC,`on_shelf_time` DESC
+	</select>
+	<select id="searchGiftByLargeCate" resultMap="giftMap">
+		SELECT * FROM `t_gift` g LEFT JOIN `t_category` c ON g.`category` = c.`id` WHERE c.`p_id` = #{large_cate}
+		ORDER BY `sale_num` DESC,`comment` DESC,`collection` DESC,`on_shelf_time` DESC
+	</select>
+	<select id="searchGiftByLargeCateOrderBySale" resultMap="giftMap">
+		SELECT * FROM `t_gift` g LEFT JOIN `t_category` c ON g.`category` = c.`id` WHERE c.`p_id` = #{large_cate}
+		ORDER BY `sale_num` DESC
+	</select>
+	<select id="searchGiftByLargeCateOrderByHot" resultMap="giftMap">
+		SELECT * FROM `t_gift` g LEFT JOIN `t_category` c ON g.`category` = c.`id` WHERE c.`p_id` = #{large_cate}
+		ORDER BY `sale_num` DESC,`comment` DESC,`collection` DESC
+	</select>
+	<select id="searchGiftByLargeCateOrderByPrice" resultMap="giftMap">
+		SELECT * FROM `t_gift` g LEFT JOIN `t_category` c ON g.`category` = c.`id`
+		WHERE c.`p_id` = #{large_cate}
+		<if test="min != null">
+			AND g.`price` &gt; #{min}
+		</if>
+		<if test="max != null">
+			AND g.`price` &lt; #{max}
+		</if>
+		ORDER BY `sale_num` DESC,`comment` DESC,`collection` DESC,`on_shelf_time` DESC
+	</select>
 </mapper>

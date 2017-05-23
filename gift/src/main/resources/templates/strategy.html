@@ -8,6 +8,10 @@
     <link rel="stylesheet" type="text/css" href="../static/css/nav.css" />
     <link rel="stylesheet" type="text/css" href="../static/css/strategy.css" />
     <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css" />
+    <script type="text/javascript" th:src="@{../static/js/nav.js}"></script>
+
+    <link rel="stylesheet" type="text/css" href="../static/css/BeAlert.css"/>
+    <script type="text/javascript" src="../static/js/BeAlert.js"></script>
     <style>
         body{
             -webkit-box-sizing: content-box;
@@ -171,102 +175,135 @@
 
     </div>
     <div class="footdiv redback">
-        <p>© 2014 - 2016 Liwushuo.com 北京礼品说科技有限公司 电信与信息服务业务经营许可证150653号 京ICP备15031023号-1</p>
-        <p><a href="javascript:void(0);">首页</a>&nbsp;|&nbsp;<a href="javascript:void(0);">关于我们</a>&nbsp;|&nbsp;电话：010-57510218</p>
+        <p>礼物说——礼物与全球好货指南</p>
+        <p><a href="#">首页</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物商城</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物定制</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物攻略</a></p>
     </div>
 </div>
 </body>
 <script th:inline="javascript">
     /*<![CDATA[*/
-    $('.strategy_div').hover(function() {
-        $(this).animate({
-            top: '-3px'
-        }, "slow");
-        $(this).addClass('div_hover');
-    }, function() {
-        $(this).animate({
-            top: '3px'
-        }, "fast");
-        $(this).removeClass('div_hover');
-    });
-    /*$('.stra_top_ul li a').hover(function(){
-     $(this).css('color','#000000');
-     },function(){
-     $(this).css('color','#555555');
-     });*/
-    $('.stra_top_ul li a').addClass('black_a');
-    $('.stra_top_ul li a').click(function(){
-        $(this).parents('.stra_top_ul').find('a').each(function(){
-            console.log($(this));
-            $(this).removeClass('selected_a');
+    $(function () {
+        $('.strategy_li').hover(function(){
+            $(this).find('.strategy_menu').css('display','block');
+        },function(){
+            $(this).find('.strategy_menu').css('display','none');
         });
-        console.log("wai",$(this));
-        $(this).addClass('selected_a');
-        var relationship = $('#relationship_ul li .selected_a').text();
-        var occasion = $('#occasion_ul li .selected_a').text();
-        var style = $('#style_ul li .selected_a').text();
+        $(".selector_li").hover(function(){
+            $(this).children('.con').css('display','block');
+            $(this).addClass('li_border');
+        },function(){
+            $(this).children('.con').css('display','none');
+            $(this).removeClass('li_border');
+        })
 
-        if(relationship == "全部"){
-            relationship = null;
-        }
-        if(occasion == "全部"){
-            occasion = null;
-        }
-        if(style == "全部"){
-            style = null;
-        }
-        console.log(relationship);
-        console.log(occasion);
-        console.log(style);
-        $.ajax({
-            url: "/strategy/strategies",
-            data:{
-                style:style,
-                occasion:occasion,
-                relationship:relationship
-            },
-            type:"post",
-            dataType:"json",
-            success:function(data) {
-                console.log(data);
-                console.log(data.length);
-                var $ul = $("<ul class='strategyul'></ul>");
-                var strategy = data;
-                if(data.length != 0){
-                    for(var i in strategy){
-                        console.log(strategy[i]);
-                        var $li = $('<li><a href="/strategy/strategyInfo?id='+strategy[i].id+'">'+
-                                '<div class="strategy_div">' +
-                                '<div class="top_img_div"><img src='+strategy[i].top_img+'/></div>' +
-                                '<div class="tag_new_div"></div>' +
-                                '<div class="strategy_title">'+strategy[i].title+'</div>' +
-                                '<div class="strategy_content">'+strategy[i].brief+'</div>' +
-                                '<div class="strategy_popularity">' +
-                                '<i class="icon iconfont icon-dianzan"></i><span>'+strategy[i].like+'</span> 赞' +
-                                '<i class="icon iconfont icon-pinglun4"></i><span>'+strategy[i].comment+'</span> 评价' +
-                                '<i class="icon iconfont icon-shoucang1"></i><span>'+strategy[i].collect+'</span> 收藏'+
-                                '</div></div></a></li>');
-                        $ul.append($li);
-                    }
-                    var $title = $('<div class="unit_title">精选攻略</div>');
-                    $("#maincontent").html($title);
-                    $("#maincontent").append($ul);
-                    var $clear = $("<div class='clear_float'></div>");
-                    $("#maincontent").append($clear);
-                }
-                else{
-                    var $dom = $('<div class="blank-holder"><i></i><p>没有搜到任何攻略哦~</p></div>');
-                    $("#maincontent").html($dom);
-                }
-            },
-            error:function (data) {
-                console.log(data);
-                console.log("12345");
+        var $window = $(window);
+        var $div_anchor = $('.container');
+        var $nav_bar = $('.nav_bar');
+        var $fixed_nav_bar = $('.fixed_nav_bar');
+        $window.scroll(function() {
+            //scrollTop()方法返回或设置匹配元素的滚动条的垂直位置
+            var window_top = $window.scrollTop();
+            //javascript用offsetTop();jquery用offset().top;
+            var div_top = $div_anchor.offset().top;
+            if(window_top > div_top) {
+                $nav_bar.css('display', 'none');
+                $fixed_nav_bar.css('display', 'block');
+            } else {
+                $nav_bar.css('display', 'block');
+                $fixed_nav_bar.css('display', 'none');
             }
         });
-        console.log("123");
-        return false;
-    });
+        $('.strategy_div').hover(function() {
+            $(this).animate({
+                top: '-3px'
+            }, "slow");
+            $(this).addClass('div_hover');
+        }, function() {
+            $(this).animate({
+                top: '3px'
+            }, "fast");
+            $(this).removeClass('div_hover');
+        });
+        /*$('.stra_top_ul li a').hover(function(){
+         $(this).css('color','#000000');
+         },function(){
+         $(this).css('color','#555555');
+         });*/
+        $('.stra_top_ul li a').addClass('black_a');
+        $('.stra_top_ul li a').click(function(){
+            $(this).parents('.stra_top_ul').find('a').each(function(){
+                console.log($(this));
+                $(this).removeClass('selected_a');
+            });
+            console.log("wai",$(this));
+            $(this).addClass('selected_a');
+            var relationship = $('#relationship_ul li .selected_a').text();
+            var occasion = $('#occasion_ul li .selected_a').text();
+            var style = $('#style_ul li .selected_a').text();
+
+            if(relationship == "全部"){
+                relationship = null;
+            }
+            if(occasion == "全部"){
+                occasion = null;
+            }
+            if(style == "全部"){
+                style = null;
+            }
+            console.log(relationship);
+            console.log(occasion);
+            console.log(style);
+            $.ajax({
+                url: "/strategy/strategies",
+                data:{
+                    style:style,
+                    occasion:occasion,
+                    relationship:relationship
+                },
+                type:"post",
+                dataType:"json",
+                success:function(data) {
+                    console.log(data);
+                    console.log(data.length);
+                    var $ul = $("<ul class='strategyul'></ul>");
+                    var strategy = data;
+                    if(data.length != 0){
+                        for(var i in strategy){
+                            console.log(strategy[i]);
+                            var $li = $('<li><a href="/strategy/strategyInfo?id='+strategy[i].id+'">'+
+                                    '<div class="strategy_div">' +
+                                    '<div class="top_img_div"><img src='+strategy[i].top_img+'/></div>' +
+                                    '<div class="tag_new_div"></div>' +
+                                    '<div class="strategy_title">'+strategy[i].title+'</div>' +
+                                    '<div class="strategy_content">'+strategy[i].brief+'</div>' +
+                                    '<div class="strategy_popularity">' +
+                                    '<i class="icon iconfont icon-dianzan"></i><span>'+strategy[i].like+'</span> 赞' +
+                                    '<i class="icon iconfont icon-pinglun4"></i><span>'+strategy[i].comment+'</span> 评价' +
+                                    '<i class="icon iconfont icon-shoucang1"></i><span>'+strategy[i].collect+'</span> 收藏'+
+                                    '</div></div></a></li>');
+                            $ul.append($li);
+                        }
+                        var $title = $('<div class="unit_title">精选攻略</div>');
+                        $("#maincontent").html($title);
+                        $("#maincontent").append($ul);
+                        var $clear = $("<div class='clear_float'></div>");
+                        $("#maincontent").append($clear);
+                    }
+                    else{
+                        var $dom = $('<div class="blank-holder"><i></i><p>没有搜到任何攻略哦~</p></div>');
+                        $("#maincontent").html($dom);
+                    }
+                },
+                error:function (data) {
+                    console.log(data);
+                    console.log("12345");
+                }
+            });
+            console.log("123");
+            return false;
+        });
+    })
     /*]]>*/
 </script>
 </html>

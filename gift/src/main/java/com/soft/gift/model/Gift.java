@@ -26,7 +26,7 @@ public class Gift{
 		super();
 	}
 
-	public Gift(String name, Integer collection, Integer comment, Integer stock, Double price, Timestamp on_shelf_time, Integer sale_num, String small_img, String second_img, String third_img, Integer if_custom_made, Integer category) {
+	public Gift(String name, Integer collection, Integer comment, Integer stock, Double price, Timestamp on_shelf_time, Integer sale_num, String small_img, String second_img, String third_img, Integer if_custom_made, Integer category,Integer status) {
 		this.name = name;
 		this.collection = collection;
 		this.comment = comment;
@@ -39,6 +39,7 @@ public class Gift{
 		this.third_img = third_img;
 		this.if_custom_made = if_custom_made;
 		this.category = category;
+		this.status = status;
 	}
 
 	public Integer getId() {

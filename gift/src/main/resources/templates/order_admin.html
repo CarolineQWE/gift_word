@@ -2,25 +2,192 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>我的购物车</title>
-    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css" />
+    <title>Title</title>
+    <title>我的订单</title>
     <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.cookie.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css"/>
     <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
-    <link rel="stylesheet" href="../static/css/main.css" />
-    <link rel="stylesheet" href="../static/css/nav.css" />
-    <title>个人中心</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/nav_admin.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/BeAlert.css"/>
+    <script type="text/javascript" src="../static/js/BeAlert.js"></script>
 
+    <style type="text/css">
+        body{
+            box-sizing: content-box;
+        }
+        .container{
+            box-sizing: border-box;
+        }
+        #headtable{
+            margin: 30px 0px;
+        }
+        .mydeletebtn{
+            width: 36px;
+            height: 36px;
+            border-radius: 18px;
+            text-align: center;
+            padding: 6px 5px;
+            margin-left: 10px;
+            margin-right: 20px;
+        }
+        #tablediv{
+            padding-bottom:150px;
+        }
+        .ainnerdiv{
+            display:inline-block;
+            vertical-align:middle;
+        }
+        .ainnerdiv img{
+            width: 100px;
+            height: 100px;
+        }
+        .namediv{
+            width:170px;
+        }
+        .footdiv{
+            box-sizing: content-box;
+        }
+        .padding_left{
+            padding-left: 50px;
+        }
+        /*空处理*/
+        .blank-holder {
+            width: 100%;
+            height: 390px;
+            text-align: center;
+            clear: both;
+            display: block;
+            border-radius: 10px;
+            background: #fff;
+            border: solid #dedede 1px;
+            margin: 30px auto;
+        }
+        .blank-holder i {
+            background-image: url(../static/img/filter_z_b2c729e.png);
+            background-position: -6px -454px;
+            background-repeat: no-repeat;
+            display: block;
+            margin: 117px auto 0;
+            width: 100px;
+            height: 100px;
+        }
+        .blank-holder p {
+            color: #717070;
+            margin-top: 35px;
+        }
+    </style>
 </head>
+
 <body>
+<div th:include="adminNav :: myAdmin"></div>
 <div class="container">
-    <div class="nav_out">
-        <div th:include="nav :: mynav"></div>
+    <div class="content">
+        <div class="ui top attached tabular menu" id="mymenu">
+            <input type="hidden" id="status" th:value="${status }"/>
+            <a class="item " href="/getAllOrdersByStatus?status=0">待付款</a>
+            <a class="item " href="/getAllOrdersByStatus?status=1">待发货</a>
+            <a class="item " href="/getAllOrdersByStatus?status=2">待收货</a>
+            <a class="item " href="/getAllOrdersByStatus?status=3">待评价</a>
+            <a class="item " href="/getAllOrdersByStatus?status=4">已评价</a>
+            <a class="item" href="/order">全部订单</a>
+        </div>
+        <div id="tablediv">
+            <table class="ui red fixed celled large table" id="headtable">
+                <thead>
+                <tr>
+                    <th class="four wide">礼物</th>
+                    <th class="two wide">属性</th>
+                    <th class="two wide">单价</th>
+                    <th class="two wide">数量</th>
+                    <th class="two wide">实付款</th>
+                    <th class="two wide">状态</th>
+                    <th class="two wide">操作</th>
+                </tr>
+                </thead>
+            </table>
+            <div th:if="${mapSize eq 0}"><div class="blank-holder" ><i></i><p>暂时没有订单哦，快到商城添加吧</p></div></div>
+            <table class="ui fixed celled table" th:each="order:${orderMap }">
+                <thead>
+                <tr>
+                    <th colspan="7" th:text="${order.key.order_time }+'&nbsp;&nbsp;订单号：'+${order.key.id }"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="smallmap:${order.value }" th:switch="${order.key.status }">
+                    <td class="four wide">
+                        <a th:href="@{'/gift/giftInfo?gift_id='+${smallmap.key.gift_id }}">
+                            <div class="ainnerdiv"><img th:src="@{${smallmap.key.small_img }}" align="middle"/></div>
+                            <div class="ainnerdiv namediv" th:text="${smallmap.key.gift_name }"></div>
+                        </a>
+                    </td>
+                    <td class="two wide" ><div th:each="spec:${smallmap.value }" th:text="${spec.name }+'：'+${spec.value }"></div></td>
+                    <td class="two wide" th:text="${smallmap.key.gift_price }"></td>
+                    <td class="two wide" th:text="${smallmap.key.orderinfo_num }"></td>
+                    <td class="two wide" th:text="${smallmap.key.orderinfo_price }"></td>
+                    <td th:case="0" class="four wide" colspan="2">
+                        待付款
+                        <a class="padding_left" th:href="@{'/admin/view_info?order_id='+${order.key.id }}">订单详情</a>
+                    </td>
+                    <td th:case="1" class="four wide" colspan="2">
+                        待发货
+                        <a class="padding_left" th:href="@{'/admin/view_info?order_id='+${order.key.id }}">订单详情</a>
+                        <a class="padding_left" th:href="@{'/delivery?order_id='+${order.key.id }}">立即发货</a>
+                    </td>
+                    <td th:case="2" class="four wide" colspan="2" >
+                        待收货
+                        <a class="padding_left" th:href="@{'/admin/view_info?order_id='+${order.key.id }}">订单详情</a>
+                    </td>
+                    <td th:case="3" class="four wide" colspan="2">
+                        待评价
+                        <a class="padding_left" th:href="@{'/admin/view_info?order_id='+${order.key.id }}">订单详情</a>
+                    </td>
+                    <td th:case="4" class="four wide" colspan="2">
+                        已评价
+                        <a class="padding_left" th:href="@{'/admin/view_info?order_id='+${order.key.id }}">订单详情</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="footdiv redback">
+        <p>礼物说——礼物与全球好货指南</p>
+        <p><a href="#">首页</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物商城</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物定制</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物攻略</a></p>
     </div>
 </div>
-
 </body>
 <script th:inline="javascript">
     /*<![CDATA[*/
+    $(function(){
+        var status = parseInt($("#status").val());
+        $("#mymenu a").eq(status).addClass('active');
+        $(".mydeletebtn").click(function(){
+            var order_id = $(this).attr('id');
+            console.log("order_id",order_id);
+            $.ajax({
+                url:"/deleteOrder",
+                type:"get",
+                data:{
+                    order_id:order_id
+                },
+                success:function(){
+                }
+            })
+            window.location.href=window.location.href;
+        })
+        $('.container a').click(function(){
+            $("#mymenu a").each(function(){
+                $(this).removeClass('active');
+                console.log("this",$(this))
+            })
+            $(this).addClass('active');
+            console.log("this",$(this))
+        })
+    })
     /*]]>*/
 </script>
 </html>

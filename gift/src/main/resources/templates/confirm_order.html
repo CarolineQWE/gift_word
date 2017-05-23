@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css"/>
+    <script type="text/javascript" src="../static/js/formsubmit.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/BeAlert.css"/>
+    <script type="text/javascript" src="../static/js/BeAlert.js"></script>
+    <style>
+        body{
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+        }
+        .container{
+            box-sizing: border-box;
+        }
+        div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,p,blockquote,th,td {
+            margin:0;
+            padding:0;
+        }
+
+        ul li {
+            list-style: none;
+        }
+        /*以上公共样式*/
+
+        .addressouter {
+            width: 237px;
+            height: 106px;
+            padding: 10px;
+            background-image: url(../static/img/mail.jpg);
+        }
+
+        .address_selected {
+            background-image: url(../static/img/mail_1.jpg);
+        }
+
+        .shipping_address ul {
+            width: 1240px;
+            margin: 30px 0px;
+        }
+
+        .shipping_address ul li {
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 30px;
+        }
+        .confirmdiv{
+            float: right;
+            width: 420px;
+            height: 250px;
+            border: solid 2px #FF6D75;
+            margin: 30px 0px;
+        }
+        .right_aligh_div{
+            width: 100%;
+            text-align: right;
+            padding: 30px 20px;
+        }
+        .order_gift_info{
+            margin-top: 30px;
+        }
+        .large_price_span{
+            color: #FF2733;
+            font-size: 28px;
+            padding: 5px;
+        }
+        .confirmouter{
+            float: right;
+            width: 400px;
+            margin: 30px 0px;
+        }
+        .footdiv{
+            box-sizing: content-box;
+        }
+    </style>
+</head>
+<body>
+<div th:include="nav :: mynav"></div>
+<div class="container">
+    <div class="content">
+        <div class="orderprogress"></div>
+        <div class="shipping_address">
+            <div class="unit_title">请选择收货地址</div>
+            <ul>
+                <li th:each="address:${addresss}">
+                    <div class="addressouter" th:id="${address.id }">
+                        <div class="addressinner" th:text="${address.prov }+','+${address.city }+','+
+                            ${address.address_info }">
+                        </div>
+                        <div class="receiver" style="display:none;" th:text="${address.receiver }+','+${address.tel }"></div>
+                    </div>
+                </li>
+            </ul>
+            <!-- <a href="getAllAddress.do">显示所有收货地址</a> -->
+            <a href="/manageAddress"><div class="mybtn myred">管理收货地址</div></a>
+        </div>
+        <div class="order_gift_info">
+            <table class="ui fixed table">
+                <thead>
+                <tr>
+                    <th>礼物</th>
+                    <th>礼物属性</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>小计</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <input type="hidden" id="gift_id" th:value="${gift.id }"/>
+                        <a th:href="'/gift/giftInfo?gift_id='+${gift.id }">
+                            <img th:src="@{${gift.small_img }}" width="100px" height="100px" align="middle"/>
+                            <span th:text="${gift.name }"></span>
+                        </a>
+                    </td>
+                    <td id="spectd">
+                        <span th:each="spec:${specs}">
+                            <div th:text="${spec.name }+'：'+${spec.value }"></div>
+                            <input class="spec_id_input" type="hidden" th:value="${spec.id }"/>
+                        </span>
+                    </td>
+                    <td th:text="${gift.price }"></td>
+                    <td id="numtd" th:text="${num }"></td>
+                    <td th:text="${gift.price*num}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="confirmouter">
+            <div class="confirmdiv">
+                <div class="right_aligh_div">实付款：<span class="large_price_span" th:text="${gift.price*num}"></span></div>
+                <div class="right_aligh_div">寄送至：<span id="addressspan"></span></div>
+                <div class="right_aligh_div">收货人：<span id="receiver"></span></div>
+            </div>
+            <div class="right_aligh_div">
+                <div class="largebtn myred mybtn" id="submitOrder">提交订单</div>
+            </div>
+        </div>
+        <div class="clear_float"></div>
+    </div>
+    <div class="footdiv redback">
+        <p>礼物说——礼物与全球好货指南</p>
+        <p><a href="#">首页</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物商城</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物定制</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物攻略</a></p>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(function() {
+        $('.strategy_li').hover(function(){
+            $(this).find('.strategy_menu').css('display','block');
+        },function(){
+            $(this).find('.strategy_menu').css('display','none');
+        });
+        $(".selector_li").hover(function(){
+            $(this).children('.con').css('display','block');
+            $(this).addClass('li_border');
+        },function(){
+            $(this).children('.con').css('display','none');
+            $(this).removeClass('li_border');
+        })
+
+        var $window = $(window);
+        var $div_anchor = $('.container');
+        var $nav_bar = $('.nav_bar');
+        var $fixed_nav_bar = $('.fixed_nav_bar');
+        $window.scroll(function() {
+            //scrollTop()方法返回或设置匹配元素的滚动条的垂直位置
+            var window_top = $window.scrollTop();
+            //javascript用offsetTop();jquery用offset().top;
+            var div_top = $div_anchor.offset().top;
+            if(window_top > div_top) {
+                $nav_bar.css('display', 'none');
+                $fixed_nav_bar.css('display', 'block');
+            } else {
+                $nav_bar.css('display', 'block');
+                $fixed_nav_bar.css('display', 'none');
+            }
+        });
+        $(".addressouter").eq(0).addClass('address_selected');
+        var select = $(".addressouter.address_selected")
+        $("#addressspan").text(select.children('.addressinner').text());
+        $("#receiver").text(select.children('.receiver').text());
+        $(".addressouter").click(function() {
+            $(".addressouter").each(function() {
+                $(this).removeClass('address_selected');
+            })
+            $(this).addClass('address_selected');
+            var select = $(".addressouter.address_selected")
+            $("#addressspan").text(select.children('.addressinner').text());
+            $("#receiver").text(select.children('.receiver').text());
+        })
+        $("#submitOrder").click(function(){
+            var address_id = parseInt($(".addressouter.address_selected").attr('id'));
+            var spec_id = new Array();
+            $(".spec_id_input").each(function(){
+                spec_id.push($(this).val());
+                console.log("spec_id",spec_id);
+            })
+            spec_ids =spec_id.join(",");
+            console.log(spec_ids);
+            var flag = confirm("确认支付","立即支付","暂不支付");
+            var num =  parseInt($("#numtd").text());
+            var gift_id =parseInt($("#gift_id").val());
+            var status;
+            if(flag){
+                status = 1
+            }else{
+                status = 0;
+            }
+            var param1 = {
+                name:"address_id",
+                value:address_id
+            }
+            var param2 = {
+                name:"num",
+                value:num
+            }
+            var param3={
+                name:"gift_id",
+                value:gift_id
+            }
+            var param4={
+                name:"spec_ids",
+                value:spec_ids
+            }
+            var param5={
+                name:"status",
+                value:status
+            }
+            console.log(param1);
+            console.log(param2);
+            console.log(param3);
+            console.log(param4);
+            console.log(param5);
+            console.log(typeof param3.value);
+            formSubmit("/submit_order_single",param1,param2,param3,param4,param5);
+
+        })
+
+        function formSubmit(url,obj){
+            var len = arguments.length;
+            var form=$("<form style='display: none;'></form>");
+            form.attr('action',url);
+            form.attr('method',"post");
+            var i;
+            for(i= 1; i < len;i ++){
+                var input=$('<input type=text/>');
+                input.attr('name',arguments[i].name);
+                input.attr('value',arguments[i].value);
+                form.append(input);
+            }
+            $('.container').append(form);
+            form.submit();
+        }
+    })
+    /*]]>*/
+</script>
+</html>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>礼物搜索</title>
+    <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css" />
+    <script type="text/javascript" src="../static/js/formsubmit.js"></script>
+    <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css"/>
+    <script type="text/javascript" th:src="@{../static/js/nav.js}"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/BeAlert.css"/>
+    <script type="text/javascript" src="../static/js/BeAlert.js"></script>
+    <style>
+        body{
+            box-sizing: content-box;
+        }
+        .container{
+            width:1210px;
+            margin:30px auto;
+        }
+        .width_span{
+            padding: 0 10px;
+        }
+        .input_outer{
+            border:solid 1px #d9d9d9;
+            margin-right: 10px;
+            width:70px;
+            border-radius: 5px;
+        }
+        .myinput{
+            border-radius: 5px;
+            padding:5px;
+            width:60px;
+        }
+        .height_btn{
+            font-size: 16px;
+            padding-top:6px;
+            padding-bottom: 7px;
+            border-radius: 5px;
+        }
+        .background_div{
+            border:solid 1px #d9d9d9;
+            border-radius: 5px;
+            background-color: #f3f5f5;
+        }
+        .large_cate{
+            float: left;
+            width: 100px;
+            background-color: #ebeeef;
+            padding:0 30px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .large_a{
+            color: #555;
+        }
+        .large_a:hover{
+            color: #E32F2F;
+        }
+        .background_div ul{
+            padding-top: 20px;
+            padding-right:20px;
+            float: right;
+            width: 1000px;
+        }
+        .background_div ul li{
+            float: left;
+            padding-bottom: 20px;
+        }
+        .background_div ul li a{
+            padding:20px;
+            color: #555;
+        }
+        .background_div ul li a:hover{
+            color: #E32F2F;
+        }
+        .back_selected_a{
+            color: #E32F2F;
+            font-weight: bold;
+        }
+        .background_div ul li:after{
+            content: "|";
+        }
+        /*gift div样式*/
+        .price{
+            color: #E32F2F;
+            font-size: 16px;
+            padding: 10px 0px;
+        }
+        .gift_div{
+            border: solid 1px #D9D9D9;
+            width:273px;
+            height: 350px;
+            padding: 5px;
+            border-radius: 5px;
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 20px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .gift_div img{
+            width: 100%;
+            height: 215px;
+            border-radius: 5px;
+        }
+        .giftul{
+            width: 1242px;
+        }
+        .giftul li{
+            list-style: none;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .gift_title{
+            padding-top: 5px;
+        }
+        .gift_div:hover .gift_title{
+            color: #000000;
+        }
+        .gift_div:active .gift_title{
+            color: #000000;
+        }
+        .gift_popularity{
+            position: absolute;
+            left: 5px;
+            bottom: 10px;
+            width: 100%;
+        }
+        .gift_popularity i{
+            color: #E32F2F;
+        }
+        a{
+            color: #555;
+        }
+        a:hover{
+            color: #555;;
+        }
+        .giftul{
+            padding: 0;
+            margin:0;
+        }
+        .blank-holder{
+            width:1210px;
+            margin:0;
+        }
+    </style>
+</head>
+<body>
+<div th:include="nav :: mynav"></div>
+<div class="container">
+    <div class="unit_title">
+        可定制的礼物
+    </div>
+    <div class="ul_div">
+        <ul class="giftul">
+            <li th:each="gift:${gifts}">
+                <a th:href="@{'/customMade/giftInfo?gift_id='+${gift.id }}">
+                    <div class="gift_div">
+                        <img th:src="@{${gift.small_img }}"/>
+                        <div class="gift_title" th:text="${gift.name }"></div>
+                        <div class="price" th:text="'￥'+${gift.price }"></div>
+                        <div class="gift_popularity">
+                            <i class="in cart icon"></i><span th:text="${gift.sale_num }"></span>购买
+                            <i class="remove bookmark icon"></i><span th:text="${gift.collection }"></span>收藏
+                            <i class="comment outline icon"></i><span th:text="${gift.comment }"></span>评价
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <div class="clear_float"></div>
+    </div>
+</div>
+<div class="footdiv redback">
+    <p>礼物说——礼物与全球好货指南</p>
+    <p><a href="#">首页</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物商城</a>
+        &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物定制</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物攻略</a></p>
+</div>
+</body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(function () {
+        $('.large_cate').css('height',$('.background_div').css('height'));
+        $('.large_cate').css('line-height',$('.background_div').css('height'));
+        $('.gift_div').hover(function(){
+            $(this).animate({top:'-3px'},"500");
+            $(this).addClass('div_hover');
+        },function(){
+            $(this).animate({top:'3px'},"fast");
+            $(this).removeClass('div_hover');
+        })
+        $('.gift_div').hover(function(){
+            $(this).animate({top:'-3px'},"500");
+            $(this).addClass('div_hover');
+        },function(){
+            $(this).animate({top:'3px'},"fast");
+            $(this).removeClass('div_hover');
+        })
+
+
+        $('.cate_a').click(function () {
+            $('.cate_a').each(function () {
+                $(this).removeClass('back_selected_a');
+            })
+            $(this).addClass('back_selected_a');
+            var cate_id = $(this).attr('id');
+            console.log(cate_id);
+            $.ajax({
+                url:"/search/CateID/inner",
+                data:{
+                    cate_id:cate_id
+                },
+                dataType:"json",
+                success:function (data) {
+                    console.log(data);
+                    writeHtml(data);
+                }
+            })
+        })
+
+        function writeHtml(data) {
+            var len = data.length;
+            console.log(len);
+            if(len == 0){
+                var $dom = $('<div class="blank-holder"><i></i><p>没有搜到任何礼物哦~</p></div>');
+                $(".giftul").html($dom);
+            }else{
+                $('.giftul').empty();
+                for(i=0;i<len;i++){
+                    var gift = data[i];
+                    var $li = $('<li><a href="gift/giftInfo?gift_id='+gift.id+'"><div class="gift_div">' +
+                            '<img src="'+gift.small_img+'"/><div class="gift_title">'+gift.name +'</div> ' +
+                            '<div class="price">￥'+gift.price+'</div><div class="gift_popularity"> ' +
+                            '<i class="in cart icon"></i><span>'+gift.sale_num+'</span>购买 ' +
+                            '<i class="remove bookmark icon"></i><span>'+gift.collection +'</span>收藏 ' +
+                            '<i class="comment outline icon"></i><span>'+gift.comment+'</span>评价</div></div></a></li>');
+                    $('.giftul').append($li);
+                }
+            }
+        }
+
+        $(".item").click(function () {
+            $('.item').each(function () {
+                $(this).removeClass('active');
+            })
+            $(this).addClass('active');
+        })
+
+        var large_cate = $('.large_a').attr('id');
+        $('#zonghe').unbind('click').click(function () {
+            var id = "";
+            $('.cate_a').each(function () {
+                if($(this).hasClass('back_selected_a')){
+                    id = $(this).attr('id');
+                }
+            })
+            if(id == ""){
+                $.ajax({
+                    url:"/search/LargeCate/inner",
+                    data:{
+                        large_cate:large_cate
+                    },
+                    dataType:"json",
+                    success:function (data) {
+                        writeHtml(data);
+                    }
+                })
+            }else{
+                $.ajax({
+                    url:"/search/CateID/inner",
+                    data:{
+                        cate_id:id
+                    },
+                    dataType:"json",
+                    success:function (data) {
+                        writeHtml(data);
+                    }
+                })
+            }
+        })
+
+        $("#renqi").unbind('click').click(function () {
+            var id = "";
+            $('.cate_a').each(function () {
+                if($(this).hasClass('back_selected_a')){
+                    id = $(this).attr('id');
+                }
+            })
+            if(id == ""){
+                $.ajax({
+                    url:"/search/LargeCateOrderByHot",
+                    data:{
+                        large_cate:large_cate
+                    },
+                    dataType:"json",
+                    success:function (data) {
+                        writeHtml(data);
+                    }
+                })
+            }else{
+                $.ajax({
+                    url:"/search/CateIDOrderByHot",
+                    data:{
+                        cate_id:id
+                    },
+                    dataType:"json",
+                    success:function (data) {
+                        writeHtml(data);
+                    }
+                })
+            }
+        })
+
+        $("#sale").unbind('click').click(function () {
+            var id = "";
+            $('.cate_a').each(function () {
+                if($(this).hasClass('back_selected_a')){
+                    id = $(this).attr('id');
+                }
+            })
+            if(id == ""){
+                $.ajax({
+                    url:"/search/LargeCateOrderBySale",
+                    data:{
+                        large_cate:large_cate
+                    },
+                    dataType:"json",
+                    success:function (data) {
+                        writeHtml(data);
+                    }
+                })
+            }else{
+                $.ajax({
+                    url:"/search/CateIDOrderBySale",
+                    data:{
+                        cate_id:id
+                    },
+                    dataType:"json",
+                    success:function (data) {
+                        writeHtml(data);
+                    }
+                })
+            }
+        })
+
+        $("#price_btn").unbind('click').click(function () {
+            var min = $('#min').val();
+            var max = $("#max").val();
+            if(min == null && max == null){
+                return;
+            }else{
+                var id = "";
+                $('.cate_a').each(function () {
+                    if($(this).hasClass('back_selected_a')){
+                        id = $(this).attr('id');
+                    }
+                })
+                if(id == ""){
+                    $.ajax({
+                        url:"/search/LargeCateOrderByPrice",
+                        data:{
+                            large_cate:large_cate,
+                            min:min,
+                            max:max
+                        },
+                        dataType:"json",
+                        success:function (data) {
+                            writeHtml(data);
+                        }
+                    })
+                }else{
+                    $.ajax({
+                        url:"/search/CateIDOrderByPrice",
+                        data:{
+                            cate_id:id,
+                            min:min,
+                            max:max
+                        },
+                        dataType:"json",
+                        success:function (data) {
+                            writeHtml(data);
+                        }
+                    })
+                }
+            }
+        })
+
+    })
+    /*]]>*/
+</script>
+</html>

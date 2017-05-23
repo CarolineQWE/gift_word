@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<div th:fragment="left_nav">
+    <div class="ui vertical menu">
+        <div class="ui left simple dropdown item">
+            <div style="text-align:center;font-size: 18px;"><i class="icon iconfont icon-gerenzhongxin"></i>个人中心</div>
+        </div>
+        <div class="ui left simple dropdown item active">
+            <div style="text-align:center"><a href="#"><i class="icon iconfont icon-biaoti" style="font-size: 18px;"></i>基本资料</a></div>
+        </div>
+        <div class="ui left simple dropdown item">
+            <div  style="text-align:center"><a href="/manageAddress"><i class="icon iconfont icon-location" style="font-size: 18px;"></i>收货地址</a></div>
+        </div>
+        <div class="ui left simple dropdown item">
+            <div  style="text-align:center"><a href="/getShoppingCart"><i class="icon iconfont icon-iconfontgouwuche" style="font-size: 15px;"></i>我的购物车</a></div>
+        </div>
+        <div class="ui left simple dropdown item">
+            <div  style="text-align:center"><a href="/myOrder"><i class="icon iconfont icon-wodedingdan" style="font-size: 16px;"></i>我的订单</a></div>
+        </div>
+        <div class="ui left simple dropdown item">
+            <div style="text-align:center"><a href="/myStrategy"><i class="icon iconfont icon-gonglve" style="font-size: 15px;"></i>我的攻略</a></div>
+        </div>
+        <div class="ui left simple dropdown item">
+            <div  style="text-align:center"><a href="/myCustomMade"><i class="icon iconfont icon-shezhi" style="font-size: 18px;"></i>我的定制</a></div>
+        </div>
+        <div class="ui left simple dropdown item">
+            <div  style="text-align:center"><a href="/myCollection"><i class="icon iconfont icon-shoucang1" style="font-size: 18px;"></i>我的收藏</a></div>
+        </div>
+        <div class="ui left simple dropdown item">
+            <div  style="text-align:center"><a href="/myCare"><i class="icon iconfont icon-icon14" style="font-size: 16px;"></i>我的关注</a></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

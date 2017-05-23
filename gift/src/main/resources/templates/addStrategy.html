@@ -6,14 +6,16 @@
     <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
     <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css"/>
-    <link rel="stylesheet" href="../static/css/main.css"/>
-    <link rel="stylesheet" href="../static/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/nav.css" />
     <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css"/>
     <script type="text/javascript" charset="utf-8" src="../static/ueditor/ueditor.config.js"></script>
-    <script type="text/javascript" charset="utf-8" src="../static/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="../static/ueditor/ueditor.all.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="../static/ueditor/lang/zh-cn/zh-cn.js"></script>
     <script type="text/javascript" charset="utf-8" src="../static/js/jquery.form.js"></script>
     <script type="text/javascript" charset="utf-8" src="../static/js/formsubmit.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/BeAlert.css"/>
+    <script type="text/javascript" src="../static/js/BeAlert.js"></script>
     <style>
         body{
             -webkit-box-sizing: content-box;
@@ -103,7 +105,7 @@
             margin: 15px 0px;
         }
         .selects{
-            margin-bottom: 30px;
+            margin: 30px 0;
         }
         .field{
             width: 280px;
@@ -139,14 +141,8 @@
             </form>
         </div>
         <form id="all_form" method="post">
-            <div class="stra_title">
-                <input type="text" class="stra_title_input" name="title" placeholder="请输入标题"/>
-            </div>
-            <div class="stra_title">
-                <input type="text" id="brief_input" class="stra_title_input small" name="brief" placeholder="请输入内容简介"/>
-            </div>
             <div class="three fields selects">
-                <div class="field">
+                <div class="field" style="z-index: 1111111111111;">
                     <div class="small_title">赠礼对象</div>
                     <div class="ui fluid selection dropdown">
                         <input type="hidden" name="relationship" id="relationship_input"/>
@@ -165,42 +161,49 @@
                         </div>
                     </div>
                 </div>
-                <div class="field">
+                <div class="field" style="z-index: 1111111111111;">
                     <div class="small_title">赠礼场合</div>
                     <div class="ui fluid selection dropdown">
                         <input type="hidden" name="occasion" id="occasion_input"/>
                         <div class="default text">赠礼场合</div>
                         <i class="dropdown icon"></i>
                         <div class="menu">
-                           <div class="item">新年</div>
-                           <div class="item">生日</div>
-                           <div class="item">纪念日</div>
-                           <div class="item">结婚</div>
-                           <div class="item">感谢</div>
-                           <div class="item">情人节</div>
-                           <div class="item">乔迁</div>
-                           <div class="item">圣诞节</div>
+                            <div class="item">新年</div>
+                            <div class="item">生日</div>
+                            <div class="item">纪念日</div>
+                            <div class="item">结婚</div>
+                            <div class="item">感谢</div>
+                            <div class="item">情人节</div>
+                            <div class="item">乔迁</div>
+                            <div class="item">圣诞节</div>
                         </div>
                     </div>
                 </div>
-                <div class="field">
+                <div class="field" style="z-index: 1111111111111;">
                     <div class="small_title">Ta的个性</div>
                     <div class="ui fluid selection dropdown">
                         <input type="hidden" name="style" id="style_input"/>
                         <div class="default text">Ta的个性</div>
                         <i class="dropdown icon"></i>
                         <div id="secondcate" class="menu">
-                          <div class="item">美物</div>
-                          <div class="item">手工</div>
-                          <div class="item">吃货</div>
-                          <div class="item">萌萌哒</div>
-                          <div class="item">动漫迷</div>
-                          <div class="item">小清新</div>
-                          <div class="item">科技范</div>
+                            <div class="item">美物</div>
+                            <div class="item">手工</div>
+                            <div class="item">吃货</div>
+                            <div class="item">萌萌哒</div>
+                            <div class="item">动漫迷</div>
+                            <div class="item">小清新</div>
+                            <div class="item">科技范</div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="stra_title">
+                <input type="text" class="stra_title_input" name="title" placeholder="请输入标题"/>
+            </div>
+            <div class="stra_title">
+                <input type="text" id="brief_input" class="stra_title_input small" name="brief" placeholder="请输入内容简介"/>
+            </div>
+
             <div class="unit_title">
                 攻略内容
             </div>
@@ -220,134 +223,167 @@
 </body>
 <script th:inline="javascript">
     /*<![CDATA[*/
-    var ue = UE.getEditor('editor',{
-        toolbars: [
-            [
-                'undo', //撤销
-                'redo', //重做
-                'bold', //加粗
-                'indent', //首行缩进
-                'snapscreen', //截图
-                'italic', //斜体
-                'underline', //下划线
-                'strikethrough', //删除线
-                'subscript', //下标
-                'fontborder', //字符边框
-                'blockquote', //引用
-                'selectall', //全选
-                'preview', //预览
-                'horizontal', //分隔线
-                'time', //时间
-                'date', //日期
-                'inserttitle', //插入标题
-                'cleardoc', //清空文档
-                'fontfamily', //字体
-                'fontsize', //字号
-                'paragraph', //段落格式
-                'simpleupload', //单图上传
-                'insertimage', //多图上传
-                'link', //超链接
-                'emotion', //表情
-                'spechars', //特殊字符
-                'insertvideo', //视频
-                'justifyleft', //居左对齐
-                'justifyright', //居右对齐
-                'justifycenter', //居中对齐
-                'justifyjustify', //两端对齐
-                'forecolor', //字体颜色
-                'backcolor', //背景色
-                'insertorderedlist', //有序列表
-                'insertunorderedlist', //无序列表
-                'fullscreen', //全屏
-                'rowspacingtop', //段前距
-                'rowspacingbottom', //段后距
-                'pagebreak', //分页
-                'imagenone', //默认
-                'imagecenter', //居中
-                'lineheight', //行间距
-                'edittip ', //编辑提示
-                'autotypeset', //自动排版
-                'background', //背景
-                'template' //模板
-            ]
-        ]
-    });
-    $('.ui.dropdown').dropdown();
-    function getContent() {
-        var arr = [];
-        arr.push("使用editor.getContent()方法可以获得编辑器的内容");
-        arr.push("内容为：");
-        arr.push(UE.getEditor('editor').getContent());
-        alert(arr.join("\n"));
-    }
-
-
-    $('.pre_fileupload').click(function () {
-        $('.top_img_input').click();
-
-    });
-    var src = "";
-    $('.top_img_input').change(function () {
-        console.log("val",$(this).val());
-        $("#file_form").ajaxSubmit({
-            success: function(data,status,xhr,$form) {
-                src = data.url;
-                console.log(src);
-                if(!(src == null || src == undefined)){
-                    $('.pre_fileupload').css('background-image','url('+src+')');
-                    $('.pre_fileupload').css('background-repeat','no-repeat');
-                    $('.center_div').css('display','none');
-                }
-            },
-            error: function(xhr, status, error, $form){
-                console.log("error",xhr, status, error, $form);
-            }
+    $(function () {
+        $('.strategy_li').hover(function(){
+            $(this).find('.strategy_menu').css('display','block');
+        },function(){
+            $(this).find('.strategy_menu').css('display','none');
+        });
+        $(".selector_li").hover(function(){
+            $(this).children('.con').css('display','block');
+            $(this).addClass('li_border');
+        },function(){
+            $(this).children('.con').css('display','none');
+            $(this).removeClass('li_border');
         })
-    });
-    $('#publish_btn').click(function () {
-        var url = "/strategy/submitStra";
-        var relationship = $("#relationship_input").val();
-        var occasion = $("#occasion_input").val();
-        var style = $("#style_input").val();
-        var title = $('.stra_title_input').val();
-        var brief = $('#brief_input').val();
-        var content = ue.getContent();
-        var _src =  src;
-        console.log(src);
-        var obj = {
-            name:"relationship",
-            value:relationship
-        };
-        var obj1 = {
-            name:"occasion",
-            value:occasion
-        };
-        var obj2 = {
-            name:"style",
-            value:style
-        };
-        var obj3 = {
-            name:"title",
-            value:title
-        };
-        var obj4 = {
-            name:"content",
-            value:content
-        };
-        var obj5 = {
-            name:"src",
-            value:_src
-        };
-        var obj6 = {
-            name:"ifPublish",
-            value:0
-        };
-        var obj7 = {
-            name:"brief",
-            value:brief
-        };
-       formSubmit(url,obj,obj1,obj2,obj3,obj4,obj5,obj6,obj7);
-    });
+
+        var $window = $(window);
+        var $div_anchor = $('.container');
+        var $nav_bar = $('.nav_bar');
+        var $fixed_nav_bar = $('.fixed_nav_bar');
+        $window.scroll(function() {
+            //scrollTop()方法返回或设置匹配元素的滚动条的垂直位置
+            var window_top = $window.scrollTop();
+            //javascript用offsetTop();jquery用offset().top;
+            var div_top = $div_anchor.offset().top;
+            if(window_top > div_top) {
+                $nav_bar.css('display', 'none');
+                $fixed_nav_bar.css('display', 'block');
+            } else {
+                $nav_bar.css('display', 'block');
+                $fixed_nav_bar.css('display', 'none');
+            }
+        });
+        var ue = UE.getEditor('editor',{
+            toolbars: [
+                [
+                    'undo', //撤销
+                    'redo', //重做
+                    'bold', //加粗
+                    'indent', //首行缩进
+                    'snapscreen', //截图
+                    'italic', //斜体
+                    'underline', //下划线
+                    'strikethrough', //删除线
+                    'subscript', //下标
+                    'fontborder', //字符边框
+                    'blockquote', //引用
+                    'selectall', //全选
+                    'preview', //预览
+                    'horizontal', //分隔线
+                    'time', //时间
+                    'date', //日期
+                    'inserttitle', //插入标题
+                    'cleardoc', //清空文档
+                    'fontfamily', //字体
+                    'fontsize', //字号
+                    'paragraph', //段落格式
+                    'simpleupload', //单图上传
+                    'insertimage', //多图上传
+                    'link', //超链接
+                    'emotion', //表情
+                    'spechars', //特殊字符
+                    'insertvideo', //视频
+                    'justifyleft', //居左对齐
+                    'justifyright', //居右对齐
+                    'justifycenter', //居中对齐
+                    'justifyjustify', //两端对齐
+                    'forecolor', //字体颜色
+                    'backcolor', //背景色
+                    'insertorderedlist', //有序列表
+                    'insertunorderedlist', //无序列表
+                    'fullscreen', //全屏
+                    'rowspacingtop', //段前距
+                    'rowspacingbottom', //段后距
+                    'pagebreak', //分页
+                    'imagenone', //默认
+                    'imagecenter', //居中
+                    'lineheight', //行间距
+                    'edittip ', //编辑提示
+                    'autotypeset', //自动排版
+                    'background', //背景
+                    'template' //模板
+                ]
+            ]
+        });
+        $('.ui.dropdown').dropdown();
+        function getContent() {
+            var arr = [];
+            arr.push("使用editor.getContent()方法可以获得编辑器的内容");
+            arr.push("内容为：");
+            arr.push(UE.getEditor('editor').getContent());
+            alert(arr.join("\n"));
+        }
+
+
+        $('.pre_fileupload').click(function () {
+            $('.top_img_input').click();
+
+        });
+        var src = "";
+        $('.top_img_input').change(function () {
+            console.log("val",$(this).val());
+            $("#file_form").ajaxSubmit({
+                success: function(data,status,xhr,$form) {
+                    src = data.url;
+                    console.log(src);
+                    if(!(src == null || src == undefined)){
+                        $('.pre_fileupload').css('background-image','url('+src+')');
+                        $('.pre_fileupload').css('background-repeat','no-repeat');
+                        $('.center_div').css('display','none');
+                    }
+                },
+                error: function(xhr, status, error, $form){
+                    console.log("error",xhr, status, error, $form);
+                }
+            })
+        });
+        $('#publish_btn').click(function () {
+            var url = "/strategy/submitStra";
+            var relationship = $("#relationship_input").val();
+            var occasion = $("#occasion_input").val();
+            var style = $("#style_input").val();
+            var title = $('.stra_title_input').val();
+            var brief = $('#brief_input').val();
+            var content = ue.getContent();
+            var _src =  src;
+            console.log(src);
+            var obj = {
+                name:"relationship",
+                value:relationship
+            };
+            var obj1 = {
+                name:"occasion",
+                value:occasion
+            };
+            var obj2 = {
+                name:"style",
+                value:style
+            };
+            var obj3 = {
+                name:"title",
+                value:title
+            };
+            var obj4 = {
+                name:"content",
+                value:content
+            };
+            var obj5 = {
+                name:"src",
+                value:_src
+            };
+            var obj6 = {
+                name:"ifPublish",
+                value:0
+            };
+            var obj7 = {
+                name:"brief",
+                value:brief
+            };
+            formSubmit(url,obj,obj1,obj2,obj3,obj4,obj5,obj6,obj7);
+        });
+
+    })
 
 
     /*]]>*/

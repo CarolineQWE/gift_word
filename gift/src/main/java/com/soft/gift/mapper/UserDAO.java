@@ -4,4 +4,5 @@ import com.soft.gift.model.User;
 import com.soft.gift.util.BaseDAO;
 
 public interface UserDAO extends BaseDAO<User> {
+    public void updateUserCare(User user);
 }

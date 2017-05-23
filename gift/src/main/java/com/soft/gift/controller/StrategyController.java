@@ -1,9 +1,9 @@
 package com.soft.gift.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.soft.gift.model.Comment;
-import com.soft.gift.model.Strategy;
-import com.soft.gift.model.UserInfo;
+import com.soft.gift.model.*;
+import com.soft.gift.model.Collections;
+import com.soft.gift.service.CollectService;
 import com.soft.gift.service.CommentService;
 import com.soft.gift.service.StrategyService;
 import com.soft.gift.service.UserService;
@@ -38,6 +38,8 @@ public class StrategyController {
     private UserService userService;
     @Autowired
     private CommentService commentService;
+    @Autowired
+    private CollectService collectService;
 
     @RequestMapping(value = "/strategy/all")
     public String strategy(HttpServletRequest request, ModelMap map) {
@@ -59,6 +61,8 @@ public class StrategyController {
     @RequestMapping(value = "/uploadImg")
     public Map uploadImg(HttpServletRequest request, HttpServletResponse response, @RequestParam("file") MultipartFile file) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
+        System.out.println("file<<<<<<<<<<<<<<<<<");
+        System.out.println(file);
         Map returnMap = new HashMap();
        // String callbackcontent = null;
         try {
@@ -73,12 +77,18 @@ public class StrategyController {
 
     @RequestMapping(value = "/strategy/submitStra")
     public String submitStra(HttpServletRequest request,String relationship,
-            String occasion,String style,String title, String content,String src,Integer ifPublish,String brief) {
+            String occasion,String style,String title, String content,String src,Integer ifPublish,String brief,ModelMap map) {
         UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         Strategy strategy = new Strategy(title,content,src,0,0, timestamp,
                 relationship,style,occasion,userInfo.getAccount(),0,0,ifPublish,brief);
         strategyService.addStrategy(strategy);
+        List<Strategy> latestStras = new ArrayList<>();
+        List<Strategy> hotestStras = new ArrayList<>();
+        latestStras = strategyService.getLatestStras();
+        hotestStras = strategyService.getHotestStras();
+        map.put("latestStras", latestStras);
+        map.put("hotestStras", hotestStras);
         return "strategy";
     }
 
@@ -143,7 +153,10 @@ public class StrategyController {
 
     @ResponseBody
     @RequestMapping(value = "/strategy/addCollect")
-    public String addCollect(@RequestParam(value = "id",required = true) Integer id){
+    public String addCollect(HttpServletRequest request,@RequestParam(value = "id",required = true) Integer id){
+        UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
+        Collections collections = new Collections(id,1,userInfo.getAccount());
+        collectService.addCollect(collections);
         strategyService.addCollect(id);
         System.out.println("id:"+id);
         return "成功";

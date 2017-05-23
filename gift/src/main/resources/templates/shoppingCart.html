@@ -8,6 +8,10 @@
     <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
     <link rel="stylesheet" href="../static/css/main.css" />
     <link rel="stylesheet" href="../static/css/nav.css" />
+    <link rel="stylesheet" href="../static/css/iconfont.css" />
+
+    <link rel="stylesheet" type="text/css" href="../static/css/BeAlert.css"/>
+    <script type="text/javascript" src="../static/js/BeAlert.js"></script>
     <style>
         div,
         p,
@@ -19,8 +23,14 @@
         }
 
         body {
+            box-sizing: content-box;
             margin: 0px;
             padding: 0px;
+        }
+        .container{
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
         }
         #contentdiv {
             margin-left: 6px;
@@ -30,9 +40,10 @@
         #footdiv{
             vertical-align: middle;
             background-color: #FAFAFA;
-            padding-bottom:150px;
             width:1210px;
-            margin:0px auto;
+            margin: 0 auto;
+            margin-bottom:30px;
+            padding: 15px 0;
         }
         #footleft {
             display: inline-block;
@@ -88,24 +99,54 @@
             width:50px;
             overflow-y:hidden;
         }
+        .footdiv{
+            box-sizing: content-box;
+        }
+        /*空处理*/
+        .blank-holder {
+            width: 100%;
+            height: 390px;
+            text-align: center;
+            clear: both;
+            display: block;
+            border-radius: 10px;
+            background: #fff;
+            border: solid #dedede 1px;
+            margin: 30px auto;
+        }
+        .blank-holder i {
+            background-image: url(../static/img/filter_z_b2c729e.png);
+            background-position: -6px -454px;
+            background-repeat: no-repeat;
+            display: block;
+            margin: 117px auto 0;
+            width: 100px;
+            height: 100px;
+        }
+        .blank-holder p {
+            color: #717070;
+            margin-top: 35px;
+        }
+        .content{
+            padding-bottom: 30px;
+        }
     </style>
 </head>
 
 <body>
-<div class="nav_out">
-    <div th:include="nav :: mynav"></div>
-</div>
+<div th:include="nav :: mynav"></div>
 <div class="container">
     <div class="largeborder">
         <div class="content">
             <div class="unit_title">我的购物车</div>
             <div id="tablediv">
+
                 <table id="sttable" class="ui table">
                     <thead>
                     <tr>
                         <th>
                             <div class="ui checkbox">
-                                <input type="checkbox" id="allChk">
+                                <input type="checkbox" id="allChk"/>
                                 <label></label>
                             </div>
                         </th>
@@ -118,35 +159,38 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <tr id="${sh.key.sc_id }" th:each="sh:${shMap }">
+                        <tr th:id="${sh.key.sc_id }" th:each="sh:${shMap }">
                             <td>
                                 <div class="ui checkbox">
-                                    <input type="checkbox" class="buycheck">
+                                    <input type="checkbox" class="buycheck"/>
                                     <label></label>
                                 </div>
                             </td>
                             <td>
-                                <a href="giftInfo.do?gift_id=${sh.key.gift_id }">
-                                    <img src="${sh.key.small_img }" width="100px" height="100px" />
+                                <a th:href="'/gift/giftInfo?gift_id='+${sh.key.gift_id }">
+                                    <img th:src="@{${sh.key.small_img }}" width="100px" height="100px" />
                                     <span th:text="${sh.key.name }"></span></a>
                             </td>
-                            <td th:text="${spec.name }+'：'+${spec.value }+'<br/>'" th:each="${sh.value }"></td>
-                            <td class="price" id="price${sh.key.sc_id}" th:text="${sh.key.price }"></td>
+                            <td>
+                                <div th:text="${spec.name }+'：'+${spec.value }" th:each="spec:${sh.value }"></div>
+                            </td>
+                            <td class="price" th:id="'price'+${sh.key.sc_id}" th:text="${sh.key.price }"></td>
                             <td>
                                 <div class="ui tiny icon buttons">
                                     <button class="ui tiny write button plusbtn"><i class="tiny plus icon"></i></button>
                                     <input type="hidden" th:value="${sh.key.stock }"/>
                                     <div class="ui form" id="giftnum_div">
-                                        <input type="text" class="gift_num" th:id="gift_num${sh.key.sc_id }" value="${sh.key.num }"/>
+                                        <input type="text" class="gift_num" th:id="'gift_num'+${sh.key.sc_id }" th:value="${sh.key.num }"/>
                                     </div>
                                     <button class="ui tiny write button minusbtn"><i class="tiny minus icon"></i></button>
                                 </div>
                             </td>
-                            <td class="money" id="money${sh.key.sc_id}" th:text="${sh.key.sc_price }"></td>
+                            <td class="money" th:id="'money'+${sh.key.sc_id}" th:text="${sh.key.sc_price }"></td>
                             <td><a class="deletea" href="javascript:void(0)">删除</a></td>
                         </tr>
                     </tbody>
                 </table>
+                <div th:if="${size eq 0}"><div class="blank-holder" ><i></i><p>购物车空空如也，快去商城添加礼物吧！</p></div></div>
             </div>
         </div>
         <div id="footdiv">
@@ -162,19 +206,46 @@
             </div>
         </div>
     </div>
-    <div class="footout">
-        <div class="footdiv redback">
-            <div class="footinfo">
-                © 2014 - 2016 Liwushuo.com 北京礼品说科技有限公司 电信与信息服务业务经营许可证150653号 京ICP备15031023号-1<br />
-                <p><a href="#">首页</a>&nbsp;|&nbsp;<a href="#">关于我们</a>&nbsp;|&nbsp;电话：010-57510218</p>
-            </div>
-        </div>
+    <div class="footdiv redback">
+        <p>礼物说——礼物与全球好货指南</p>
+        <p><a href="#">首页</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物商城</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物定制</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物攻略</a></p>
     </div>
 </div>
 </body>
 <script th:inline="javascript">
     /*<![CDATA[*/
     $(function() {
+        $('.strategy_li').hover(function(){
+            $(this).find('.strategy_menu').css('display','block');
+        },function(){
+            $(this).find('.strategy_menu').css('display','none');
+        });
+        $(".selector_li").hover(function(){
+            $(this).children('.con').css('display','block');
+            $(this).addClass('li_border');
+        },function(){
+            $(this).children('.con').css('display','none');
+            $(this).removeClass('li_border');
+        })
+
+        var $window = $(window);
+        var $div_anchor = $('.container');
+        var $nav_bar = $('.nav_bar');
+        var $fixed_nav_bar = $('.fixed_nav_bar');
+        $window.scroll(function() {
+            //scrollTop()方法返回或设置匹配元素的滚动条的垂直位置
+            var window_top = $window.scrollTop();
+            //javascript用offsetTop();jquery用offset().top;
+            var div_top = $div_anchor.offset().top;
+            if(window_top > div_top) {
+                $nav_bar.css('display', 'none');
+                $fixed_nav_bar.css('display', 'block');
+            } else {
+                $nav_bar.css('display', 'block');
+                $fixed_nav_bar.css('display', 'none');
+            }
+        });
         var stock;
         $('.buycheck').unbind('click').click(function(){
             totalMoney();

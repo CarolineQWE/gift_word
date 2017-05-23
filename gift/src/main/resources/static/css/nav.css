@@ -25,15 +25,14 @@ body,body,ul,li{
     height: 32px;
 }
 .nav_logo_div{
-    width: 260px;
-    height: 30px;
+    width: 300px;
     float: left;
 }
 .nav_logo_div img{
-    width: 260px;
-    height: 30px;
+    width: 300px;
 }
 #search_btn{
+    font-size: 16px;
     cursor: pointer;
 }
 .nav_my_input{
@@ -43,7 +42,6 @@ body,body,ul,li{
     font-size: 16px;
     border: none;
     outline: none;
-
 }
 .nav_float_left{
     float: left;
@@ -109,6 +107,7 @@ body,body,ul,li{
     text-align: center;
 }
 .tools_outer{
+    box-sizing: content-box;
     height: 36px;
     background-color: #f9f9f9;
     border-bottom: 1px solid #f2f2f2;
@@ -213,7 +212,11 @@ body,body,ul,li{
     cursor: pointer;
     color: #444444;
 }
-.icon_div:hover{
+.icon_div a{
+    color: #444444;
+    text-decoration: none;
+}
+.icon_div a:hover{
     color: #F84E4E;
 }
 

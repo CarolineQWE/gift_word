@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>订单详情</title>
+    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css" />
+    <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
+    <link rel="stylesheet" href="../static/css/nav.css" />
+    <link rel="stylesheet" href="../static/css/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/BeAlert.css"/>
+    <script type="text/javascript" src="../static/js/BeAlert.js"></script>
+    <style>
+        body{
+            box-sizing: content-box;
+        }
+        .container{
+            box-sizing: border-box;
+            width: 1210px;
+            margin: 30px auto;
+        }
+        .order_status{
+            width:1210px;
+            margin-bottom:30px;
+        }
+        .description{
+            width:138px;
+        }
+        .unit_title{
+            font-size: 18px;
+            border-left: solid 5px #E78170;
+            margin: 20px 0;
+            padding-left: 10px;
+        }
+        .info_content ul li{
+            list-style: none;
+        }
+        .right_content{
+            padding-left: 30px;
+        }
+        #tablediv{
+            margin-top: 30px;
+            margin-bottom: 100px;
+        }
+        .ainnerdiv{
+            display:inline-block;
+            vertical-align:middle;
+        }
+        .ainnerdiv img{
+            width: 100px;
+            height: 100px;
+        }
+        .namediv{
+            width:170px;
+        }
+        .footdiv{
+            box-sizing: content-box;
+        }
+        .padding_left{
+            padding-left: 50px;
+        }
+    </style>
+</head>
+<body>
+<div th:include="nav :: mynav"></div>
+<div class="container" th:id="${order.id}" th:switch="${order.status}">
+    <div class="order_status" th:case="0">
+        <div class="ui ordered steps">
+            <div class="completed step">
+                <div class="content">
+                    <div class="title">下单</div>
+                    <div class="description">拍下商品</div>
+                </div>
+            </div>
+            <div class="active step">
+                <div class="content">
+                    <div class="title">付款</div>
+                    <div class="description">付款到支付宝</div>
+                </div>
+            </div>
+            <div class="active step">
+                <div class="content">
+                    <div class="title">发货</div>
+                    <div class="description">卖家发货</div>
+                </div>
+            </div>
+            <div class="active step">
+                <div class="content">
+                    <div class="title">收货</div>
+                    <div class="description">确认收货</div>
+                </div>
+            </div>
+            <div class="active step">
+                <div class="content">
+                    <div class="title">评价</div>
+                    <div class="description">发表评价</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="order_status" th:case="1">
+        <div class="ui ordered steps">
+            <div class="completed step">
+                <div class="content">
+                    <div class="title">下单</div>
+                    <div class="description">拍下商品</div>
+                </div>
+            </div>
+            <div class="completed step">
+                <div class="content">
+                    <div class="title">付款</div>
+                    <div class="description">付款到支付宝</div>
+                </div>
+            </div>
+            <div class="active step">
+                <div class="content">
+                    <div class="title">发货</div>
+                    <div class="description">卖家发货</div>
+                </div>
+            </div>
+            <div class="active step">
+                <div class="content">
+                    <div class="title">收货</div>
+                    <div class="description">确认收货</div>
+                </div>
+            </div>
+            <div class="active step">
+                <div class="content">
+                    <div class="title">评价</div>
+                    <div class="description">发表评价</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="order_status" th:case="2">
+        <div class="ui ordered steps">
+            <div class="completed step">
+                <div class="content">
+                    <div class="title">下单</div>
+                    <div class="description">拍下商品</div>
+                </div>
+            </div>
+            <div class="completed step">
+                <div class="content">
+                    <div class="title">付款</div>
+                    <div class="description">付款到支付宝</div>
+                </div>
+            </div>
+            <div class="completed step">
+                <div class="content">
+                    <div class="title">发货</div>
+                    <div class="description">卖家发货</div>
+                </div>
+            </div>
+            <div class="active step">
+                <div class="content">
+                    <div class="title">收货</div>
+                    <div class="description">确认收货</div>
+                </div>
+            </div>
+            <div class="active step">
+                <div class="content">
+                    <div class="title">评价</div>
+                    <div class="description">发表评价</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="order_status" th:case="3">
+        <div class="ui ordered steps">
+            <div class="completed step">
+                <div class="content">
+                    <div class="title">下单</div>
+                    <div class="description">拍下商品</div>
+                </div>
+            </div>
+            <div class="completed step">
+                <div class="content">
+                    <div class="title">付款</div>
+                    <div class="description">付款到支付宝</div>
+                </div>
+            </div>
+            <div class="completed step">
+                <div class="content">
+                    <div class="title">发货</div>
+                    <div class="description">卖家发货</div>
+                </div>
+            </div>
+            <div class="completed step">
+                <div class="content">
+                    <div class="title">收货</div>
+                    <div class="description">确认收货</div>
+                </div>
+            </div>
+            <div class="active step">
+                <div class="content">
+                    <div class="title">评价</div>
+                    <div class="description">发表评价</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="order_status" th:case="4">
+        <div class="ui ordered steps">
+            <div class="completed step">
+                <div class="content">
+                    <div class="title">下单</div>
+                    <div class="description">拍下商品</div>
+                </div>
+            </div>
+            <div class="completed step">
+                <div class="content">
+                    <div class="title">付款</div>
+                    <div class="description">付款到支付宝</div>
+                </div>
+            </div>
+            <div class="completed step">
+                <div class="content">
+                    <div class="title">发货</div>
+                    <div class="description">卖家发货</div>
+                </div>
+            </div>
+            <div class="completed step">
+                <div class="content">
+                    <div class="title">收货</div>
+                    <div class="description">确认收货</div>
+                </div>
+            </div>
+            <div class="completed step">
+                <div class="content">
+                    <div class="title">评价</div>
+                    <div class="description">发表评价</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="orderInfo ui segment">
+        <div class="small_title"><a class="ui blue ribbon label">订单信息</a></div>
+        <div class="info_content">
+            <ul>
+                <li>
+                    <div class="unit_title">
+                        订单编号：
+                    </div>
+                    <div class="right_content" th:text="${order.id}"></div>
+                </li>
+                <li>
+                    <div class="unit_title">
+                        收货地址：
+                    </div>
+                    <div class="right_content" th:text="${address.receiver}+','+${address.tel}+','+
+                    ${address.prov}+','+${address.city}+','+${address.dist}+','+${address.address_info}"></div>
+                </li>
+                <li>
+                    <div class="unit_title">
+                        订单状态：
+                    </div>
+                    <div class="right_content" th:switch="${order.status}">
+                        <span th:case="0">待支付</span>
+                        <span th:case="1">待发货</span>
+                        <span th:case="2">待收货</span>
+                        <span th:case="3">待评价</span>
+                        <span th:case="4">已评价</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="unit_title" th:if="${order.status eq 0} or ${order.status eq 2}">
+                        您可以：
+                    </div>
+                    <div class="right_content" th:switch="${order.status}">
+                        <span th:case="0">
+                            <a class="padding_left pay_a" href="javascript:void(0);" th:id="${order.id }">立即支付</a>
+                        </span>
+                        <span th:case="2">
+                            <a class="padding_left" th:href="@{'/modify_order?order_id='+${order.id }}">确认收货</a>
+                        </span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="tablediv">
+        <table class="ui red fixed celled large table" id="headtable">
+            <thead>
+            <tr>
+                <th class="four wide">礼物</th>
+                <th class="two wide">属性</th>
+                <th class="two wide">单价</th>
+                <th class="two wide">数量</th>
+                <th class="two wide">实付款</th>
+                <th class="two wide">状态</th>
+            </tr>
+            </thead>
+        </table>
+        <table class="ui fixed celled table">
+            <thead>
+            <tr>
+                <th colspan="6" th:text="${order.order_time }+'&nbsp;&nbsp;订单号：'+${order.id }"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="smallmap:${infoMap }" th:switch="${order.status }">
+                <td class="four wide">
+                    <a th:href="@{'/gift/giftInfo?gift_id='+${smallmap.key.gift_id }}">
+                        <div class="ainnerdiv"><img th:src="@{${smallmap.key.small_img }}" align="middle"/></div>
+                        <div class="ainnerdiv namediv" th:text="${smallmap.key.gift_name }"></div>
+                    </a>
+                </td>
+                <td class="two wide" ><div th:each="spec:${smallmap.value }" th:text="${spec.name }+'：'+${spec.value }"></div></td>
+                <td class="two wide" th:text="${smallmap.key.gift_price }"></td>
+                <td class="two wide" th:text="${smallmap.key.orderinfo_num }"></td>
+                <td class="two wide" th:text="${smallmap.key.orderinfo_price }"></td>
+                <td th:case="0" class="two wide">
+                    待付款
+                </td>
+                <td th:case="1" class="two wide">
+                    待发货
+                </td>
+                <td th:case="2" class="two wide">
+                    待收货
+                </td>
+                <td th:case="3" class="two wide">
+                    待评价<br/>
+                    <a th:href="@{'/gift/giftBriefInfo?gift_id='+${smallmap.key.gift_id }}">前往评价</a>
+                </td>
+                <td th:case="4" class="two wide">已评价</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(function () {
+        $('.pay_a').click(function () {
+            var order_id = $(this).attr('id');
+            var a = confirm("是否确认支付？");
+            console.log(a);
+            if(a){
+                window.location.href="/modify_order?order_id="+order_id;
+            }
+        })
+    })
+    /*]]>*/
+</script>
+</html>

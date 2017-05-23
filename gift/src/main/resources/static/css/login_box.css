@@ -10,7 +10,7 @@
     background: #fff;
     border-radius: 5px;
     box-shadow: 0 0 20px #111;
-    /*display: none;*/
+    display: none;
 }
 .box_header{
     height:30px;

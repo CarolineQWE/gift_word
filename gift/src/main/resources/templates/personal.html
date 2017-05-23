@@ -3,23 +3,319 @@
 <head>
     <meta charset="UTF-8"/>
     <title>我的购物车</title>
-    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css" />
+    <!--<script src="http://www.jq22.com/jquery/1.8.3/jquery.min.js"></script>-->
     <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.form.js"></script>
     <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
-    <link rel="stylesheet" href="../static/css/main.css" />
-    <link rel="stylesheet" href="../static/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css" />
+
+    <link rel="stylesheet" type="text/css" href="../static/css/date_selector.css" />
+    <script type="text/javascript" src="../static/js/jquery.date_input.pack.js"></script>
+
+    <script type="text/javascript" src="../static/js/dispicker/distpicker.data.js"></script>
+    <script type="text/javascript" src="../static/js/dispicker/distpicker.js"></script>
+    <script type="text/javascript" src="../static/js/dispicker/main.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="../static/css/BeAlert.css"/>
+    <script type="text/javascript" src="../static/js/BeAlert.js"></script>
+    <style>
+        body{
+            box-sizing: content-box;
+        }
+        .container{
+            width:1210px;
+            margin: 30px auto;
+        }
+        .ui.vertical.menu{
+            float: left;
+        }
+        .ui.vertical.menu a{
+            color: #555;
+        }
+        .right_content{
+            box-sizing: content-box;
+            float: right;
+            width: 920px;
+            margin:0;
+        }
+        .left_bar{
+            float: left;
+            width: 120px;
+            padding: 20px;
+        }
+        .left_bar img{
+            width: 120px;
+            height: 120px;
+        }
+        .per_main_content{
+            float: right;
+            width:740px;
+        }
+        .per_main_content ul li{
+            padding:20px 10px;
+            border-bottom: dashed 1px #d9d9d9;
+            height:34px;
+            line-height:34px;
+        }
+        .relative_div{
+            position: relative;
+            float: left;
+        }
+        .float_left{
+            float: left;
+            margin-right: 10px;
+        }
+        .input_outer_div{
+            border-radius: 5px;
+            width:510px;
+            float: left;
+        }
+        .per_input{
+            width:500px;
+            height:32px;
+            padding: 0 5px;
+            border-radius: 5px;
+            border:solid 1px #FFFFFF;
+        }
+        .input_outer_div .per_input:focus {
+            border:solid 1px #bbb;
+        }
+        .padd{
+            padding-right: 20px;
+        }
+        #submitbtn{
+            margin: 20px 0;
+        }
+        /*上传图片样式*/
+        /*=============================================*/
+        .top_img_div{
+            position: relative;
+            float: left;
+            width:120px;
+            height:120px;
+        }
+        .top_img_input{
+            width: 120px;
+            height: 120px;
+            outline:none;
+            border: none;
+        }
+        .pre_fileupload{
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            width: 120px;
+            height: 120px;
+            background-color: #f3f4f5;
+            cursor: pointer;
+        }
+        #head_img{
+            width:120px;
+            height:120px;
+        }
+
+        /*================================================================*/
+        /*省市区*/
+        .form-group{
+            display: inline-block;
+            padding-right: 20px;
+        }
+        .form-group select{
+            border: solid 1px #bbb;
+            height: 32px;
+            border-radius: 5px;
+        }
+        .form-group select:focus{
+            border:solid 1px #96c8da;
+            outline: none;
+        }
+        /*--------------------------*/
+    </style>
 </head>
 <body>
+<div th:include="nav :: mynav"></div>
 <div class="container">
-    <div class="nav_out">
-        <div th:include="nav :: mynav"></div>
+    <div th:include="left_nav :: left_nav"></div>
+    <div class="ui segment right_content" style="margin: 0;">
+        <div class="left_bar">
+            <div class="top_img_div">
+                <form id="file_form" enctype="multipart/form-data" method="post" action="/uploadImg">
+                    <input id="file_input" type="file" name="file" class="top_img_input"/>
+                    <div class="pre_fileupload" id="pre">
+                        <img id="head_img" th:src="@{${user.head}}"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="per_main_content">
+            <form action="/personal_info_modify" method="post" id="modify_info_form">
+            <ul>
+                <li>
+                    <div class="float_left">用户名：</div>
+                    <span id="account" th:text="${user.account}"></span>
+                </li>
+                <li>
+                    <div class="float_left">昵称：</div>
+                    <div class="input_outer_div"><input type="text" name="nickname" class="myinput per_input" th:value="${user.nickname}"/></div>
+                </li>
+                <li>
+                    <div class="ui form">
+                        <div class="inline fields" th:if="${user.sex eq null}">
+                            <div class="padd">性别：</div>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="sex" checked="checked"/>
+                                    <label>保密</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="sex" value="0"/>
+                                    <label>男</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="sex" value="1"/>
+                                    <label>女</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inline fields" th:if="${user.sex eq 0}">
+                            <div class="padd">性别：</div>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="sex"/>
+                                    <label>保密</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="sex" checked="checked" value="0"/>
+                                    <label>男</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="sex" value="1"/>
+                                    <label>女</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="inline fields" th:if="${user.sex eq 1}">
+                            <div class="padd">性别：</div>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="sex"/>
+                                    <label>保密</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="sex" value="0"/>
+                                    <label>男</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui radio checkbox">
+                                    <input type="radio" name="sex" checked="checked" value="1"/>
+                                    <label>女</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="float_left">年龄：</div>
+                    <div class="input_outer_div"><input type="text" name="age" class="myinput per_input" th:value="${user.age}"/></div>
+                </li>
+                <li>
+                    <div class="float_left">生日：</div>
+                    <div class="relative_div">
+                        <input type="text" class="date_picker" name="birthday"/>
+                    </div>
+                </li>
+                <li>
+                    <div class="float_left">居住地：</div>
+                    <div data-toggle="distpicker">
+                        <div class="form-group">
+                            <select class="form-control" id="province1" name="prov"></select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" id="city1" name="city"></select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" id="district1" name="dist"></select>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="float_left">简介：</div>
+                    <div class="input_outer_div"><input type="text" name="brief" class="myinput per_input" th:value="${user.brief}"/></div>
+                </li>
+                <li>
+                    <div class="float_left">手机号码：</div>
+                    <div class="input_outer_div"><input type="text" name="tel" class="myinput per_input" th:value="${user.tel}"/></div>
+                </li>
+            </ul>
+            </form>
+            <div class="ui myred  mybtn btnmargin largebtn" id="submitbtn">确认修改</div>
+        </div>
     </div>
-
+    <div class="clear_float"></div>
 </div>
 
 </body>
+
 <script th:inline="javascript">
     /*<![CDATA[*/
+    $(function(){
+        $('.pre_fileupload').click(function () {
+            $(this).siblings('.top_img_input').click();
+        });
+        $('.date_picker').date_input();
+        $("#distpicker").distpicker();
+        var src = "";
+        $('.top_img_input').change(function () {
+            console.log("val",$(this).val());
+            $("#file_form").ajaxSubmit({
+                success: function(data,status,xhr,$form) {
+                    src = data.url;
+                    console.log(src);
+                    if(!(src == null || src == undefined)){
+                        $('#head_img').attr('src',src);
+                    }
+                },
+                error: function(xhr, status, error, $form){
+                    console.log("error",xhr, status, error, $form);
+                }
+            })
+        });
+
+        $("#submitbtn").click(function () {
+            var account = $('#account').text();
+            var prov =$('#province1').val();
+            console.log(prov);
+            $("#modify_info_form").ajaxSubmit({
+                data:{
+                    head:src,
+                    account:account
+                },
+                dataType:"text",
+                success: function(data,status,xhr,$form) {
+                    console.log(data);
+                    alert("修改个人信息成功");
+                    window.location.reload();
+                },
+                error: function(xhr, status, error, $form){
+                    console.log("error",xhr, status, error, $form);
+                }
+            })
+        })
+    })
 
     /*]]>*/
 </script>

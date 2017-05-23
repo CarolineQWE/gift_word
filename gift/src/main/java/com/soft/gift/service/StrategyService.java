@@ -22,4 +22,6 @@ public interface StrategyService {
     public void addDislike(Integer id);
 
     public void addCollect(Integer id);
+
+    public List<Strategy> searchStrategyByKeyword(String keyword);
 }

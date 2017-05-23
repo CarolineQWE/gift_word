@@ -7,20 +7,21 @@ import java.sql.Date;
 
 @Table(name="t_userinfo")
 public class UserInfo {
+	@Id
 	private String account;
 	private String nickname;
 	private Integer age;
 	private Integer sex;
-	private Integer prov;
-	private Integer city;
-	private Integer dist;
+	private String prov;
+	private String city;
+	private String dist;
 	private Date birthday;
 	private String head;
 	private String tel;
 	private String brief;
 	
 	
-	public UserInfo(String account, String nickname, Integer age, Integer sex, Integer prov, Integer city, Integer dist,
+	public UserInfo(String account, String nickname, Integer age, Integer sex, String prov, String city, String dist,
 			Date birthday, String head, String tel, String brief) {
 		super();
 		this.account = account;
@@ -40,8 +41,6 @@ public class UserInfo {
 		super();
 	}
 	
-	@Id
-	@Column(name="account",length=30)
 	public String getAccount() {
 		return account;
 	}
@@ -74,26 +73,26 @@ public class UserInfo {
 	}
 	
 	@Column(name="prov")
-	public Integer getProv() {
+	public String getProv() {
 		return prov;
 	}
-	public void setProv(Integer prov) {
+	public void setProv(String prov) {
 		this.prov = prov;
 	}
 	
 	@Column(name="city")
-	public Integer getCity() {
+	public String getCity() {
 		return city;
 	}
-	public void setCity(Integer city) {
+	public void setCity(String city) {
 		this.city = city;
 	}
 	
 	@Column(name="dist")
-	public Integer getDist() {
+	public String getDist() {
 		return dist;
 	}
-	public void setDist(Integer dist) {
+	public void setDist(String dist) {
 		this.dist = dist;
 	}
 	

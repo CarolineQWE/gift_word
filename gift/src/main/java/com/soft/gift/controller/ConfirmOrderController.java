@@ -4,8 +4,8 @@ import com.soft.gift.model.*;
 import com.soft.gift.service.GiftService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class ConfirmOrderController{
 	private GiftService giftService;
 	
 	@RequestMapping(value="/confirm_order")
-	public ModelAndView confirmOrder(HttpServletRequest request, Integer gift_id, Integer num, String spec){
+	public String confirmOrder(HttpServletRequest request, Integer gift_id, Integer num, String spec, ModelMap mv){
 		String [] spec_ids = spec.split(",");
 		List<Spec> specs = new ArrayList<>();
 		for (String string : spec_ids) {
@@ -27,22 +27,21 @@ public class ConfirmOrderController{
 			Spec spec2 = giftService.getSpecBySpecID(spec_id);
 			specs.add(spec2);
 		}
-		ModelAndView mv = new ModelAndView("confirm_order");
 		Gift gift = giftService.getGiftByID(gift_id);
 		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
 		System.out.println(userInfo);
 		List<ShippingAddress> addresses = new ArrayList<>();
 		addresses = giftService.getAddressByAccount(userInfo.getAccount());
-		mv.addObject("addresss",addresses);
-		mv.addObject("gift",gift);
-		mv.addObject("specs",specs);
+		mv.put("addresss",addresses);
+		mv.put("gift",gift);
+		mv.put("specs",specs);
 		System.out.println(specs);
-		mv.addObject("num",num);
-		return mv;
+		mv.put("num",num);
+		return "confirm_order";
 	}
 	
 	@RequestMapping(value="/confirm_order_sh")
-	public ModelAndView confirmOrderSh(HttpServletRequest request, String shArr){
+	public String confirmOrderSh(HttpServletRequest request, String shArr,ModelMap mv){
 		System.out.println("shArr:"+shArr);
 		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
 		List<ShippingAddress> addresses = giftService.getAddressByAccount(userInfo.getAccount());
@@ -57,10 +56,9 @@ public class ConfirmOrderController{
 			List<Spec> specs = giftService.getShSpecByShID(sh_id);
 			map.put(largeShopCart, specs);
 		}
-		ModelAndView mv = new ModelAndView("confirm_order_sh");
-		mv.addObject("total_price",total_price);
-		mv.addObject("addresss",addresses);
-		mv.addObject("map",map);
-		return mv;
+		mv.put("total_price",total_price);
+		mv.put("addresss",addresses);
+		mv.put("map",map);
+		return "confirm_order_sh";
 	}
 }

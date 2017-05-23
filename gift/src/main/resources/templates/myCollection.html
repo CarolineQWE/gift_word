@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>我的收藏</title>
+    <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/strategy.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css" />
+    <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/BeAlert.css"/>
+    <script type="text/javascript" src="../static/js/BeAlert.js"></script>
+    <style>
+        body{
+            box-sizing: content-box;
+        }
+        .container{
+            width:1210px;
+            margin: 30px auto;
+        }
+        #stra_tab{
+            display: none;
+        }
+        .price{
+            color: #E32F2F;
+            font-size: 16px;
+            padding: 10px 0px;
+        }
+        .gift_div{
+            border: solid 1px #D9D9D9;
+            width:277px;
+            height: 350px;
+            padding: 5px;
+            border-radius: 5px;
+            display: inline-block;
+            vertical-align: top;
+            margin-right: 20px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .gift_div img{
+            width: 100%;
+            height: 215px;
+            border-radius: 5px;
+        }
+
+        .giftul{
+            width: 1242px;
+        }
+        .giftul li{
+            list-style: none;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .gift_title{
+            padding-top: 5px;
+        }
+        .gift_div:hover .gift_title{
+            color: #000000;
+        }
+        .gift_div:active .gift_title{
+            color: #000000;
+        }
+        .gift_popularity{
+            position: absolute;
+            left: 5px;
+            bottom: 10px;
+            width: 100%;
+        }
+        .gift_popularity i{
+            color: #E32F2F;
+        }
+        .right_content{
+            box-sizing: content-box;
+            float: right;
+            width: 920px;
+            margin:0;
+        }
+        a{
+            color: #555;
+        }
+        a:hover{
+            color: #555;;
+        }
+        .strategyul{
+            width:930px;
+        }
+    </style>
+</head>
+<body>
+<div th:include="nav :: mynav"></div>
+<div class="container">
+    <div th:include="left_nav :: left_nav"></div>
+    <div class="ui segment right_content" style="margin: 0;">
+        <div class="ui secondary pointing menu">
+            <a class="item active" id="gift_head">收藏的礼物 </a>
+            <a class="item" id="stra_head">收藏的攻略 </a>
+        </div>
+        <div id="gift_tab">
+            <div class="unit_title">
+                收藏的礼物
+            </div>
+            <ul class="giftul">
+                <li th:each="gift:${collectedGifts}">
+                    <a th:href="@{'gift/giftInfo?gift_id='+${gift.id }}">
+                    <div class="gift_div">
+                        <img th:src="@{${gift.small_img }}"/>
+                        <div class="gift_title" th:text="${gift.name }"></div>
+                        <div class="price" th:text="'￥'+${gift.price }"></div>
+                        <div class="gift_popularity">
+                            <i class="in cart icon"></i><span th:text="${gift.sale_num }"></span>购买
+                            <i class="remove bookmark icon"></i><span th:text="${gift.collection }"></span>收藏
+                            <i class="comment outline icon"></i><span th:text="${gift.comment }"></span>评价
+                        </div>
+                    </div>
+                    </a>
+                </li>
+            </ul>
+            <div class="clear_float"></div>
+        </div>
+        <div id="stra_tab">
+            <div class="unit_title">
+                收藏的攻略
+            </div>
+            <ul class="strategyul">
+                <li th:each="strategy:${collectedStras }">
+                    <a th:href="@{'/strategy/strategyInfo?id='+${strategy.id }}">
+                        <div class="strategy_div">
+                            <div class="top_img_div"><img th:src="@{${strategy.top_img}}" /></div>
+                            <div class="strategy_title" th:text="${strategy.title}"></div>
+                            <div class="strategy_content" th:text="${strategy.brief}"></div>
+                            <div class="strategy_popularity">
+                                <i class="icon iconfont icon-dianzan"></i><span th:text="${strategy.like }"></span> 赞
+                                <i class="icon iconfont icon-pinglun4"></i><span th:text="${strategy.comment }"></span>评价
+                                <i class="icon iconfont icon-shoucang1"></i><span th:text="${strategy.collect }"></span>收藏
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <div class="clear_float"></div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(function () {
+        $("#gift_head").click(function () {
+            $("#stra_head").removeClass('active');
+            $(this).addClass('active');
+            $("#stra_tab").css('display','none');
+            $("#gift_tab").css('display','block');
+        })
+        $("#stra_head").click(function () {
+            $("#gift_head").removeClass('active');
+            $(this).addClass('active');
+            $("#gift_tab").css('display','none');
+            $("#stra_tab").css('display','block');
+        })
+
+    })
+    /*]]>*/
+</script>
+</html>

@@ -2,14 +2,23 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Title</title>
     <title>我的订单</title>
     <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
     <script type="text/javascript" src="../static/js/jquery.cookie.js"></script>
-    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css"/>
     <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../static/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="../static/css/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/BeAlert.css"/>
+    <script type="text/javascript" src="../static/js/BeAlert.js"></script>
     <style type="text/css">
+        body{
+            box-sizing: content-box;
+        }
+        .container{
+            box-sizing: border-box;
+        }
         #headtable{
             margin: 30px 0px;
         }
@@ -18,42 +27,70 @@
             height: 36px;
             border-radius: 18px;
             text-align: center;
-            line-height: 36px;
             padding: 6px 5px;
             margin-left: 10px;
+            margin-right: 20px;
         }
         #tablediv{
             padding-bottom:150px;
-        }
-        img{
-            width:100px;
-            height:100px;
-
         }
         .ainnerdiv{
             display:inline-block;
             vertical-align:middle;
         }
+        .ainnerdiv img{
+            width: 100px;
+            height: 100px;
+        }
         .namediv{
             width:170px;
+        }
+        .footdiv{
+            box-sizing: content-box;
+        }
+        .padding_left{
+            padding-left: 50px;
+        }
+        /*空处理*/
+        .blank-holder {
+            width: 100%;
+            height: 390px;
+            text-align: center;
+            clear: both;
+            display: block;
+            border-radius: 10px;
+            background: #fff;
+            border: solid #dedede 1px;
+            margin: 30px auto;
+        }
+        .blank-holder i {
+            background-image: url(../static/img/filter_z_b2c729e.png);
+            background-position: -6px -454px;
+            background-repeat: no-repeat;
+            display: block;
+            margin: 117px auto 0;
+            width: 100px;
+            height: 100px;
+        }
+        .blank-holder p {
+            color: #717070;
+            margin-top: 35px;
         }
     </style>
 </head>
 
 <body>
+<div th:include="nav :: mynav"></div>
 <div class="container">
-    <div class="nav_out">
-        <div th:include="nav :: mynav"></div>
-    </div>
     <div class="content">
         <div class="ui top attached tabular menu" id="mymenu">
-            <input type="hidden" id="status" value="${status }"/>
-            <a class="item " href="getOrdersByStatus.do?status=${0 }">待付款</a>
-            <a class="item " href="getOrdersByStatus.do?status=${1 }">待发货</a>
-            <a class="item " href="getOrdersByStatus.do?status=${2 }">待收货</a>
-            <a class="item " href="getOrdersByStatus.do?status=${3 }">待评价</a>
-            <a class="item " href="getOrdersByStatus.do?status=${4 }">已评价</a>
-            <a class="item" href="myOrder.do">全部订单</a>
+            <input type="hidden" id="status" th:value="${status }"/>
+            <a class="item " href="/getOrdersByStatus?status=0 ">待付款</a>
+            <a class="item " href="/getOrdersByStatus?status=1">待发货</a>
+            <a class="item " href="/getOrdersByStatus?status=2">待收货</a>
+            <a class="item " href="/getOrdersByStatus?status=3">待评价</a>
+            <a class="item " href="/getOrdersByStatus?status=4">已评价</a>
+            <a class="item" href="/myOrder">全部订单</a>
         </div>
         <div id="tablediv">
             <table class="ui red fixed celled large table" id="headtable">
@@ -69,58 +106,56 @@
                 </tr>
                 </thead>
             </table>
-
+            <div th:if="${mapSize eq 0}"><div class="blank-holder" ><i></i><p>暂时没有订单哦，快到商城添加吧</p></div></div>
             <table class="ui fixed celled table" th:each="order:${orderMap }">
                 <thead>
                 <tr>
-                    <th colspan="6" th:text="${order.key.order_time }+'&nbsp;&nbsp;订单号：'+${order.key.id }"></th>
-                    <th><div id="${order.key.id }" class="mybtn myred mydeletebtn"><i class="trash large outline icon"></i></div></th>
+                    <th colspan="5" th:text="${order.key.order_time }+'&nbsp;&nbsp;订单号：'+${order.key.id }"></th>
+                    <th colspan="2"><div th:id="${order.key.id }" class="mybtn myred mydeletebtn"><i class="trash large outline icon"></i></div>删除订单信息</th>
                 </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="smallmap:${order.value }" th:with="status=${order.key.status }"
-                        th:switch="status">
+                    <tr th:each="smallmap:${order.value }" th:switch="${order.key.status }">
                         <td class="four wide">
-                            <a href="giftInfo.do?gift_id=${smallmap.key.gift_id }">
-                                <div class="ainnerdiv"><img src="${smallmap.key.small_img }" align="middle"/></div>
+                            <a th:href="@{'/gift/giftInfo?gift_id='+${smallmap.key.gift_id }}">
+                                <div class="ainnerdiv"><img th:src="@{${smallmap.key.small_img }}" align="middle"/></div>
                                 <div class="ainnerdiv namediv" th:text="${smallmap.key.gift_name }"></div>
                             </a>
                         </td>
-                        <td class="two wide" th:each="spec:${smallmap.value }" th:text="${spec.name }+'：'${spec.value }+'<br/>'">
-                        </td>
+                        <td class="two wide" ><div th:each="spec:${smallmap.value }" th:text="${spec.name }+'：'+${spec.value }"></div></td>
                         <td class="two wide" th:text="${smallmap.key.gift_price }"></td>
                         <td class="two wide" th:text="${smallmap.key.orderinfo_num }"></td>
                         <td class="two wide" th:text="${smallmap.key.orderinfo_price }"></td>
-                        <td th:case="0" class="two wide" >待付款</td>
-                        <td th:case="0" class="two wide" >
-                            <a href="modify_order.do?order_id=${order.key.id }&newStatus=${1}">立即支付</a>
+                        <td th:case="0" class="four wide" colspan="2">
+                            待付款
+                            <a class="padding_left" th:href="@{'/user/view_info?order_id='+${order.key.id }}">订单详情</a>
+                            <a class="padding_left pay_a" href="javascript:void(0);" th:id="${order.key.id }">立即支付</a>
                         </td>
-                        <td th:case="1" class="two wide">待发货</td>
-                        <td th:case="1" class="two wide" th:rowspan="${order.key.info_num } ">
-                            <a href="delivery.do?order_id=${order.key.id }" th:if="${identity eq 0 }">立即发货</a>&nbsp;
+                        <td th:case="1" class="four wide" colspan="2">
+                            待发货
+                            <a class="padding_left" th:href="@{'/user/view_info?order_id='+${order.key.id }}">订单详情</a>
                         </td>
-                        <td th:case="2" class="two wide" >待收货</td>
-                        <td th:case="2" class="two wide" >
-                            <a href="modify_order.do?order_id=${order.key.id }&newStatus=${3}">确认收货</a>
+                        <td th:case="2" class="four wide" colspan="2" >
+                            待收货
+                            <a class="padding_left" th:href="@{'/user/view_info?order_id='+${order.key.id }}">订单详情</a>
+                            <a class="padding_left" th:href="@{'/modify_order?order_id='+${order.key.id }}">确认收货</a>
                         </td>
-                        <td th:case="3" class="two wide" >待评价</td>
-                        <td th:case="3" class="two wide" >
-                            <a href="comment_gift.do?order_id=${order.key.id }">前往评价</a>
+                        <td th:case="3" class="four wide" colspan="2">
+                            待评价
+                            <a class="padding_left" th:href="@{'/user/view_info?order_id='+${order.key.id }}">订单详情</a>
+                            <a class="padding_left" th:href="@{'/gift/giftBriefInfo?gift_id='+${smallmap.key.gift_id }}">前往评价</a>
                         </td>
-                        <td th:case="4" class="two wide" >已评价</td>
-                        <td th:case="4" class="two wide" ></td>
+                        <td th:case="4" class="four wide" colspan="2">已评价
+                            <a class="padding_left" th:href="@{'/user/view_info?order_id='+${order.key.id }}">订单详情</a></td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    <div class="footout">
-        <div class="footdiv redback">
-            <div class="footinfo">
-                © 2014 - 2016 Liwushuo.com 北京礼品说科技有限公司 电信与信息服务业务经营许可证150653号 京ICP备15031023号-1<br />
-                <p><a href="#">首页</a>&nbsp;|&nbsp;<a href="#">关于我们</a>&nbsp;|&nbsp;电话：010-57510218</p>
-            </div>
-        </div>
+    <div class="footdiv redback">
+        <p>礼物说——礼物与全球好货指南</p>
+        <p><a href="#">首页</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物商城</a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物定制</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#">礼物攻略</a></p>
     </div>
 </div>
 </body>
@@ -133,7 +168,7 @@
             var order_id = $(this).attr('id');
             console.log("order_id",order_id);
             $.ajax({
-                url:"deleteOrder.do",
+                url:"/deleteOrder",
                 type:"get",
                 data:{
                     order_id:order_id
@@ -150,6 +185,14 @@
             })
             $(this).addClass('active');
             console.log("this",$(this))
+        })
+        $('.pay_a').click(function () {
+            var order_id = $(this).attr('id');
+            var a = confirm("是否确认支付？");
+            console.log(a);
+            if(a){
+                window.location.href="/modify_order?order_id="+order_id;
+            }
         })
     })
     /*]]>*/

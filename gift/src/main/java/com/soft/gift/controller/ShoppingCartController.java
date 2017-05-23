@@ -4,14 +4,13 @@ import com.soft.gift.model.*;
 import com.soft.gift.service.GiftService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,30 +48,26 @@ public class ShoppingCartController {
 			scSpec = new ScSpec(sc_id, spec3);
 			giftService.insertScSpec(scSpec);
 		}
-		PrintWriter writer = response.getWriter();
-		writer.println("成功");
-		writer.close();
 		return "成功";
 	}
 	
 	@RequestMapping(value="/getShoppingCart")
-	public ModelAndView getShoppingCart(HttpServletRequest request){
+	public String getShoppingCart(HttpServletRequest request, ModelMap mv){
 		UserInfo userInfo = (UserInfo) request.getSession().getAttribute("userInfo");
-		ModelAndView mv =null;
-		if (userInfo!=null) {
-			mv = new ModelAndView("shoppingCart");
-			Map<LargeShopCart, List<Spec>> shMap = new HashMap<>();
-			shMap = giftService.getShopCartAllInfo(userInfo.getAccount());
-			mv.addObject("shMap",shMap);
-		}
-		return mv;
+		Map<LargeShopCart, List<Spec>> shMap = new HashMap<>();
+		shMap = giftService.getShopCartAllInfo(userInfo.getAccount());
+		mv.put("shMap",shMap);
+		mv.put("size",shMap.size());
+		return "shoppingCart";
 	}
-	
+
+	@ResponseBody
 	@RequestMapping(value="/deletesh")
 	public void addShoppingCart(HttpServletRequest request,String sh_id){
 		giftService.deleteSh(sh_id);
 	}
-	
+
+	@ResponseBody
 	@RequestMapping(value="/modifysh")
 	public void modifySh(HttpServletRequest request,String sh_id,Integer new_num){
 		giftService.modifySh(sh_id,new_num);

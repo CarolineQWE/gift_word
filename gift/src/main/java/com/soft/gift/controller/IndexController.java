@@ -22,14 +22,22 @@ public class IndexController {
 	
 	@RequestMapping(value="/index")
 	public String index(HttpServletRequest request, ModelMap map){
-		Map<Category, List<Category>> menuMap = giftService.getMallMenu();
+		/*Map<Category, List<Category>> menuMap = giftService.getMallMenu();
 		List<Gift> latestGift = new ArrayList<Gift>();
 		latestGift = giftService.getLastedGift();
 		List<Gift> hotGift = new ArrayList<Gift>();
 		hotGift = giftService.getHotGift();
 		map.put("menuMap",menuMap);
 		map.put("latestGift",latestGift);
-		map.put("hotGift",hotGift);
+		map.put("hotGift",hotGift);*/
+
+		List<List<List<Gift>>> allGifts = new ArrayList<>();
+		allGifts = giftService.getAllGifts();
+		Map<Category, List<Category>> menuMap = giftService.getMallMenu();
+		System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<allGifts:");
+		System.out.println(allGifts);
+		map.put("menuMap",menuMap);
+		map.put("allGifts",allGifts);
 		return "index";
 	}
 	
@@ -38,7 +46,7 @@ public class IndexController {
 		List<Gift> gifts = giftService.getHotGift();
 		Map<Gift,String> giftMap = new HashMap<>();
 		for (Gift gift:gifts) {
-			String cate = giftService.getCateByID(gift.getCategory());
+			String cate = giftService.getCateByID(gift.getCategory()).getName();
 			giftMap.put(gift,cate);
 		}
 		map.put("giftMap",giftMap);

@@ -28,6 +28,7 @@
     </select>
 
     <select id="selectStrategyByKeyword" parameterType="java.util.Map" resultMap="strategyMap">
-        SELECT * FROM `t_strategy` WHERE CONCAT(`relationship`,`style`,`occasion`,`title`,`brief`) LIKE #{'%'+keyword+'%'}
+        SELECT * FROM `t_strategy` WHERE CONCAT(`relationship`,`style`,`occasion`,`title`,`brief`,`content`)
+        LIKE CONCAT('%', #{keyword}, '%')
     </select>
 </mapper>

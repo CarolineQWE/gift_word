@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>设计师主页</title>
+    <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.cookie.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/js/semantic/semantic.min.css"/>
+    <script type="text/javascript" src="../static/js/semantic/semantic.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="../static/css/BeAlert.css"/>
+    <script type="text/javascript" src="../static/js/BeAlert.js"></script>
+    <style type="text/css">
+        body{
+            box-sizing: content-box;
+        }
+        .main_content{
+            width: 1210px;
+            margin:30px auto;
+        }
+        .navout{
+            width: 1210px;
+            margin: 0px auto;
+            position: relative;
+            height: 60px;
+        }
+        .nav {
+            width: 1210px;
+            margin: 0px auto;
+            height: 60px;
+            top: 0px;
+            z-index: 1000;
+            position: fixed;
+            background-color: #FFFFFF;
+            border-bottom: solid 2px #D9D9D9;
+        }
+
+        .logoimg {
+            width: 250px;
+            height: 30px;
+        }
+
+        .logodiv {
+            height: 60px;
+            padding: 15px 0px;
+            float: left;
+        }
+
+        .headimg {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+        }
+
+        .headspan {
+            display: inline-block;
+            vertical-align: top;
+            padding: 10px 0px;
+        }
+
+        .username {
+            display: inline-block;
+            vertical-align: top;
+            height: 60px;
+            line-height: 60px;
+        }
+
+        .myinput {
+            border: none;
+            background-color: #FFFFFF;
+            outline: medium;
+            width: 100%;
+        }
+        .inputbtn i {
+            color: #B7B7B7;
+        }
+
+        .inputbtn:hover i {
+            color: #000000;
+        }
+
+        .inputbtn:active i {
+            color: #000000;
+        }
+
+        .mydropdown:hover ul{
+            display: block;
+        }
+        .mydropdown ul{
+            position: absolute;
+            right: 0px;
+            height: 0px;
+            padding: 0px;
+            margin: 0px;
+            display: none;
+        }
+        .mydropdown ul li{
+            width: 150px;
+            height: 40px;
+            line-height: 40px;
+            background-color: #FFFFFF;
+            text-align: center;
+            border-top: dashed 1px #D8D8D8;
+            color:#FFF0F0;
+        }
+        .mydropdown ul li:hover{
+            background-color:#f7f7f7;
+        }
+        .mydropdown ul li a:hover{
+            color: #FF6D75;
+            display:block;
+            width:150px;
+            height:40px;
+            backgound-color:#f7f7f7;
+        }
+        .inputdiv {
+            vertical-align: top;
+            float: right;
+            position: relative;
+            margin-top: 10px;
+            margin-right: 30px;
+        }
+        .spans a{
+            color: #555;
+        }
+        .search_input{
+            border-radius: 20px;
+            border: solid 1px #b7b7b7;
+            width: 200px;
+            height:35px;
+            padding-left: 20px;
+            padding-right: 30px;
+            font-size:16px;
+        }
+        .search_img_outer{
+            position: absolute;
+            right:10px;
+            top:8px;
+        }
+        #userInfo{
+            float: right;
+            margin-right: 30px;
+        }
+        #tablediv{
+            margin:30px 0;
+        }
+        .ainnerdiv{
+            display:inline-block;
+            vertical-align:middle;
+        }
+        .ainnerdiv img{
+            width: 100px;
+            height: 100px;
+        }
+        .namediv{
+            width:170px;
+        }
+    </style>
+</head>
+<body>
+<div class="navout">
+    <div class="nav">
+        <div class="logodiv">
+            <img src="../static/img/logo.png" class="logoimg" />
+        </div>
+        <div id="userInfo">
+            <div class="headspan"><img src="../static/img/8.png" class="headimg" /></div>
+            <div class="username">qwe</div>
+        </div>
+        <div class="inputdiv">
+            <input class="myinput search_input" type="text" placeholder="搜索"/>
+            <div class="search_img_outer"><img class="search_img_white" src="../static/img/icon_search.png"/></div>
+        </div>
+        <div class="clear_float"></div>
+    </div>
+</div>
+<div class="main_content">
+    <div class="ui top attached tabular menu" id="mymenu">
+        <input type="hidden" id="num" th:value="${num }"/>
+        <a class="item " href="/getAllDesign?num=0">全部</a>
+        <a class="item " th:href="@{/getDesign(exam=0,num=1)}">未审核</a>
+        <a class="item " th:href="@{/getDesign(exam=1,num=2)}">已审核</a>
+        <a class="item " th:href="@{/getDesign(achieve=0,num=3)}">可以实现</a>
+        <a class="item " th:href="@{/getDesign(achieve=1,num=4)}">不可实现</a>
+    </div>
+    <div id="tablediv">
+        <table class="ui fixed celled table">
+            <thead>
+            <tr>
+                <th class="one wide">编号</th>
+                <th class="two wide">定制用户账号</th>
+                <th class="five wide">礼物</th>
+                <th class="five wide">设计图</th>
+                <th class="one wide">是否已经审核</th>
+                <th class="one wide">能否实现</th>
+                <th class="two wide">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="map:${designMap }">
+                <td class="one wide" th:text="${map.key.id }"></td>
+                <td class="two wide" th:text="${map.key.account }"></td>
+                <td class="four wide">
+                    <a th:href="@{'/customMade/giftInfo?gift_id='+${map.value.id }}">
+                        <div class="ainnerdiv"><img th:src="@{${map.value.small_img }}" align="middle"/></div>
+                        <div class="ainnerdiv namediv" th:text="${map.value.name }"></div>
+                    </a>
+                </td>
+                <td class="four wide"><img th:src="@{${map.key.design_img }}" align="middle"/></td>
+                <td class="if_exam" th:if="${map.key.if_exam eq 0}">
+                    未审核
+                </td>
+                <td class="if_exam" th:if="${map.key.if_exam eq 1}">
+                    已审核
+                </td>
+                <td class="if_achieve" th:if="${map.key.if_achieve eq 0}">
+                    可以实现
+                </td>
+                <td class="if_achieve" th:if="${map.key.if_achieve eq 1}">
+                    不能实现
+                </td>
+                <td th:if="${map.key.if_exam eq 0}">
+                    <div class="mybtn myred exam_btn" th:id="${map.key.id }">审核</div>
+                </td>
+                <td th:if="${map.key.if_exam eq 1}">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+<script th:inline="javascript">
+/*<![CDATA[*/
+$(function () {
+    $('.exam_btn').click(function () {
+        var btn = $(this);
+        var achieve = confirm("该设计能否实现？");
+        var id = $(this).attr('id');
+        var if_achieve;
+        if(achieve){
+            if_achieve = 0;
+        }else{
+            if_achieve = 1;
+        }
+        $.ajax({
+            url:"/exam/design",
+            data:{
+                id:id,
+                if_achieve:if_achieve
+            },
+            dataType:"text",
+            success:function (data) {
+                console.log(data);
+                alert("审核成功！");
+                btn.parents('tr').find('.if_exam').text('已审核');
+                if(achieve){
+                    btn.parents('tr').find('.if_achieve').text('可以实现');
+                }else{
+                    btn.parents('tr').find('.if_achieve').text('不能实现');
+                }
+                btn.css('display','none');
+            }
+        })
+    })
+    $('.item').click(function () {
+        $(this).siblings('item').removeClass('active');
+        $(this).addClass('active');
+    })
+    var num = $('#num').val();
+    $('.item').eq(num).addClass('active');
+})
+/*]]>*/
+</script>
+</html>
