@@ -1,16 +1,14 @@
 package com.soft.gift.controller;
 
 import com.soft.gift.model.*;
-import com.soft.gift.service.CommentService;
-import com.soft.gift.service.GiftService;
-import com.soft.gift.service.OrderService;
-import com.soft.gift.service.UserService;
+import com.soft.gift.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +22,8 @@ public class MyOrderController {
 	private CommentService commentService;
 	@Autowired
 	private OrderService orderService;
-
+	@Autowired
+	private DesignService designService;
 	
 	@RequestMapping(value="/myOrder")
 	public String myOrder(HttpServletRequest request, ModelMap mv){
@@ -126,7 +125,17 @@ public class MyOrderController {
 	public String orderInfo(HttpServletRequest request,String order_id,ModelMap mv){
 		Order order = orderService.getOrderById(order_id);
 		Map<LargeOrderInfo,List<Spec>> map = orderService.getOrderInfoByOrderId(order_id);
+		List<OrderInfo> orderInfos = orderService.getBriefOrderInfoByOrderId(order_id);
+		Map<Design,Gift> designMap = new HashMap<>();
+		for (OrderInfo o:orderInfos){
+			Gift gift = giftService.getGiftByID(o.getGift_id());
+			if (gift.getIf_custom_made() == 0){
+				Design design = designService.getDesignByGiftIdAndAccount(gift.getId(),order.getAccount());
+				designMap.put(design,gift);
+			}
+		}
 		ShippingAddress address = orderService.getAddressByAddressId(order.getAddress_id());
+		mv.put("designMap",designMap);
 		mv.put("order",order);
 		mv.put("infoMap",map);
 		mv.put("address",address);
@@ -137,7 +146,17 @@ public class MyOrderController {
 	public String orderInfoAdmin(HttpServletRequest request,String order_id,ModelMap mv){
 		Order order = orderService.getOrderById(order_id);
 		Map<LargeOrderInfo,List<Spec>> map = orderService.getOrderInfoByOrderId(order_id);
+		List<OrderInfo> orderInfos = orderService.getBriefOrderInfoByOrderId(order_id);
+		Map<Design,Gift> designMap = new HashMap<>();
+		for (OrderInfo o:orderInfos){
+			Gift gift = giftService.getGiftByID(o.getGift_id());
+			if (gift.getIf_custom_made() == 0){
+				Design design = designService.getDesignByGiftIdAndAccount(gift.getId(),order.getAccount());
+				designMap.put(design,gift);
+			}
+		}
 		ShippingAddress address = orderService.getAddressByAddressId(order.getAddress_id());
+		mv.put("designMap",designMap);
 		mv.put("order",order);
 		mv.put("infoMap",map);
 		mv.put("address",address);

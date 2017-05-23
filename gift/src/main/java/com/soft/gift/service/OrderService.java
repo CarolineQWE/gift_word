@@ -12,4 +12,6 @@ public interface OrderService {
 	public Map<LargeOrderInfo,List<Spec>> getOrderInfoByOrderId(String order_id);
 
 	public ShippingAddress getAddressByAddressId(Integer address_id);
+
+    List<OrderInfo> getBriefOrderInfoByOrderId(String order_id);
 }

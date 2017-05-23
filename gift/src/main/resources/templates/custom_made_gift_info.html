@@ -640,15 +640,15 @@
                             </form>
                         </div>
                     </div>
-                    <!--<div class="operation_area">
-                        <div class="mybtn myred">放大</div>
-                        <div class="mybtn myred">缩小</div>
-                        <div class="mybtn myred">左旋转</div>
+                    <div class="operation_area">
+                        <div class="mybtn myred fangda">放大</div>
+                        <div class="mybtn myred suoxiao">缩小</div>
+                        <!--<div class="mybtn myred">左旋转</div>
                         <div class="mybtn myred">右旋转</div>
                         <div class="mybtn myred">图层上移</div>
-                        <div class="mybtn myred">图层下移</div>
+                        <div class="mybtn myred">图层下移</div>-->
                     </div>
-                    <div class="layers_area">
+                    <!--<div class="layers_area">
                         <ul class="layers_ul">
                             <li class="li_selected">
                                 ●<img src="../static/img/text_icon.png" />
@@ -717,6 +717,17 @@
                 console.log("ssss", hex);
             }
         });
+
+        $('.fangda').click(function () {
+            var img =  $('.absolute_img')
+            img.css('width',parseInt(img.css('width'))+20+'px');
+            img.css('height',parseInt(img.css('height'))+20+'px');
+        })
+        $('.suoxiao').click(function () {
+            var img =  $('.absolute_img')
+            img.css('width',parseInt(img.css('width'))-20+'px');
+            img.css('height',parseInt(img.css('height'))-20+'px');
+        })
 
         $('.font_size_select').change(function () {
             var size = parseInt($(this).val());

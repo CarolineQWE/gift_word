@@ -57,4 +57,12 @@ public class OrderServiceImpl implements OrderService {
         ShippingAddress address = shippingAddressDAO.selectByPrimaryKey(address_id);
         return address;
     }
+
+    @Override
+    public List<OrderInfo> getBriefOrderInfoByOrderId(String order_id) {
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setOrder_id(order_id);
+        List<OrderInfo> orderInfos = orderinfodao.select(orderInfo);
+        return orderInfos;
+    }
 }

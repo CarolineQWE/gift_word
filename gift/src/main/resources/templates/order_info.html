@@ -274,7 +274,7 @@
                         </span>
                     </div>
                 </li>
-                <li th:if="">
+                <li>
                     <div class="unit_title" th:if="${order.status eq 0} or ${order.status eq 2}">
                         您可以：
                     </div>
@@ -289,6 +289,31 @@
                 </li>
             </ul>
         </div>
+
+    </div>
+    <div class="designs ui segment">
+        <div class="unit_title">
+            定制设计图：
+        </div>
+        <table class="ui fixed celled table">
+            <thead>
+            <tr>
+                <th class="five wide">礼物</th>
+                <th class="five wide">设计图</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="map:${designMap }">
+                <td class="five wide">
+                    <a th:href="@{'/customMade/giftInfo?gift_id='+${map.value.id }}">
+                        <div class="ainnerdiv"><img th:src="@{${map.value.small_img }}" align="middle"/></div>
+                        <div class="ainnerdiv namediv" th:text="${map.value.name }"></div>
+                    </a>
+                </td>
+                <td class="five wide"><img th:src="@{${map.key.design_img }}" align="middle"/></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
     <div id="tablediv">
         <table class="ui red fixed celled large table" id="headtable">
