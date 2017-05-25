@@ -98,6 +98,8 @@ public class MyOrderController {
 
 	@RequestMapping(value="/delivery")
 	public String delivery(HttpServletRequest request,String order_id,ModelMap mv){
+		Order order = giftService.getOrderByID(order_id);
+		giftService.modifyOrderStatus(order_id, order.getStatus()+1);
 		Map<LargeOrder, Map<LargeOrderInfo, List<Spec>>> orderMap = giftService.getAllOrder();
 		mv.put("orderMap",orderMap);
 		mv.put("mapSize",orderMap.size());
